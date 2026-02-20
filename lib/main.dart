@@ -175,24 +175,29 @@ class _FeatureActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _ActionCircle(
-          icon: Icons.mosque_outlined,
-          label: 'الروضة',
-          selected: true,
-        ),
-        _ActionCircle(
-          icon: Icons.hexagon_outlined,
-          label: 'الحج',
-        ),
-        _ActionCircle(
-          icon: Icons.brightness_2_outlined,
-          label: 'العمرة',
-        ),
-        const _AlertCircle(),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: const [
+          _ActionCircle(
+            icon: Icons.mosque_outlined,
+            label: 'الروضة',
+            selected: true,
+          ),
+          SizedBox(width: 18),
+          _ActionCircle(
+            icon: Icons.hexagon_outlined,
+            label: 'الحج',
+          ),
+          SizedBox(width: 18),
+          _ActionCircle(
+            icon: Icons.brightness_2_outlined,
+            label: 'العمرة',
+          ),
+          SizedBox(width: 18),
+          _AlertCircle(),
+        ],
+      ),
     );
   }
 }
