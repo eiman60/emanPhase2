@@ -317,28 +317,35 @@ class _QuranCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
                 Center(
-                  child: Container(
-                    width: 360,
-                    height: 82,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE8E8EB),
-                      borderRadius: BorderRadius.circular(44),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'ابدا تلاوتك',
-                          style: TextStyle(
-                            fontSize: 44,
-                            color: Color(0xFF1F2938),
-                            fontFamily: 'Amiri',
-                            fontWeight: FontWeight.w700,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 360),
+                    child: Container(
+                      width: double.infinity,
+                      height: 82,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8E8EB),
+                        borderRadius: BorderRadius.circular(44),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Flexible(
+                            child: Text(
+                              'ابدا تلاوتك',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 38,
+                                color: Color(0xFF1F2938),
+                                fontFamily: 'Amiri',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 20),
-                        Icon(Icons.arrow_forward, size: 36),
-                      ],
+                          SizedBox(width: 14),
+                          Icon(Icons.arrow_forward, size: 32),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -362,31 +369,38 @@ class _DiscoverSection extends StatelessWidget {
         children: [
           const Row(
             children: [
-              Text(
-                'اكتشف المزيد',
-                textDirection: TextDirection.rtl,
-                style: TextStyle(
-                  color: Color(0xFF1E293B),
-                  fontSize: 54,
-                  fontFamily: 'Amiri',
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  'اكتشف المزيد',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textDirection: TextDirection.rtl,
+                  style: TextStyle(
+                    color: Color(0xFF1E293B),
+                    fontSize: 42,
+                    fontFamily: 'Amiri',
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-              Spacer(),
+              SizedBox(width: 10),
               Text('Services', style: TextStyle(color: Color(0xFF6B7280), fontSize: 18)),
             ],
           ),
           const SizedBox(height: 16),
           SizedBox(
             height: 105,
-            child: Row(
-              children: [
-                _FilterChip(label: 'All', selected: true),
-                const SizedBox(width: 14),
-                _FilterChip(icon: Icons.nightlight_round),
-                const SizedBox(width: 14),
-                _FilterChip(icon: Icons.wallet_membership_outlined),
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: const [
+                  _FilterChip(label: 'All', selected: true),
+                  SizedBox(width: 14),
+                  _FilterChip(icon: Icons.nightlight_round),
+                  SizedBox(width: 14),
+                  _FilterChip(icon: Icons.wallet_membership_outlined),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 18),
