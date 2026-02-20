@@ -260,77 +260,79 @@ class _QuranCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Container(
-        margin: const EdgeInsets.only(top: -12),
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xFFF2F2F4),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(48)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(22),
-          child: Container(
-            height: 560,
-            padding: const EdgeInsets.fromLTRB(24, 22, 24, 24),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: Colors.white.withAlpha(107),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Icon(Icons.menu_book_outlined, color: Color(0xFF2565EB), size: 38),
-                const SizedBox(height: 10),
-                const Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'القرآن الكريم',
-                    textDirection: TextDirection.rtl,
-                    style: TextStyle(
-                      color: Color(0xFF1F2938),
-                      fontSize: 56,
-                      fontFamily: 'Amiri',
-                      fontWeight: FontWeight.w700,
+    return Transform.translate(
+      offset: const Offset(0, -12),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Color(0xFFF2F2F4),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(48)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(22),
+            child: Container(
+              height: 560,
+              padding: const EdgeInsets.fromLTRB(24, 22, 24, 24),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Colors.white.withAlpha(107),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.menu_book_outlined, color: Color(0xFF2565EB), size: 38),
+                  const SizedBox(height: 10),
+                  const Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'القرآن الكريم',
+                      textDirection: TextDirection.rtl,
+                      style: TextStyle(
+                        color: Color(0xFF1F2938),
+                        fontSize: 56,
+                        fontFamily: 'Amiri',
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                ),
-                const Spacer(),
-                const Center(
-                  child: Text(
-                    'Al-Fatiha • Verse 1 • Page 1',
-                    style: TextStyle(color: Color(0xFF6B7280), fontSize: 20),
-                  ),
-                ),
-                const SizedBox(height: 18),
-                Center(
-                  child: Container(
-                    width: 360,
-                    height: 82,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE8E8EB),
-                      borderRadius: BorderRadius.circular(44),
+                  const Spacer(),
+                  const Center(
+                    child: Text(
+                      'Al-Fatiha • Verse 1 • Page 1',
+                      style: TextStyle(color: Color(0xFF6B7280), fontSize: 20),
                     ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'ابدا تلاوتك',
-                          style: TextStyle(
-                            fontSize: 44,
-                            color: Color(0xFF1F2938),
-                            fontFamily: 'Amiri',
-                            fontWeight: FontWeight.w700,
+                  ),
+                  const SizedBox(height: 18),
+                  Center(
+                    child: Container(
+                      width: 360,
+                      height: 82,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8E8EB),
+                        borderRadius: BorderRadius.circular(44),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ابدا تلاوتك',
+                            style: TextStyle(
+                              fontSize: 44,
+                              color: Color(0xFF1F2938),
+                              fontFamily: 'Amiri',
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 20),
-                        Icon(Icons.arrow_forward, size: 36),
-                      ],
+                          SizedBox(width: 20),
+                          Icon(Icons.arrow_forward, size: 36),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
