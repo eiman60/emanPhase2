@@ -132,7 +132,7 @@ class _HeroSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(35),
-              color: Colors.white.withOpacity(0.12),
+              color: Colors.white.withAlpha(31),
               border: Border.all(color: Colors.white24, width: 2),
             ),
             child: const Row(
@@ -216,11 +216,11 @@ class _ActionCircle extends StatelessWidget {
           width: 112,
           height: 112,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(selected ? 0.1 : 0.14),
+            color: Colors.white.withAlpha(selected ? 26 : 36),
             borderRadius: BorderRadius.circular(33),
             border: Border.all(color: Colors.white24, width: 2),
           ),
-          child: Icon(icon, size: 56, color: Colors.black.withOpacity(0.82)),
+          child: Icon(icon, size: 56, color: Colors.black.withAlpha(209)),
         ),
         const SizedBox(height: 12),
         Text(
@@ -261,9 +261,8 @@ class _QuranCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      padding: const EdgeInsets.only(top: 8),
       child: Container(
-        margin: const EdgeInsets.only(top: -12),
         width: double.infinity,
         decoration: const BoxDecoration(
           color: Color(0xFFF2F2F4),
@@ -276,7 +275,7 @@ class _QuranCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(24, 22, 24, 24),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
-              color: Colors.white.withOpacity(0.42),
+              color: Colors.white.withAlpha(107),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -602,17 +601,18 @@ class _AiPromptCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: const Border(
-          top: BorderSide(color: Color(0xFF10B981), width: 6),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: const Border(
+            top: BorderSide(color: Color(0xFF10B981), width: 6),
+          ),
         ),
-      ),
-      child: Column(
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -667,6 +667,7 @@ class _AiPromptCard extends StatelessWidget {
             ),
           ),
         ],
+        ),
       ),
     );
   }
