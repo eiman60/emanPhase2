@@ -76,20 +76,24 @@ class _HeroSection extends StatelessWidget {
                 backgroundColor: Color(0xFF2A6DF6),
                 child: Icon(Icons.person_outline, color: Colors.white, size: 34),
               ),
-              const SizedBox(width: 14),
-              const Text(
-                'Nusuk Wallet',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Nusuk Wallet',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 6),
               _TopIcon(icon: Icons.account_balance_wallet_outlined),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               _TopIcon(icon: Icons.notifications_none),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               _TopIcon(icon: Icons.grid_view_rounded),
             ],
           ),
@@ -164,8 +168,10 @@ class _TopIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {},
-      icon: Icon(icon, color: Colors.white, size: 31),
-      splashRadius: 24,
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints.tightFor(width: 36, height: 36),
+      icon: Icon(icon, color: Colors.white, size: 28),
+      splashRadius: 20,
     );
   }
 }
@@ -230,7 +236,9 @@ class _ActionCircle extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           label,
-          style: const TextStyle(color: Colors.white, fontSize: 42, fontFamily: 'Amiri'),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Colors.white, fontSize: 28, fontFamily: 'Amiri'),
         ),
       ],
     );
@@ -485,10 +493,12 @@ class _ServiceTile extends StatelessWidget {
           const Spacer(),
           Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             textDirection: TextDirection.rtl,
             style: const TextStyle(
               color: Color(0xFF1F2937),
-              fontSize: 44,
+              fontSize: 32,
               fontFamily: 'Amiri',
               fontWeight: FontWeight.w700,
             ),
