@@ -132,7 +132,7 @@ class _HeroSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(35),
-              color: Colors.white.withOpacity(0.12),
+              color: Colors.white.withAlpha(31),
               border: Border.all(color: Colors.white24, width: 2),
             ),
             child: const Row(
@@ -216,11 +216,11 @@ class _ActionCircle extends StatelessWidget {
           width: 112,
           height: 112,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(selected ? 0.1 : 0.14),
+            color: Colors.white.withAlpha(selected ? 26 : 36),
             borderRadius: BorderRadius.circular(33),
             border: Border.all(color: Colors.white24, width: 2),
           ),
-          child: Icon(icon, size: 56, color: Colors.black.withOpacity(0.82)),
+          child: Icon(icon, size: 56, color: Colors.black.withAlpha(209)),
         ),
         const SizedBox(height: 12),
         Text(
@@ -276,7 +276,7 @@ class _QuranCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(24, 22, 24, 24),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
-              color: Colors.white.withOpacity(0.42),
+              color: Colors.white.withAlpha(107),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
