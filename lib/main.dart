@@ -171,7 +171,7 @@ class _TopIcon extends StatelessWidget {
     return AssetIconView(
       assetPath: iconPath,
       size: 15,
-      iconColor: const Color(0xFF0B1730),
+      iconColor: Colors.white,
       backgroundColor: Colors.transparent,
       padding: EdgeInsets.zero,
     );
