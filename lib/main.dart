@@ -78,65 +78,11 @@ class _BottomNavBar extends StatelessWidget {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _GradientRingNavIcon(),
-          Icon(Icons.shopping_bag_outlined, color: Color(0xFF0E0E16), size: 28),
-          Icon(Icons.star_border_rounded, color: Color(0xFF0E0E16), size: 28),
-          Icon(Icons.auto_awesome_outlined, color: Color(0xFF0E0E16), size: 28),
-          _TrailingHexNavIcon(),
-        ],
-      ),
-    );
-  }
-}
-
-class _GradientRingNavIcon extends StatelessWidget {
-  const _GradientRingNavIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 34,
-      height: 34,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: SweepGradient(
-          colors: [
-            Color(0xFF8B5CF6),
-            Color(0xFFEC4899),
-            Color(0xFF22C55E),
-            Color(0xFF06B6D4),
-            Color(0xFF8B5CF6),
-          ],
-        ),
-      ),
-      padding: const EdgeInsets.all(2),
-      child: Container(
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-        ),
-        child: const Icon(Icons.auto_awesome, color: Color(0xFF8B8EA3), size: 13),
-      ),
-    );
-  }
-}
-
-class _TrailingHexNavIcon extends StatelessWidget {
-  const _TrailingHexNavIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 32,
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.center,
-        children: const [
-          Positioned(
-            top: -5,
-            child: CircleAvatar(radius: 3, backgroundColor: Color(0xFFF3B548)),
-          ),
-          Icon(Icons.hexagon, color: Color(0xFFF3B548), size: 30),
+          AssetIconView(assetPath: AppIcons.hajj, size: 28, iconColor: Color(0xFF0E0E16)),
+          AssetIconView(assetPath: AppIcons.image12, size: 28, iconColor: Color(0xFF0E0E16)),
+          AssetIconView(assetPath: AppIcons.image15, size: 28, iconColor: Color(0xFF0E0E16)),
+          AssetIconView(assetPath: AppIcons.image2, size: 28, iconColor: Color(0xFF0E0E16)),
+          AssetIconView(assetPath: AppIcons.image3, size: 28, iconColor: Color(0xFF0E0E16)),
         ],
       ),
     );
