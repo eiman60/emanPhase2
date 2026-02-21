@@ -28,7 +28,20 @@ class NusukHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFFE8E9ED),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        minimum: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        child: SizedBox(
+          height: 72,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 375),
+              child: const _BottomNavBar(),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -49,6 +62,87 @@ class NusukHomePage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _BottomNavBar extends StatelessWidget {
+  const _BottomNavBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 72,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(36),
+      ),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _GradientRingNavIcon(),
+          Icon(Icons.shopping_bag_outlined, color: Color(0xFF0E0E16), size: 34),
+          Icon(Icons.star_border_rounded, color: Color(0xFF0E0E16), size: 34),
+          Icon(Icons.auto_awesome_outlined, color: Color(0xFF0E0E16), size: 34),
+          _TrailingHexNavIcon(),
+        ],
+      ),
+    );
+  }
+}
+
+class _GradientRingNavIcon extends StatelessWidget {
+  const _GradientRingNavIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: SweepGradient(
+          colors: [
+            Color(0xFF8B5CF6),
+            Color(0xFFEC4899),
+            Color(0xFF22C55E),
+            Color(0xFF06B6D4),
+            Color(0xFF8B5CF6),
+          ],
+        ),
+      ),
+      padding: const EdgeInsets.all(2.5),
+      child: Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+        child: const Icon(Icons.auto_awesome, color: Color(0xFF8B8EA3), size: 16),
+      ),
+    );
+  }
+}
+
+class _TrailingHexNavIcon extends StatelessWidget {
+  const _TrailingHexNavIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 40,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: const [
+          Positioned(
+            top: -6,
+            child: CircleAvatar(radius: 4, backgroundColor: Color(0xFFF3B548)),
+          ),
+          Icon(Icons.hexagon, color: Color(0xFFF3B548), size: 38),
+        ],
       ),
     );
   }
