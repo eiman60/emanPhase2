@@ -29,6 +29,12 @@ class NusukHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      bottomNavigationBar: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 375),
+          child: const _BottomNavBar(),
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -49,6 +55,33 @@ class NusukHomePage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _BottomNavBar extends StatelessWidget {
+  const _BottomNavBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 78,
+      color: const Color(0xFFECECED),
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(Icons.shopping_bag_outlined, color: Color(0xFF111827), size: 33),
+          Icon(Icons.star_border_rounded, color: Color(0xFF111827), size: 32),
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Color(0xFF7C3AED),
+            child: Icon(Icons.auto_awesome, color: Color(0xFF111827), size: 30),
+          ),
+          Icon(Icons.wb_sunny_outlined, color: Color(0xFF111827), size: 33),
+          Icon(Icons.hexagon_outlined, color: Color(0xFF111827), size: 31),
+        ],
       ),
     );
   }
