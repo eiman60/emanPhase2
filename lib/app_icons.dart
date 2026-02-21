@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 /// This project currently uses the icon pack already stored in `lib/icons/`.
 class AppIcons {
   static const String user = 'lib/icons/image_1.png';
-  static const String wallet = 'lib/icons/image_2.png';
-  static const String notification = 'lib/icons/image_3.png';
-  static const String menu = 'lib/icons/image_4.png';
+  static const String wallet = 'lib/icons/image_11.png';
+  static const String notification = 'lib/icons/image_13.png';
+  static const String menu = 'lib/icons/image_14.png';
   static const String cube = 'lib/icons/image_5.png';
   static const String rawdah = 'lib/icons/image_7.png';
   static const String hajj = 'lib/icons/image_8.png';
