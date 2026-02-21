@@ -66,9 +66,9 @@ class _HeroSection extends StatelessWidget {
           center: Alignment(0, -0.6),
           radius: 1.35,
           colors: [
-            Color(0xFF2A3E61),
-            Color(0xFF1D2C47),
-            Color(0xFF0D1832),
+            Color(0xFF8A6A4E),
+            Color(0xFF6F513A),
+            Color(0xFF523A29),
           ],
         ),
       ),
@@ -128,7 +128,7 @@ class _PrayerFocus extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(color: Colors.white24),
-            color: const Color(0xFF243856),
+            color: const Color(0xFF7A5B42),
           ),
           child: const Center(child: AssetIconView(assetPath: AppIcons.cube, size: 34)),
         ),
