@@ -9,9 +9,9 @@ Use these file names so they are picked up automatically by the app:
 - `notification.png`
 - `menu.png`
 - `cube.png`
-- `7.png` for `الروضة`
-- `8.png` for `الحج`
-- `9.png` for `العمرة`
-- `17.png` for `الطوارئ`
+- `image_7.png` for `الروضة`
+- `image_8.png` for `الحج`
+- `image_9.png` for `العمرة`
+- `image_17.png` for `الطوارئ`
 
 If you want different names, edit `lib/app_icons.dart`.
