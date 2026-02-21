@@ -32,10 +32,13 @@ class NusukHomePage extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         top: false,
         minimum: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 375),
-            child: const _BottomNavBar(),
+        child: SizedBox(
+          height: 92,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 375),
+              child: const _BottomNavBar(),
+            ),
           ),
         ),
       ),
