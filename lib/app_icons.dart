@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 
 /// Central place for all custom icon asset paths.
 ///
-/// Put your downloaded icon files in `assets/icons/` and update names here.
+/// Keep icon files inside `assets/icons/` (recommended) or `lib/icons/`.
+/// This project currently uses the icon pack already stored in `lib/icons/`.
 class AppIcons {
-  static const String user = 'assets/icons/user.png';
-  static const String wallet = 'assets/icons/wallet.png';
-  static const String notification = 'assets/icons/notification.png';
-  static const String menu = 'assets/icons/menu.png';
-  static const String cube = 'assets/icons/cube.png';
-  static const String rawdah = 'assets/icons/7.png';
-  static const String hajj = 'assets/icons/8.png';
-  static const String umrah = 'assets/icons/9.png';
-  static const String alert = 'assets/icons/17.png';
+  static const String user = 'lib/icons/image_1.png';
+  static const String wallet = 'lib/icons/image_2.png';
+  static const String notification = 'lib/icons/image_3.png';
+  static const String menu = 'lib/icons/image_4.png';
+  static const String cube = 'lib/icons/image_5.png';
+  static const String rawdah = 'lib/icons/image_7.png';
+  static const String hajj = 'lib/icons/image_8.png';
+  static const String umrah = 'lib/icons/image_9.png';
+  static const String alert = 'lib/icons/image_17.png';
 }
 
 class AssetIconView extends StatelessWidget {
