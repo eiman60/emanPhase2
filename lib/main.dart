@@ -171,7 +171,7 @@ class _TopIcon extends StatelessWidget {
     return AssetIconView(
       assetPath: iconPath,
       size: 15,
-      iconColor: const Color(0xFF0B1730),
+      iconColor: Colors.white,
       backgroundColor: Colors.transparent,
       padding: EdgeInsets.zero,
     );
@@ -218,7 +218,7 @@ class _ActionCircle extends StatelessWidget {
             child: AssetIconView(
               assetPath: iconPath,
               size: 24,
-              iconColor: const Color(0xFF111827),
+              iconColor: Colors.white,
             ),
           ),
         ),
