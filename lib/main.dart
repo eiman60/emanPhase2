@@ -29,10 +29,10 @@ class NusukHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      bottomNavigationBar: const Center(
+      bottomNavigationBar: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 375),
-          child: _BottomNavBar(),
+          constraints: const BoxConstraints(maxWidth: 375),
+          child: const _BottomNavBar(),
         ),
       ),
       body: SafeArea(
