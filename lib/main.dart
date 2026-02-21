@@ -47,7 +47,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
         minimum: const EdgeInsets.only(bottom: 6),
         child: SizedBox(
           height: 60,
-          child: _BottomNavBar(
+          child: _MainBottomNavBar(
             selectedIndex: _selectedIndex,
             onTap: _onNavTap,
           ),
@@ -57,7 +57,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
           ? SafeArea(
               child: Center(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 375),
+                  constraints: const BoxConstraints(maxWidth: 375),
                   child: ColoredBox(
                     color: Color(0xFFE8E9ED),
                     child: SingleChildScrollView(
@@ -82,8 +82,8 @@ class _NusukHomePageState extends State<NusukHomePage> {
   }
 }
 
-class _BottomNavBar extends StatelessWidget {
-  const _BottomNavBar({required this.selectedIndex, required this.onTap});
+class _MainBottomNavBar extends StatelessWidget {
+  const _MainBottomNavBar({required this.selectedIndex, required this.onTap});
 
   final int selectedIndex;
   final ValueChanged<int> onTap;
