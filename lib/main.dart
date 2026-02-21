@@ -28,7 +28,15 @@ class NusukHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFFE8E9ED),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        minimum: const EdgeInsets.only(bottom: 6),
+        child: const SizedBox(
+          height: 60,
+          child: _BottomNavBar(),
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -49,6 +57,33 @@ class NusukHomePage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _BottomNavBar extends StatelessWidget {
+  const _BottomNavBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(28),
+      ),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AssetIconView(assetPath: AppIcons.hajj, size: 28, iconColor: Color(0xFF0E0E16)),
+          AssetIconView(assetPath: AppIcons.image12, size: 28, iconColor: Color(0xFF0E0E16)),
+          AssetIconView(assetPath: AppIcons.image15, size: 28, iconColor: Color(0xFF0E0E16)),
+          AssetIconView(assetPath: AppIcons.image2, size: 28, iconColor: Color(0xFF0E0E16)),
+          AssetIconView(assetPath: AppIcons.image3, size: 28, iconColor: Color(0xFF0E0E16)),
+        ],
       ),
     );
   }
