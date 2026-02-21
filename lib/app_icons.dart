@@ -14,6 +14,10 @@ class AppIcons {
   static const String hajj = 'lib/icons/image_8.png';
   static const String umrah = 'lib/icons/image_9.png';
   static const String alert = 'lib/icons/image_17.png';
+  static const String image2 = 'lib/icons/image_2.png';
+  static const String image3 = 'lib/icons/image_3.png';
+  static const String image12 = 'lib/icons/image_12.png';
+  static const String image15 = 'lib/icons/image_15.png';
 }
 
 class AssetIconView extends StatelessWidget {
