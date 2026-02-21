@@ -22,8 +22,21 @@ class NusukApp extends StatelessWidget {
   }
 }
 
-class NusukHomePage extends StatelessWidget {
+class NusukHomePage extends StatefulWidget {
   const NusukHomePage({super.key});
+
+  @override
+  State<NusukHomePage> createState() => _NusukHomePageState();
+}
+
+class _NusukHomePageState extends State<NusukHomePage> {
+  int _selectedIndex = 0;
+
+  void _onNavTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,30 +45,157 @@ class NusukHomePage extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         top: false,
         minimum: const EdgeInsets.only(bottom: 6),
-        child: const SizedBox(
+        child: SizedBox(
           height: 60,
-          child: _BottomNavBar(),
+          child: _BottomNavBar(
+            selectedIndex: _selectedIndex,
+            onTap: _onNavTap,
+          ),
         ),
       ),
-      body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 375),
-            child: Container(
-              color: const Color(0xFFE8E9ED),
-              child: const SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _HeroSection(),
-                    _QuranCard(),
-                    _DiscoverSection(),
-                    _AiPromptCard(),
-                    SizedBox(height: 24),
-                  ],
+      body: _selectedIndex == 0
+          ? const SafeArea(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 375),
+                  child: ColoredBox(
+                    color: Color(0xFFE8E9ED),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          _HeroSection(),
+                          _QuranCard(),
+                          _DiscoverSection(),
+                          _AiPromptCard(),
+                          SizedBox(height: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
+            )
+          : SafeArea(
+              child: _NavPlaceholderPage(pageIndex: _selectedIndex),
             ),
+    );
+  }
+}
+
+class _BottomNavBar extends StatelessWidget {
+  const _BottomNavBar({required this.selectedIndex, required this.onTap});
+
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(28),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _NavIconItem(
+            assetPath: AppIcons.hajj,
+            index: 0,
+            selectedIndex: selectedIndex,
+            onTap: onTap,
           ),
+          _NavIconItem(
+            assetPath: AppIcons.image12,
+            index: 1,
+            selectedIndex: selectedIndex,
+            onTap: onTap,
+          ),
+          _NavIconItem(
+            assetPath: AppIcons.image15,
+            index: 2,
+            selectedIndex: selectedIndex,
+            onTap: onTap,
+          ),
+          _NavIconItem(
+            assetPath: AppIcons.image2,
+            index: 3,
+            selectedIndex: selectedIndex,
+            onTap: onTap,
+          ),
+          _NavIconItem(
+            assetPath: AppIcons.image3,
+            index: 4,
+            selectedIndex: selectedIndex,
+            onTap: onTap,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NavIconItem extends StatelessWidget {
+  const _NavIconItem({
+    required this.assetPath,
+    required this.index,
+    required this.selectedIndex,
+    required this.onTap,
+  });
+
+  final String assetPath;
+  final int index;
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final isSelected = index == selectedIndex;
+
+    return GestureDetector(
+      onTap: () => onTap(index),
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: isSelected ? const Color(0x160E0E16) : Colors.transparent,
+        ),
+        child: AssetIconView(
+          assetPath: assetPath,
+          size: 28,
+          iconColor: const Color(0xFF0E0E16),
+        ),
+      ),
+    );
+  }
+}
+
+class _NavPlaceholderPage extends StatelessWidget {
+  const _NavPlaceholderPage({required this.pageIndex});
+
+  final int pageIndex;
+
+  static const List<String> _titles = [
+    'Hajj Home',
+    'Page 2',
+    'Page 3',
+    'Page 4',
+    'Page 5',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        _titles[pageIndex],
+        style: const TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.w700,
+          color: Color(0xFF1F2937),
         ),
       ),
     );
