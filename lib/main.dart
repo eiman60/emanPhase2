@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'app_icons.dart';
+
 void main() {
   runApp(const NusukApp());
 }
@@ -74,12 +76,15 @@ class _HeroSection extends StatelessWidget {
               const CircleAvatar(
                 radius: 28,
                 backgroundColor: Color(0xFF2A6DF6),
-                child: Icon(Icons.person_outline, color: Colors.white, size: 34),
+                child: AssetIconView(
+                  assetPath: AppIcons.user,
+                  size: 28,
+                ),
               ),
               const SizedBox(width: 12),
               const Expanded(
                 child: Text(
-                  'Nusuk Wallet',
+                  'ahmed',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -90,11 +95,11 @@ class _HeroSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 6),
-              _TopIcon(icon: Icons.account_balance_wallet_outlined),
+              _TopIcon(iconPath: AppIcons.wallet),
               const SizedBox(width: 8),
-              _TopIcon(icon: Icons.notifications_none),
+              _TopIcon(iconPath: AppIcons.notification),
               const SizedBox(width: 8),
-              _TopIcon(icon: Icons.grid_view_rounded),
+              _TopIcon(iconPath: AppIcons.menu),
             ],
           ),
           const SizedBox(height: 30),
@@ -109,7 +114,10 @@ class _HeroSection extends StatelessWidget {
                   colors: [Color(0xFF314D70), Color(0xFF1D2E4D)],
                 ),
               ),
-              child: const Icon(Icons.hexagon_outlined, color: Colors.white, size: 60),
+              child: const AssetIconView(
+                assetPath: AppIcons.cube,
+                size: 52,
+              ),
             ),
           ),
           const SizedBox(height: 16),
@@ -160,17 +168,24 @@ class _HeroSection extends StatelessWidget {
 }
 
 class _TopIcon extends StatelessWidget {
-  const _TopIcon({required this.icon});
+  const _TopIcon({required this.iconPath});
 
-  final IconData icon;
+  final String iconPath;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {},
       padding: EdgeInsets.zero,
-      constraints: const BoxConstraints.tightFor(width: 36, height: 36),
-      icon: Icon(icon, color: Colors.white, size: 28),
+      constraints: const BoxConstraints.tightFor(width: 40, height: 40),
+      icon: AssetIconView(
+        assetPath: iconPath,
+        size: 22,
+        iconColor: const Color(0xFF0B1730),
+        backgroundColor: Colors.white,
+        padding: const EdgeInsets.all(9),
+        borderRadius: BorderRadius.circular(2),
+      ),
       splashRadius: 20,
     );
   }
@@ -186,19 +201,19 @@ class _FeatureActions extends StatelessWidget {
       child: Row(
         children: const [
           _ActionCircle(
-            icon: Icons.mosque_outlined,
+            iconPath: AppIcons.rawdah,
             label: 'الروضة',
             selected: true,
           ),
           SizedBox(width: 18),
           _ActionCircle(
-            icon: Icons.hexagon_outlined,
+            iconPath: AppIcons.hajj,
             label: 'الحج',
           ),
           SizedBox(width: 18),
           _ActionCircle(
-            icon: Icons.brightness_2_outlined,
-            label: 'العمرة',
+            iconPath: AppIcons.umrah,
+            label: 'العمره',
           ),
           SizedBox(width: 18),
           _AlertCircle(),
@@ -210,12 +225,12 @@ class _FeatureActions extends StatelessWidget {
 
 class _ActionCircle extends StatelessWidget {
   const _ActionCircle({
-    required this.icon,
+    required this.iconPath,
     required this.label,
     this.selected = false,
   });
 
-  final IconData icon;
+  final String iconPath;
   final String label;
   final bool selected;
 
@@ -228,10 +243,19 @@ class _ActionCircle extends StatelessWidget {
           height: 112,
           decoration: BoxDecoration(
             color: Colors.white.withAlpha(selected ? 26 : 36),
-            borderRadius: BorderRadius.circular(33),
-            border: Border.all(color: Colors.white24, width: 2),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: selected ? Colors.white38 : Colors.white24,
+              width: selected ? 3 : 2,
+            ),
           ),
-          child: Icon(icon, size: 56, color: Colors.black.withAlpha(209)),
+          child: Center(
+            child: AssetIconView(
+              assetPath: iconPath,
+              size: 36,
+              iconColor: Colors.black.withAlpha(209),
+            ),
+          ),
         ),
         const SizedBox(height: 12),
         Text(
@@ -259,10 +283,20 @@ class _AlertCircle extends StatelessWidget {
             color: Color(0xFFEB4548),
             shape: BoxShape.circle,
           ),
-          child: const Icon(Icons.notifications_active_outlined, color: Colors.white, size: 48),
+          child: const Center(
+            child: AssetIconView(
+              assetPath: AppIcons.alert,
+              size: 34,
+            ),
+          ),
         ),
         const SizedBox(height: 12),
-        const SizedBox(height: 55),
+        const Text(
+          'الطوارئ',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: Colors.white, fontSize: 28, fontFamily: 'Amiri'),
+        ),
       ],
     );
   }
