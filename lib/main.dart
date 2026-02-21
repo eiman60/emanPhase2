@@ -54,7 +54,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
         ),
       ),
       body: _selectedIndex == 0
-          ? const SafeArea(
+          ? SafeArea(
               child: Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 375),
