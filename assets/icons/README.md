@@ -1,17 +1,18 @@
 # Icons Folder
 
-Put your downloaded icon files in this folder.
+Put your app icons in **`assets/icons/`**.
 
-Use these file names so they are picked up automatically by the app:
+## Quick setup
+1. Copy your PNG/SVG icon files into `assets/icons/`.
+2. Add/update each icon path in `lib/app_icons.dart`.
+3. Make sure the folder is listed in `pubspec.yaml` under:
+   ```yaml
+   flutter:
+     assets:
+       - assets/icons/
+   ```
 
-- `user.png`
-- `wallet.png`
-- `notification.png`
-- `menu.png`
-- `cube.png`
-- `image_7.png` for `الروضة`
-- `image_8.png` for `الحج`
-- `image_9.png` for `العمرة`
-- `image_17.png` for `الطوارئ`
-
-If you want different names, edit `lib/app_icons.dart`.
+## Current project mapping
+This project currently points to icons in `lib/icons/` (legacy icon pack).
+If you want to use your own icons in `assets/icons/`, just change the constants
+inside `lib/app_icons.dart` to `assets/icons/<your-file>.png`.
