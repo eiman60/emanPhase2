@@ -29,10 +29,13 @@ class NusukHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      bottomNavigationBar: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 375),
-          child: const _BottomNavBar(),
+      bottomNavigationBar: SizedBox(
+        height: 78,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 375),
+            child: const _BottomNavBar(),
+          ),
         ),
       ),
       body: SafeArea(
@@ -66,7 +69,7 @@ class _BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 78,
+      width: double.infinity,
       color: const Color(0xFFECECED),
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: const Row(
