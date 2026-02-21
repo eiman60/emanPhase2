@@ -28,19 +28,14 @@ class NusukHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      bottomNavigationBar: Container(
-        color: const Color(0xFFECECED),
-        child: SafeArea(
-          top: false,
-          child: SizedBox(
-            height: 78,
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 375),
-                child: const _BottomNavBar(),
-              ),
-            ),
+      backgroundColor: const Color(0xFFE6E7EB),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        minimum: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 375),
+            child: const _BottomNavBar(),
           ),
         ),
       ),
@@ -75,22 +70,75 @@ class _BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 92,
       width: double.infinity,
-      height: double.infinity,
-      color: const Color(0xFFECECED),
-      padding: const EdgeInsets.symmetric(horizontal: 28),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF2F2F3),
+        borderRadius: BorderRadius.circular(46),
+      ),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.shopping_bag_outlined, color: Color(0xFF111827), size: 33),
-          Icon(Icons.star_border_rounded, color: Color(0xFF111827), size: 32),
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: Color(0xFF7C3AED),
-            child: Icon(Icons.auto_awesome, color: Color(0xFF111827), size: 30),
+          _GradientRingNavIcon(),
+          Icon(Icons.shopping_bag_outlined, color: Color(0xFF0E0E16), size: 44),
+          Icon(Icons.star_border_rounded, color: Color(0xFF0E0E16), size: 44),
+          Icon(Icons.auto_awesome_outlined, color: Color(0xFF0E0E16), size: 44),
+          _TrailingHexNavIcon(),
+        ],
+      ),
+    );
+  }
+}
+
+class _GradientRingNavIcon extends StatelessWidget {
+  const _GradientRingNavIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 56,
+      height: 56,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: SweepGradient(
+          colors: [
+            Color(0xFF8B5CF6),
+            Color(0xFFEC4899),
+            Color(0xFF22C55E),
+            Color(0xFF06B6D4),
+            Color(0xFF8B5CF6),
+          ],
+        ),
+      ),
+      padding: const EdgeInsets.all(3),
+      child: Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFFF2F2F3),
+        ),
+        child: const Icon(Icons.auto_awesome, color: Color(0xFF8B8EA3), size: 20),
+      ),
+    );
+  }
+}
+
+class _TrailingHexNavIcon extends StatelessWidget {
+  const _TrailingHexNavIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 52,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: const [
+          Positioned(
+            top: -8,
+            child: CircleAvatar(radius: 5, backgroundColor: Color(0xFFF3B548)),
           ),
-          Icon(Icons.wb_sunny_outlined, color: Color(0xFF111827), size: 33),
-          Icon(Icons.hexagon_outlined, color: Color(0xFF111827), size: 31),
+          Icon(Icons.hexagon, color: Color(0xFFF3B548), size: 50),
         ],
       ),
     );
