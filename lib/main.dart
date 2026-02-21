@@ -213,7 +213,7 @@ class _FeatureActions extends StatelessWidget {
           SizedBox(width: 18),
           _ActionCircle(
             iconPath: AppIcons.umrah,
-            label: 'العمرة',
+            label: 'العمره',
           ),
           SizedBox(width: 18),
           _AlertCircle(),
@@ -291,7 +291,12 @@ class _AlertCircle extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        const SizedBox(height: 55),
+        const Text(
+          'الطوارئ',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: Colors.white, fontSize: 28, fontFamily: 'Amiri'),
+        ),
       ],
     );
   }

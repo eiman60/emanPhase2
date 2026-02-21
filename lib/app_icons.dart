@@ -9,10 +9,10 @@ class AppIcons {
   static const String notification = 'assets/icons/notification.png';
   static const String menu = 'assets/icons/menu.png';
   static const String cube = 'assets/icons/cube.png';
-  static const String rawdah = 'assets/icons/rawdah.png';
-  static const String hajj = 'assets/icons/hajj.png';
-  static const String umrah = 'assets/icons/umrah.png';
-  static const String alert = 'assets/icons/alert.png';
+  static const String rawdah = 'assets/icons/7.png';
+  static const String hajj = 'assets/icons/8.png';
+  static const String umrah = 'assets/icons/9.png';
+  static const String alert = 'assets/icons/17.png';
 }
 
 class AssetIconView extends StatelessWidget {
