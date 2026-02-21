@@ -28,12 +28,12 @@ class NusukHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE6E7EB),
+      backgroundColor: const Color(0xFFE8E9ED),
       bottomNavigationBar: SafeArea(
         top: false,
-        minimum: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+        minimum: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         child: SizedBox(
-          height: 92,
+          height: 72,
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 375),
@@ -73,20 +73,20 @@ class _BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 92,
+      height: 72,
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F3),
-        borderRadius: BorderRadius.circular(46),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(36),
       ),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _GradientRingNavIcon(),
-          Icon(Icons.shopping_bag_outlined, color: Color(0xFF0E0E16), size: 44),
-          Icon(Icons.star_border_rounded, color: Color(0xFF0E0E16), size: 44),
-          Icon(Icons.auto_awesome_outlined, color: Color(0xFF0E0E16), size: 44),
+          Icon(Icons.shopping_bag_outlined, color: Color(0xFF0E0E16), size: 34),
+          Icon(Icons.star_border_rounded, color: Color(0xFF0E0E16), size: 34),
+          Icon(Icons.auto_awesome_outlined, color: Color(0xFF0E0E16), size: 34),
           _TrailingHexNavIcon(),
         ],
       ),
@@ -100,8 +100,8 @@ class _GradientRingNavIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 56,
-      height: 56,
+      width: 44,
+      height: 44,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         gradient: SweepGradient(
@@ -114,13 +114,13 @@ class _GradientRingNavIcon extends StatelessWidget {
           ],
         ),
       ),
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.all(2.5),
       child: Container(
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          color: Color(0xFFF2F2F3),
+          color: Colors.white,
         ),
-        child: const Icon(Icons.auto_awesome, color: Color(0xFF8B8EA3), size: 20),
+        child: const Icon(Icons.auto_awesome, color: Color(0xFF8B8EA3), size: 16),
       ),
     );
   }
@@ -132,16 +132,16 @@ class _TrailingHexNavIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 52,
+      width: 40,
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.center,
         children: const [
           Positioned(
-            top: -8,
-            child: CircleAvatar(radius: 5, backgroundColor: Color(0xFFF3B548)),
+            top: -6,
+            child: CircleAvatar(radius: 4, backgroundColor: Color(0xFFF3B548)),
           ),
-          Icon(Icons.hexagon, color: Color(0xFFF3B548), size: 50),
+          Icon(Icons.hexagon, color: Color(0xFFF3B548), size: 38),
         ],
       ),
     );
