@@ -218,7 +218,7 @@ class _ActionCircle extends StatelessWidget {
             child: AssetIconView(
               assetPath: iconPath,
               size: 24,
-              iconColor: const Color(0xFF111827),
+              iconColor: Colors.white,
             ),
           ),
         ),
