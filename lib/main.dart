@@ -41,7 +41,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE8E9ED),
+      backgroundColor: const Color(0xFFF8F6F0),
       bottomNavigationBar: SafeArea(
         top: false,
         minimum: const EdgeInsets.only(bottom: 6),
@@ -58,8 +58,8 @@ class _NusukHomePageState extends State<NusukHomePage> {
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 375),
-                  child: ColoredBox(
-                    color: Color(0xFFE8E9ED),
+                  child: const ColoredBox(
+                    color: Color(0xFFF8F6F0),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
@@ -267,24 +267,30 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const CircleAvatar(
           radius: 18,
-          backgroundColor: Color(0xFF2A6DF6),
+          backgroundColor: Color(0xFFF3B33B),
           child: AssetIconView(assetPath: AppIcons.user, size: 16),
         ),
         const SizedBox(width: 10),
         const Expanded(
           child: Text(
             'ahmed',
-            style: TextStyle(color: Colors.white, fontSize: 27, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: Color(0xFFEDEDED),
+              fontSize: 30,
+              height: 1,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
-        const _TopIcon(iconPath: AppIcons.wallet),
+        const _TopIcon(iconPath: AppIcons.wallet, size: 19),
         const SizedBox(width: 8),
-        const _TopIcon(iconPath: AppIcons.notification),
+        const _TopIcon(iconPath: AppIcons.notification, size: 19),
         const SizedBox(width: 8),
-        const _TopIcon(iconPath: AppIcons.menu),
+        const _TopIcon(iconPath: AppIcons.menu, size: 19),
       ],
     );
   }
@@ -337,16 +343,17 @@ class _PrayerFocus extends StatelessWidget {
 }
 
 class _TopIcon extends StatelessWidget {
-  const _TopIcon({required this.iconPath});
+  const _TopIcon({required this.iconPath, this.size = 15});
 
   final String iconPath;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
     return AssetIconView(
       assetPath: iconPath,
-      size: 15,
-      iconColor: Colors.white,
+      size: size,
+      iconColor: const Color(0xFFEDEDED),
       backgroundColor: Colors.transparent,
       padding: EdgeInsets.zero,
     );
@@ -431,10 +438,10 @@ class _QuranCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: Color(0xFFE8E9ED),
+        color: Color(0xFFF1F0EC),
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
       child: Container(
         height: 280,
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
@@ -577,7 +584,7 @@ class _FilterChip extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: selected ? const Color(0xFF1D2C44) : const Color(0xFFF5F5F6),
+        color: selected ? const Color(0xFF3E2723) : const Color(0xFFF5F5F6),
       ),
       child: Center(
         child: label != null
@@ -600,7 +607,7 @@ class _ServiceTile extends StatelessWidget {
       height: 76,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F9),
+        color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -672,7 +679,7 @@ class _TrainCard extends StatelessWidget {
       height: 88,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F9),
+        color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -746,7 +753,7 @@ class _AiPromptCard extends StatelessWidget {
             Container(
               height: 44,
               decoration: BoxDecoration(
-                color: const Color(0xFF1D2C44),
+                color: const Color(0xFF3E2723),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(color: Colors.black, width: 1.5),
               ),
