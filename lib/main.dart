@@ -41,7 +41,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE8E9ED),
+      backgroundColor: const Color(0xFFF8F6F0),
       bottomNavigationBar: SafeArea(
         top: false,
         minimum: const EdgeInsets.only(bottom: 6),
@@ -59,7 +59,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 375),
                   child: const ColoredBox(
-                    color: Color(0xFFE8E9ED),
+                    color: Color(0xFFF8F6F0),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
@@ -584,7 +584,7 @@ class _FilterChip extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: selected ? const Color(0xFF1D2C44) : const Color(0xFFF5F5F6),
+        color: selected ? const Color(0xFF3E2723) : const Color(0xFFF5F5F6),
       ),
       child: Center(
         child: label != null
@@ -607,7 +607,7 @@ class _ServiceTile extends StatelessWidget {
       height: 76,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F9),
+        color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -679,7 +679,7 @@ class _TrainCard extends StatelessWidget {
       height: 88,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F9),
+        color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -753,7 +753,7 @@ class _AiPromptCard extends StatelessWidget {
             Container(
               height: 44,
               decoration: BoxDecoration(
-                color: const Color(0xFF1D2C44),
+                color: const Color(0xFF3E2723),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(color: Colors.black, width: 1.5),
               ),
