@@ -58,20 +58,17 @@ class _NusukHomePageState extends State<NusukHomePage> {
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 375),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(34),
-                    child: const ColoredBox(
-                      color: Color(0xFFE8E9ED),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            _HeroSection(),
-                            _QuranCard(),
-                            _DiscoverSection(),
-                            _AiPromptCard(),
-                            SizedBox(height: 24),
-                          ],
-                        ),
+                  child: const ColoredBox(
+                    color: Color(0xFFE8E9ED),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          _HeroSection(),
+                          _QuranCard(),
+                          _DiscoverSection(),
+                          _AiPromptCard(),
+                          SizedBox(height: 24),
+                        ],
                       ),
                     ),
                   ),
