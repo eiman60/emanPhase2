@@ -58,17 +58,20 @@ class _NusukHomePageState extends State<NusukHomePage> {
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 375),
-                  child: ColoredBox(
-                    color: Color(0xFFE8E9ED),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          _HeroSection(),
-                          _QuranCard(),
-                          _DiscoverSection(),
-                          _AiPromptCard(),
-                          SizedBox(height: 24),
-                        ],
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(34),
+                    child: const ColoredBox(
+                      color: Color(0xFFE8E9ED),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            _HeroSection(),
+                            _QuranCard(),
+                            _DiscoverSection(),
+                            _AiPromptCard(),
+                            SizedBox(height: 24),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -439,7 +442,6 @@ class _QuranCard extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Color(0xFFE8E9ED),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Container(
