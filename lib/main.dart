@@ -58,7 +58,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 375),
-                  child: ColoredBox(
+                  child: const ColoredBox(
                     color: Color(0xFFE8E9ED),
                     child: SingleChildScrollView(
                       child: Column(
@@ -267,24 +267,30 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const CircleAvatar(
           radius: 18,
-          backgroundColor: Color(0xFF2A6DF6),
+          backgroundColor: Color(0xFFF3B33B),
           child: AssetIconView(assetPath: AppIcons.user, size: 16),
         ),
         const SizedBox(width: 10),
         const Expanded(
           child: Text(
             'ahmed',
-            style: TextStyle(color: Colors.white, fontSize: 27, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: Color(0xFFEDEDED),
+              fontSize: 30,
+              height: 1,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
-        const _TopIcon(iconPath: AppIcons.wallet),
+        const _TopIcon(iconPath: AppIcons.wallet, size: 19),
         const SizedBox(width: 8),
-        const _TopIcon(iconPath: AppIcons.notification),
+        const _TopIcon(iconPath: AppIcons.notification, size: 19),
         const SizedBox(width: 8),
-        const _TopIcon(iconPath: AppIcons.menu),
+        const _TopIcon(iconPath: AppIcons.menu, size: 19),
       ],
     );
   }
@@ -337,16 +343,17 @@ class _PrayerFocus extends StatelessWidget {
 }
 
 class _TopIcon extends StatelessWidget {
-  const _TopIcon({required this.iconPath});
+  const _TopIcon({required this.iconPath, this.size = 15});
 
   final String iconPath;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
     return AssetIconView(
       assetPath: iconPath,
-      size: 15,
-      iconColor: Colors.white,
+      size: size,
+      iconColor: const Color(0xFFEDEDED),
       backgroundColor: Colors.transparent,
       padding: EdgeInsets.zero,
     );
@@ -432,7 +439,6 @@ class _QuranCard extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Color(0xFFE8E9ED),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Container(
