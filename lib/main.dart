@@ -271,7 +271,7 @@ class _TopBar extends StatelessWidget {
         const CircleAvatar(
           radius: 18,
           backgroundColor: Color(0xFFF3B33B),
-          child: Icon(Icons.person_outline, size: 20, color: Color(0xFF1F2937)),
+          child: Icon(Icons.person_outline, size: 20, color: Colors.white),
         ),
         const SizedBox(width: 10),
         const Spacer(),
@@ -502,7 +502,7 @@ class _DiscoverSection extends StatelessWidget {
               'اكتشف المزيد',
               style: TextStyle(
                 color: Color(0xFF1E293B),
-                fontSize: 42,
+                fontSize: 34,
                 fontFamily: 'Amiri',
                 fontWeight: FontWeight.w700,
               ),
@@ -575,7 +575,7 @@ class _FilterChip extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: selected ? const Color(0xFF3E2723) : const Color(0xFFF5F5F6),
+        color: selected ? const Color(0xFF3E2723) : const Color(0xFFFFFFFF),
       ),
       child: Center(
         child: label != null
