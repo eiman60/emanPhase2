@@ -44,24 +44,26 @@ class _NusukHomePageState extends State<NusukHomePage> {
     if (_selectedIndex == 0) {
       page = const _HomePage();
     } else if (_selectedIndex == 2) {
-      page = const _NusukChatPage();
+      page = _NusukChatPage(onBack: () => _onNavTap(0));
     } else {
       page = _NavPlaceholderPage(pageIndex: _selectedIndex);
     }
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F6F0),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        minimum: const EdgeInsets.only(bottom: 6),
-        child: SizedBox(
-          height: 60,
-          child: _MainBottomNavBar(
-            selectedIndex: _selectedIndex,
-            onTap: _onNavTap,
-          ),
-        ),
-      ),
+      bottomNavigationBar: _selectedIndex == 2
+          ? null
+          : SafeArea(
+              top: false,
+              minimum: const EdgeInsets.only(bottom: 6),
+              child: SizedBox(
+                height: 60,
+                child: _MainBottomNavBar(
+                  selectedIndex: _selectedIndex,
+                  onTap: _onNavTap,
+                ),
+              ),
+            ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -95,8 +97,49 @@ class _HomePage extends StatelessWidget {
   }
 }
 
-class _NusukChatPage extends StatelessWidget {
-  const _NusukChatPage();
+class _NusukChatPage extends StatefulWidget {
+  const _NusukChatPage({required this.onBack});
+
+  final VoidCallback onBack;
+
+  @override
+  State<_NusukChatPage> createState() => _NusukChatPageState();
+}
+
+class _NusukChatPageState extends State<_NusukChatPage> {
+  final TextEditingController _controller = TextEditingController();
+  final List<_ChatMessage> _messages = [];
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _sendMessage() {
+    final value = _controller.text.trim();
+    if (value.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      _messages.add(
+        _ChatMessage(
+          text: value,
+          time: _timeLabel(DateTime.now()),
+          isOutgoing: true,
+        ),
+      );
+      _controller.clear();
+    });
+  }
+
+  String _timeLabel(DateTime time) {
+    final period = time.hour >= 12 ? 'PM' : 'AM';
+    final hour = time.hour % 12 == 0 ? 12 : time.hour % 12;
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute $period';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,52 +147,49 @@ class _NusukChatPage extends StatelessWidget {
       color: const Color(0xFFF1F0EC),
       child: Column(
         children: [
-          const _ChatHeader(),
+          _ChatHeader(onBack: widget.onBack),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ListView(
-                children: const [
-                  SizedBox(height: 20),
-                  Center(
-                    child: Text(
-                      'Today 10:23 AM',
-                      style: TextStyle(color: Color(0xFF7C828E), fontSize: 21 / 2),
+              child: _messages.isEmpty
+                  ? const SizedBox.shrink()
+                  : ListView.separated(
+                      padding: const EdgeInsets.only(top: 16, bottom: 16),
+                      itemBuilder: (context, index) {
+                        final message = _messages[index];
+                        return _MessageBubble(message: message);
+                      },
+                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      itemCount: _messages.length,
                     ),
-                  ),
-                  SizedBox(height: 18),
-                  _IncomingMessage(
-                    text:
-                        'Salam! I am your AI companion for\nHajj and Umrah. How can I assist\nyou on your spiritual journey today?',
-                    time: '10:23 AM',
-                  ),
-                  SizedBox(height: 16),
-                  _OutgoingMessage(
-                    text: 'Where is the nearest medical center\nnear Al Haram?',
-                    time: '10:24 AM',
-                  ),
-                  SizedBox(height: 16),
-                  _IncomingMessage(
-                    text:
-                        'There is a primary healthcare center\nlocated in Ajyad Emergency\nHospital, just 5 minutes walking\ndistance from King Abdulaziz Gate.\n\nWould you like directions?',
-                    time: '10:24 AM',
-                  ),
-                  SizedBox(height: 16),
-                  _IncomingTypingBubble(),
-                  SizedBox(height: 16),
-                ],
-              ),
             ),
           ),
-          const _ChatComposer(),
+          _ChatComposer(
+            controller: _controller,
+            onSend: _sendMessage,
+          ),
         ],
       ),
     );
   }
 }
 
+class _ChatMessage {
+  const _ChatMessage({
+    required this.text,
+    required this.time,
+    required this.isOutgoing,
+  });
+
+  final String text;
+  final String time;
+  final bool isOutgoing;
+}
+
 class _ChatHeader extends StatelessWidget {
-  const _ChatHeader();
+  const _ChatHeader({required this.onBack});
+
+  final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -158,24 +198,27 @@ class _ChatHeader extends StatelessWidget {
       width: double.infinity,
       color: const Color(0xFFE2E2E2),
       padding: const EdgeInsets.symmetric(horizontal: 14),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(Icons.arrow_back, color: Color(0xFF6B5B48), size: 24),
-          SizedBox(width: 8),
-          CircleAvatar(
+          IconButton(
+            onPressed: onBack,
+            icon: const Icon(Icons.arrow_back, color: Color(0xFF6B5B48), size: 24),
+          ),
+          const SizedBox(width: 2),
+          const CircleAvatar(
             radius: 22,
             backgroundColor: Color(0xFFF9EFC4),
             child: Icon(Icons.auto_awesome, color: Color(0xFFF2B806), size: 24),
           ),
-          SizedBox(width: 10),
-          Expanded(
+          const SizedBox(width: 10),
+          const Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Nusuk AI',
-                  style: TextStyle(fontSize: 29 / 2, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
+                  style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
                 ),
                 Row(
                   children: [
@@ -190,93 +233,53 @@ class _ChatHeader extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Icons.more_vert, color: Color(0xFF5A4A35), size: 24),
+          const Icon(Icons.more_vert, color: Color(0xFF5A4A35), size: 24),
         ],
       ),
     );
   }
 }
 
-class _IncomingMessage extends StatelessWidget {
-  const _IncomingMessage({required this.text, required this.time});
+class _MessageBubble extends StatelessWidget {
+  const _MessageBubble({required this.message});
 
-  final String text;
-  final String time;
+  final _ChatMessage message;
 
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: message.isOutgoing ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         width: 292,
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
         decoration: BoxDecoration(
-          color: const Color(0xFFF5F5F5),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE8E8E8)),
+          color: message.isOutgoing ? const Color(0xFF846548) : const Color(0xFFF5F5F5),
+          borderRadius: BorderRadius.circular(message.isOutgoing ? 20 : 16),
+          border: message.isOutgoing ? null : Border.all(color: const Color(0xFFE8E8E8)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(text, style: const TextStyle(fontSize: 33 / 2, color: Color(0xFF253043), height: 1.45)),
+            Text(
+              message.text,
+              style: TextStyle(
+                fontSize: 16.5,
+                color: message.isOutgoing ? Colors.white : const Color(0xFF253043),
+                height: 1.45,
+              ),
+            ),
             const SizedBox(height: 8),
             Align(
               alignment: Alignment.centerRight,
-              child: Text(time, style: const TextStyle(fontSize: 10, color: Color(0xFF838A96))),
+              child: Text(
+                message.time,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: message.isOutgoing ? const Color(0xFFD9DCE2) : const Color(0xFF838A96),
+                ),
+              ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _OutgoingMessage extends StatelessWidget {
-  const _OutgoingMessage({required this.text, required this.time});
-
-  final String text;
-  final String time;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        width: 292,
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-        decoration: BoxDecoration(
-          color: const Color(0xFF846548),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(text, style: const TextStyle(fontSize: 33 / 2, color: Colors.white, height: 1.45)),
-            const SizedBox(height: 8),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(time, style: const TextStyle(fontSize: 10, color: Color(0xFFD9DCE2))),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _IncomingTypingBubble extends StatelessWidget {
-  const _IncomingTypingBubble();
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        width: 68,
-        height: 46,
-        decoration: BoxDecoration(
-          color: const Color(0xFFF5F5F5),
-          borderRadius: BorderRadius.circular(16),
         ),
       ),
     );
@@ -284,7 +287,13 @@ class _IncomingTypingBubble extends StatelessWidget {
 }
 
 class _ChatComposer extends StatelessWidget {
-  const _ChatComposer();
+  const _ChatComposer({
+    required this.controller,
+    required this.onSend,
+  });
+
+  final TextEditingController controller;
+  final VoidCallback onSend;
 
   @override
   Widget build(BuildContext context) {
@@ -313,18 +322,27 @@ class _ChatComposer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(19),
               ),
               alignment: Alignment.centerLeft,
-              child: const Text(
-                'Type a message...',
-                style: TextStyle(color: Color(0xFF5C4D40), fontSize: 16),
+              child: TextField(
+                controller: controller,
+                onSubmitted: (_) => onSend(),
+                decoration: const InputDecoration(
+                  hintText: 'Type a message...',
+                  hintStyle: TextStyle(color: Color(0xFF5C4D40), fontSize: 16),
+                  isCollapsed: true,
+                  border: InputBorder.none,
+                ),
               ),
             ),
           ),
           const SizedBox(width: 10),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: const BoxDecoration(color: Color(0xFFF9C216), shape: BoxShape.circle),
-            child: const Icon(Icons.send_outlined, color: Colors.white, size: 20),
+          GestureDetector(
+            onTap: onSend,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: const BoxDecoration(color: Color(0xFFF9C216), shape: BoxShape.circle),
+              child: const Icon(Icons.send_outlined, color: Colors.white, size: 20),
+            ),
           ),
         ],
       ),
