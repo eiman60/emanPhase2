@@ -682,6 +682,7 @@ class _AlertCircle extends StatelessWidget {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
+        backgroundColor: const Color(0xFFFFFFFF),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text(
           'الطوارئ',
@@ -743,7 +744,10 @@ class _EmergencyReportPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F6F0),
       appBar: AppBar(
-        title: const Text('الإبلاغ عن طارئ', style: TextStyle(fontFamily: 'Amiri', fontWeight: FontWeight.w700)),
+        title: const Text(
+          'الإبلاغ عن طارئ',
+          style: TextStyle(fontFamily: 'Amiri', fontWeight: FontWeight.w700, fontSize: 18),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
@@ -752,6 +756,50 @@ class _EmergencyReportPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const Text(
+              'الموقع',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontFamily: 'Amiri', fontSize: 20, fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              height: 140,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: const Color(0xFFE5E7EB)),
+              ),
+              child: const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.map_outlined, color: Color(0xFFEB4548), size: 34),
+                    SizedBox(height: 8),
+                    Text('مكان الخريطة / تحديد الموقع', style: TextStyle(fontFamily: 'Amiri', fontSize: 16)),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              textAlign: TextAlign.right,
+              decoration: InputDecoration(
+                hintText: 'أدخل الموقع أو اسم المكان',
+                hintStyle: const TextStyle(fontFamily: 'Amiri'),
+                prefixIcon: const Icon(Icons.location_on_outlined),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+                ),
+              ),
+            ),
+            const SizedBox(height: 18),
             const Text(
               'اختر نوع البلاغ الطارئ',
               textAlign: TextAlign.right,
