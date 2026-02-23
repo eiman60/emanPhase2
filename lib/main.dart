@@ -519,16 +519,7 @@ class _DiscoverSection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          const Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: _ServiceTilesGrid()),
-              SizedBox(width: 8),
-              Expanded(child: _TallFlightCard()),
-            ],
-          ),
-          const SizedBox(height: 8),
-          const _TrainCard(),
+          const _ServiceTilesGrid(),
         ],
       ),
     );
@@ -540,16 +531,32 @@ class _ServiceTilesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        _ServiceTile(icon: Icons.explore_outlined, label: 'استكشاف'),
-        _ServiceTile(icon: Icons.menu_book_outlined, label: 'الصلاة'),
-        _ServiceTile(icon: Icons.bed_outlined, label: 'الفنادق'),
-        _ServiceTile(icon: Icons.restaurant_outlined, label: 'المطاعم'),
-        _ServiceTile(icon: Icons.spa_outlined, label: 'السبحة'),
-      ],
+    const services = [
+      (Icons.explore_outlined, 'استكشاف'),
+      (Icons.menu_book_outlined, 'الصلاة'),
+      (Icons.restaurant_outlined, 'المطاعم'),
+      (Icons.bed_outlined, 'الفنادق'),
+      (Icons.spa_outlined, 'السبحة'),
+      (Icons.flight_outlined, 'الطيران'),
+      (Icons.train_outlined, 'القطار'),
+    ];
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final itemWidth = (constraints.maxWidth - 16) / 3;
+
+        return Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final service in services)
+              SizedBox(
+                width: itemWidth,
+                child: _ServiceTile(icon: service.$1, label: service.$2),
+              ),
+          ],
+        );
+      },
     );
   }
 }
@@ -588,8 +595,7 @@ class _ServiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 84,
-      height: 76,
+      height: 112,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
@@ -616,86 +622,3 @@ class _ServiceTile extends StatelessWidget {
   }
 }
 
-class _TallFlightCard extends StatelessWidget {
-  const _TallFlightCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 244,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEFF4FB),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            decoration: BoxDecoration(color: const Color(0xFFE3E7ED), borderRadius: BorderRadius.circular(6)),
-            child: const Text('New', style: TextStyle(fontSize: 10, color: Color(0xFF6B7280))),
-          ),
-          const Spacer(),
-          const Align(
-            child: Icon(Icons.flight_outlined, color: Color(0xFF3F83F8), size: 38),
-          ),
-          const Spacer(),
-          const Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'الطيران',
-              textDirection: TextDirection.rtl,
-              style: TextStyle(color: Color(0xFF1F2937), fontSize: 24, fontFamily: 'Amiri', fontWeight: FontWeight.w700),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TrainCard extends StatelessWidget {
-  const _TrainCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 88,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: const Color(0xFFD8F0E7)),
-                child: const Icon(Icons.train_outlined, size: 17, color: Color(0xFF059669)),
-              ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(color: const Color(0xFFE3E7ED), borderRadius: BorderRadius.circular(6)),
-                child: const Text('Popular', style: TextStyle(fontSize: 10, color: Color(0xFF6B7280))),
-              ),
-            ],
-          ),
-          const Spacer(),
-          const Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'قطار الحرمين',
-              textDirection: TextDirection.rtl,
-              style: TextStyle(color: Color(0xFF1F2937), fontSize: 24, fontFamily: 'Amiri', fontWeight: FontWeight.w700),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
