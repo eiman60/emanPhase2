@@ -301,7 +301,7 @@ class _ChatComposer extends StatelessWidget {
       height: 66,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: const BoxDecoration(
-        color: Color(0xFFEDECE8),
+        color: Color(0xFFFFFFFF),
         border: Border(top: BorderSide(color: Color(0xFFE4E2DD))),
       ),
       child: Row(
