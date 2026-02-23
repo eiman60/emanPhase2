@@ -438,7 +438,7 @@ class _QuranCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: Color(0xFFF8F6F0),
+        color: Color(0x614632),
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
