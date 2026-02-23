@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 /// Central place for all custom icon asset paths.
 ///
@@ -7,17 +6,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 /// This project currently uses the icon pack already stored in `lib/icons/`.
 class AppIcons {
   static const String user = 'lib/icons/image_1.png';
-  static const String wallet = 'lib/icons/image_11.svg';
+  static const String wallet = 'lib/icons/image_11.png';
   static const String notification = 'lib/icons/image_13.png';
-  static const String menu = 'lib/icons/image_14.svg';
+  static const String menu = 'lib/icons/image_14.png';
   static const String cube = 'lib/icons/image_5.png';
-  static const String rawdah = 'lib/icons/image_7.svg';
-  static const String hajj = 'lib/icons/image_8.svg';
-  static const String umrah = 'lib/icons/image_9.svg';
+  static const String rawdah = 'lib/icons/image_7.png';
+  static const String hajj = 'lib/icons/image_8.png';
+  static const String umrah = 'lib/icons/image_9.png';
   static const String alert = 'lib/icons/image_17.png';
   static const String image2 = 'lib/icons/image_2.png';
   static const String image3 = 'lib/icons/image_3.png';
-  static const String image12 = 'lib/icons/image_12.svg';
+  static const String image12 = 'lib/icons/image_12.png';
   static const String image15 = 'lib/icons/image_15.png';
 }
 
@@ -41,31 +40,18 @@ class AssetIconView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = assetPath.toLowerCase().endsWith('.svg')
-        ? SvgPicture.asset(
-            assetPath,
-            width: size,
-            height: size,
-            fit: BoxFit.contain,
-            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-            placeholderBuilder: (_) => Icon(
-              Icons.image_outlined,
-              size: size,
-              color: iconColor,
-            ),
-          )
-        : Image.asset(
-            assetPath,
-            width: size,
-            height: size,
-            color: iconColor,
-            fit: BoxFit.contain,
-            errorBuilder: (_, __, ___) => Icon(
-              Icons.image_outlined,
-              size: size,
-              color: iconColor,
-            ),
-          );
+    final icon = Image.asset(
+      assetPath,
+      width: size,
+      height: size,
+      color: iconColor,
+      fit: BoxFit.contain,
+      errorBuilder: (_, __, ___) => Icon(
+        Icons.image_outlined,
+        size: size,
+        color: iconColor,
+      ),
+    );
 
     if (backgroundColor == null) {
       return icon;
