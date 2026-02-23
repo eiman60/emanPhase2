@@ -196,7 +196,7 @@ class _ChatHeader extends StatelessWidget {
     return Container(
       height: 66,
       width: double.infinity,
-      color: const Color(0xFFE2E2E2),
+      color: const Color(0xFFFFFFFF),
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Row(
         children: [
