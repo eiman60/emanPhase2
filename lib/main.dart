@@ -66,7 +66,6 @@ class _NusukHomePageState extends State<NusukHomePage> {
                           _HeroSection(),
                           _QuranCard(),
                           _DiscoverSection(),
-                          _AiPromptCard(),
                           SizedBox(height: 24),
                         ],
                       ),
@@ -272,20 +271,10 @@ class _TopBar extends StatelessWidget {
         const CircleAvatar(
           radius: 18,
           backgroundColor: Color(0xFFF3B33B),
-          child: AssetIconView(assetPath: AppIcons.user, size: 16),
+          child: Icon(Icons.person_outline, size: 20, color: Color(0xFF1F2937)),
         ),
         const SizedBox(width: 10),
-        const Expanded(
-          child: Text(
-            'ahmed',
-            style: TextStyle(
-              color: Color(0xFFEDEDED),
-              fontSize: 30,
-              height: 1,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
+        const Spacer(),
         const _TopIcon(iconPath: AppIcons.wallet, size: 19),
         const SizedBox(width: 8),
         const _TopIcon(iconPath: AppIcons.notification, size: 19),
@@ -311,7 +300,7 @@ class _PrayerFocus extends StatelessWidget {
             border: Border.all(color: Colors.white24),
             color: const Color(0xFF7A5B42),
           ),
-          child: const Center(child: AssetIconView(assetPath: AppIcons.cube, size: 34)),
+          child: const Center(child: AssetIconView(assetPath: AppIcons.hajj, size: 34)),
         ),
         const SizedBox(height: 12),
         const Text("22 Sha'ban 1447", style: TextStyle(color: Colors.white70, fontSize: 14)),
@@ -507,21 +496,17 @@ class _DiscoverSection extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
       child: Column(
         children: [
-          const Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'اكتشف المزيد',
-                  style: TextStyle(
-                    color: Color(0xFF1E293B),
-                    fontSize: 42,
-                    fontFamily: 'Amiri',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+          const Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              'اكتشف المزيد',
+              style: TextStyle(
+                color: Color(0xFF1E293B),
+                fontSize: 42,
+                fontFamily: 'Amiri',
+                fontWeight: FontWeight.w700,
               ),
-              Text('Services', style: TextStyle(color: Color(0xFF6B7280), fontSize: 12)),
-            ],
+            ),
           ),
           const SizedBox(height: 10),
           const Row(
@@ -534,38 +519,44 @@ class _DiscoverSection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  children: const [
-                    _ServiceTile(icon: Icons.explore_outlined, label: 'استكشاف'),
-                    SizedBox(height: 8),
-                    _ServiceTile(icon: Icons.bed_outlined, label: 'الفنادق'),
-                    SizedBox(height: 8),
-                    _ServiceTile(icon: Icons.spa_outlined, label: 'السبحة'),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Column(
-                  children: const [
-                    _ServiceTile(icon: Icons.menu_book_outlined, label: 'الصلاة'),
-                    SizedBox(height: 8),
-                    _ServiceTile(icon: Icons.restaurant_outlined, label: 'المطاعم'),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Expanded(child: _TallFlightCard()),
-            ],
-          ),
-          const SizedBox(height: 8),
-          const _TrainCard(),
+          const _ServiceTilesGrid(),
         ],
       ),
+    );
+  }
+}
+
+class _ServiceTilesGrid extends StatelessWidget {
+  const _ServiceTilesGrid();
+
+  @override
+  Widget build(BuildContext context) {
+    const services = [
+      (Icons.explore_outlined, 'استكشاف'),
+      (Icons.menu_book_outlined, 'الصلاة'),
+      (Icons.restaurant_outlined, 'المطاعم'),
+      (Icons.bed_outlined, 'الفنادق'),
+      (Icons.spa_outlined, 'السبحة'),
+      (Icons.flight_outlined, 'الطيران'),
+      (Icons.train_outlined, 'القطار'),
+    ];
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final itemWidth = (constraints.maxWidth - 16) / 3;
+
+        return Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final service in services)
+              SizedBox(
+                width: itemWidth,
+                child: _ServiceTile(icon: service.$1, label: service.$2),
+              ),
+          ],
+        );
+      },
     );
   }
 }
@@ -604,7 +595,7 @@ class _ServiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 76,
+      height: 112,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
@@ -631,144 +622,3 @@ class _ServiceTile extends StatelessWidget {
   }
 }
 
-class _TallFlightCard extends StatelessWidget {
-  const _TallFlightCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 244,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEFF4FB),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            decoration: BoxDecoration(color: const Color(0xFFE3E7ED), borderRadius: BorderRadius.circular(6)),
-            child: const Text('New', style: TextStyle(fontSize: 10, color: Color(0xFF6B7280))),
-          ),
-          const Spacer(),
-          const Align(
-            child: Icon(Icons.flight_outlined, color: Color(0xFF3F83F8), size: 38),
-          ),
-          const Spacer(),
-          const Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'الطيران',
-              textDirection: TextDirection.rtl,
-              style: TextStyle(color: Color(0xFF1F2937), fontSize: 24, fontFamily: 'Amiri', fontWeight: FontWeight.w700),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TrainCard extends StatelessWidget {
-  const _TrainCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 88,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: const Color(0xFFD8F0E7)),
-                child: const Icon(Icons.train_outlined, size: 17, color: Color(0xFF059669)),
-              ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(color: const Color(0xFFE3E7ED), borderRadius: BorderRadius.circular(6)),
-                child: const Text('Popular', style: TextStyle(fontSize: 10, color: Color(0xFF6B7280))),
-              ),
-            ],
-          ),
-          const Spacer(),
-          const Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'قطار الحرمين',
-              textDirection: TextDirection.rtl,
-              style: TextStyle(color: Color(0xFF1F2937), fontSize: 24, fontFamily: 'Amiri', fontWeight: FontWeight.w700),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AiPromptCard extends StatelessWidget {
-  const _AiPromptCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF4F5F7),
-          borderRadius: BorderRadius.circular(12),
-          border: const Border(top: BorderSide(color: Color(0xFF10B981), width: 3)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(color: const Color(0xFFE5F7EF), borderRadius: BorderRadius.circular(14)),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.auto_awesome_outlined, color: Color(0xFF059669), size: 14),
-                  SizedBox(width: 4),
-                  Text('Try Nusuk AI', style: TextStyle(color: Color(0xFF059669), fontSize: 12, fontWeight: FontWeight.w600)),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Help me plan my upcoming journey.',
-              style: TextStyle(color: Color(0xFF1E293B), fontSize: 18, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              height: 44,
-              decoration: BoxDecoration(
-                color: const Color(0xFF3E2723),
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Colors.black, width: 1.5),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: const Row(
-                children: [
-                  Text('Ask and plan your journey', style: TextStyle(color: Colors.white, fontSize: 12)),
-                  Spacer(),
-                  Icon(Icons.arrow_forward, color: Colors.white, size: 18),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
