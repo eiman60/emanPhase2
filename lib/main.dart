@@ -271,7 +271,7 @@ class _TopBar extends StatelessWidget {
         const CircleAvatar(
           radius: 18,
           backgroundColor: Color(0xFFF3B33B),
-          child: AssetIconView(assetPath: AppIcons.user, size: 16),
+          child: Icon(Icons.person_outline, size: 20, color: Color(0xFF1F2937)),
         ),
         const SizedBox(width: 10),
         const Spacer(),
@@ -300,7 +300,7 @@ class _PrayerFocus extends StatelessWidget {
             border: Border.all(color: Colors.white24),
             color: const Color(0xFF7A5B42),
           ),
-          child: const Center(child: AssetIconView(assetPath: AppIcons.cube, size: 34)),
+          child: const Center(child: AssetIconView(assetPath: AppIcons.hajj, size: 34)),
         ),
         const SizedBox(height: 12),
         const Text("22 Sha'ban 1447", style: TextStyle(color: Colors.white70, fontSize: 14)),
