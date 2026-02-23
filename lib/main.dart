@@ -40,6 +40,15 @@ class _NusukHomePageState extends State<NusukHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget page;
+    if (_selectedIndex == 0) {
+      page = const _HomePage();
+    } else if (_selectedIndex == 2) {
+      page = const _NusukChatPage();
+    } else {
+      page = _NavPlaceholderPage(pageIndex: _selectedIndex);
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8F6F0),
       bottomNavigationBar: SafeArea(
@@ -53,30 +62,272 @@ class _NusukHomePageState extends State<NusukHomePage> {
           ),
         ),
       ),
-      body: _selectedIndex == 0
-          ? SafeArea(
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 375),
-                  child: const ColoredBox(
-                    color: Color(0xFFF8F6F0),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          _HeroSection(),
-                          _QuranCard(),
-                          _DiscoverSection(),
-                          SizedBox(height: 24),
-                        ],
-                      ),
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 375),
+            child: page,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HomePage extends StatelessWidget {
+  const _HomePage();
+
+  @override
+  Widget build(BuildContext context) {
+    return const ColoredBox(
+      color: Color(0xFFF8F6F0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _HeroSection(),
+            _QuranCard(),
+            _DiscoverSection(),
+            SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NusukChatPage extends StatelessWidget {
+  const _NusukChatPage();
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: const Color(0xFFF1F0EC),
+      child: Column(
+        children: [
+          const _ChatHeader(),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListView(
+                children: const [
+                  SizedBox(height: 20),
+                  Center(
+                    child: Text(
+                      'Today 10:23 AM',
+                      style: TextStyle(color: Color(0xFF7C828E), fontSize: 21 / 2),
                     ),
                   ),
-                ),
+                  SizedBox(height: 18),
+                  _IncomingMessage(
+                    text:
+                        'Salam! I am your AI companion for\nHajj and Umrah. How can I assist\nyou on your spiritual journey today?',
+                    time: '10:23 AM',
+                  ),
+                  SizedBox(height: 16),
+                  _OutgoingMessage(
+                    text: 'Where is the nearest medical center\nnear Al Haram?',
+                    time: '10:24 AM',
+                  ),
+                  SizedBox(height: 16),
+                  _IncomingMessage(
+                    text:
+                        'There is a primary healthcare center\nlocated in Ajyad Emergency\nHospital, just 5 minutes walking\ndistance from King Abdulaziz Gate.\n\nWould you like directions?',
+                    time: '10:24 AM',
+                  ),
+                  SizedBox(height: 16),
+                  _IncomingTypingBubble(),
+                  SizedBox(height: 16),
+                ],
               ),
-            )
-          : SafeArea(
-              child: _NavPlaceholderPage(pageIndex: _selectedIndex),
             ),
+          ),
+          const _ChatComposer(),
+        ],
+      ),
+    );
+  }
+}
+
+class _ChatHeader extends StatelessWidget {
+  const _ChatHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 66,
+      width: double.infinity,
+      color: const Color(0xFFE2E2E2),
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      child: const Row(
+        children: [
+          Icon(Icons.arrow_back, color: Color(0xFF6B5B48), size: 24),
+          SizedBox(width: 8),
+          CircleAvatar(
+            radius: 22,
+            backgroundColor: Color(0xFFF9EFC4),
+            child: Icon(Icons.auto_awesome, color: Color(0xFFF2B806), size: 24),
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Nusuk AI',
+                  style: TextStyle(fontSize: 29 / 2, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.circle, size: 8, color: Color(0xFF1D4ED8)),
+                    SizedBox(width: 4),
+                    Text(
+                      'Online',
+                      style: TextStyle(fontSize: 11, color: Color(0xFF1D4ED8), fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.more_vert, color: Color(0xFF5A4A35), size: 24),
+        ],
+      ),
+    );
+  }
+}
+
+class _IncomingMessage extends StatelessWidget {
+  const _IncomingMessage({required this.text, required this.time});
+
+  final String text;
+  final String time;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        width: 292,
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF5F5F5),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFE8E8E8)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(text, style: const TextStyle(fontSize: 33 / 2, color: Color(0xFF253043), height: 1.45)),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(time, style: const TextStyle(fontSize: 10, color: Color(0xFF838A96))),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OutgoingMessage extends StatelessWidget {
+  const _OutgoingMessage({required this.text, required this.time});
+
+  final String text;
+  final String time;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        width: 292,
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+        decoration: BoxDecoration(
+          color: const Color(0xFF846548),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(text, style: const TextStyle(fontSize: 33 / 2, color: Colors.white, height: 1.45)),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(time, style: const TextStyle(fontSize: 10, color: Color(0xFFD9DCE2))),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _IncomingTypingBubble extends StatelessWidget {
+  const _IncomingTypingBubble();
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        width: 68,
+        height: 46,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF5F5F5),
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
+    );
+  }
+}
+
+class _ChatComposer extends StatelessWidget {
+  const _ChatComposer();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 66,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: const BoxDecoration(
+        color: Color(0xFFEDECE8),
+        border: Border(top: BorderSide(color: Color(0xFFE4E2DD))),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: const BoxDecoration(color: Color(0xFFE7E2D7), shape: BoxShape.circle),
+            child: const Icon(Icons.add, color: Color(0xFF5D4B39), size: 22),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Container(
+              height: 38,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1EFE8),
+                borderRadius: BorderRadius.circular(19),
+              ),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Type a message...',
+                style: TextStyle(color: Color(0xFF5C4D40), fontSize: 16),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            width: 40,
+            height: 40,
+            decoration: const BoxDecoration(color: Color(0xFFF9C216), shape: BoxShape.circle),
+            child: const Icon(Icons.send_outlined, color: Colors.white, size: 20),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -621,4 +872,3 @@ class _ServiceTile extends StatelessWidget {
     );
   }
 }
-
