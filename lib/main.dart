@@ -672,17 +672,50 @@ class _ActionCircle extends StatelessWidget {
 class _AlertCircle extends StatelessWidget {
   const _AlertCircle();
 
+  void _showEmergencyDialog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text(
+          'الطوارئ',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontFamily: 'Amiri', fontWeight: FontWeight.w700),
+        ),
+        content: const Text(
+          'إذا كنت بحاجة إلى المساعدة الفورية، يرجى التواصل مع أقرب نقطة خدمة أو الاتصال برقم الطوارئ المحلي.',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontFamily: 'Amiri', height: 1.5),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('إغلاق', style: TextStyle(fontFamily: 'Amiri', fontSize: 16)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        CircleAvatar(
-          radius: 28,
-          backgroundColor: Color(0xFFEB4548),
-          child: AssetIconView(assetPath: AppIcons.alert, size: 20),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            customBorder: const CircleBorder(),
+            onTap: () => _showEmergencyDialog(context),
+            child: const CircleAvatar(
+              radius: 28,
+              backgroundColor: Color(0xFFEB4548),
+              child: AssetIconView(assetPath: AppIcons.alert, size: 20),
+            ),
+          ),
         ),
-        SizedBox(height: 6),
-        Text('الطوارئ', style: TextStyle(color: Colors.white, fontFamily: 'Amiri', fontSize: 16)),
+        const SizedBox(height: 6),
+        const Text('الطوارئ', style: TextStyle(color: Colors.white, fontFamily: 'Amiri', fontSize: 16)),
       ],
     );
   }
