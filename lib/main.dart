@@ -722,10 +722,22 @@ class _AlertCircle extends StatelessWidget {
           child: InkWell(
             customBorder: const CircleBorder(),
             onTap: () => _showEmergencyDialog(context),
-            child: const CircleAvatar(
-              radius: 28,
-              backgroundColor: Color(0xFFEB4548),
-              child: AssetIconView(assetPath: AppIcons.alert, size: 20),
+            child: Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x66EB4548),
+                    blurRadius: 18,
+                    spreadRadius: 4,
+                  ),
+                ],
+              ),
+              child: const CircleAvatar(
+                radius: 28,
+                backgroundColor: Color(0xFFEB4548),
+                child: AssetIconView(assetPath: AppIcons.alert, size: 20),
+              ),
             ),
           ),
         ),
