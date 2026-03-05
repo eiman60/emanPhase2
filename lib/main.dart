@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'app_icons.dart';
+import 'widgets/main_bottom_nav_bar.dart';
+import 'widgets/top_bar.dart';
 
 void main() {
   runApp(const NusukApp());
@@ -58,7 +60,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
               minimum: const EdgeInsets.only(bottom: 6),
               child: SizedBox(
                 height: 60,
-                child: _MainBottomNavBar(
+                child: MainBottomNavBar(
                   selectedIndex: _selectedIndex,
                   onTap: _onNavTap,
                 ),
@@ -350,98 +352,6 @@ class _ChatComposer extends StatelessWidget {
   }
 }
 
-class _MainBottomNavBar extends StatelessWidget {
-  const _MainBottomNavBar({required this.selectedIndex, required this.onTap});
-
-  final int selectedIndex;
-  final ValueChanged<int> onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(28),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _NavIconItem(
-            assetPath: AppIcons.hajj,
-            index: 0,
-            selectedIndex: selectedIndex,
-            onTap: onTap,
-          ),
-          _NavIconItem(
-            assetPath: AppIcons.image12,
-            index: 1,
-            selectedIndex: selectedIndex,
-            onTap: onTap,
-          ),
-          _NavIconItem(
-            assetPath: AppIcons.image15,
-            index: 2,
-            selectedIndex: selectedIndex,
-            onTap: onTap,
-          ),
-          _NavIconItem(
-            assetPath: AppIcons.image2,
-            index: 3,
-            selectedIndex: selectedIndex,
-            onTap: onTap,
-          ),
-          _NavIconItem(
-            assetPath: AppIcons.image3,
-            index: 4,
-            selectedIndex: selectedIndex,
-            onTap: onTap,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _NavIconItem extends StatelessWidget {
-  const _NavIconItem({
-    required this.assetPath,
-    required this.index,
-    required this.selectedIndex,
-    required this.onTap,
-  });
-
-  final String assetPath;
-  final int index;
-  final int selectedIndex;
-  final ValueChanged<int> onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final isSelected = index == selectedIndex;
-
-    return GestureDetector(
-      onTap: () => onTap(index),
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          color: isSelected ? const Color(0x160E0E16) : Colors.transparent,
-        ),
-        child: AssetIconView(
-          assetPath: assetPath,
-          size: 28,
-          iconColor: const Color(0xFF0E0E16),
-        ),
-      ),
-    );
-  }
-}
-
 class _NavPlaceholderPage extends StatelessWidget {
   const _NavPlaceholderPage({required this.pageIndex});
 
@@ -518,38 +428,13 @@ class _HeroSection extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
       child: Column(
         children: const [
-          _TopBar(),
+          HomeTopBar(),
           SizedBox(height: 22),
           _PrayerFocus(),
           SizedBox(height: 18),
           _FeatureActions(),
         ],
       ),
-    );
-  }
-}
-
-class _TopBar extends StatelessWidget {
-  const _TopBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const CircleAvatar(
-          radius: 18,
-          backgroundColor: Color(0xFFF3B33B),
-          child: Icon(Icons.person_outline, size: 20, color: Colors.white),
-        ),
-        const SizedBox(width: 10),
-        const Spacer(),
-        const _TopIcon(iconPath: AppIcons.wallet, size: 19),
-        const SizedBox(width: 8),
-        const _TopIcon(iconPath: AppIcons.notification, size: 19),
-        const SizedBox(width: 8),
-        const _TopIcon(iconPath: AppIcons.menu, size: 19),
-      ],
     );
   }
 }
@@ -600,23 +485,6 @@ class _PrayerFocus extends StatelessWidget {
   }
 }
 
-class _TopIcon extends StatelessWidget {
-  const _TopIcon({required this.iconPath, this.size = 15});
-
-  final String iconPath;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return AssetIconView(
-      assetPath: iconPath,
-      size: size,
-      iconColor: const Color(0xFFEDEDED),
-      backgroundColor: Colors.transparent,
-      padding: EdgeInsets.zero,
-    );
-  }
-}
 
 class _FeatureActions extends StatelessWidget {
   const _FeatureActions();
