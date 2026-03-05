@@ -838,33 +838,42 @@ class _DiscoverSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-      child: Column(
-        children: [
-          const Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'اكتشف المزيد',
-              style: TextStyle(
-                color: Color(0xFF1E293B),
-                fontSize: 34,
-                fontFamily: 'Amiri',
-                fontWeight: FontWeight.w700,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.fromLTRB(14, 14, 14, 16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFFFFF),
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: const [BoxShadow(color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2))],
+        ),
+        child: const Column(
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'اكتشف المزيد',
+                style: TextStyle(
+                  color: Color(0xFF1E293B),
+                  fontSize: 34,
+                  fontFamily: 'Amiri',
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-          const Row(
-            children: [
-              _FilterChip(label: 'All', selected: true),
-              SizedBox(width: 8),
-              _FilterChip(icon: Icons.nights_stay_outlined),
-              SizedBox(width: 8),
-              _FilterChip(icon: Icons.wallet_membership_outlined),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const _ServiceTilesGrid(),
-        ],
+            SizedBox(height: 10),
+            Row(
+              children: [
+                _FilterChip(label: 'All', selected: true),
+                SizedBox(width: 8),
+                _FilterChip(icon: Icons.nights_stay_outlined),
+                SizedBox(width: 8),
+                _FilterChip(icon: Icons.wallet_membership_outlined),
+              ],
+            ),
+            SizedBox(height: 10),
+            _ServiceTilesGrid(),
+          ],
+        ),
       ),
     );
   }
