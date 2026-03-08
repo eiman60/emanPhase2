@@ -513,9 +513,9 @@ class _ServiceTile extends StatelessWidget {
             textAlign: fullWidthLabel ? TextAlign.left : TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF1F2937),
-              fontSize: 23,
+              fontSize: 16,
               fontFamily: 'Amiri',
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ],
