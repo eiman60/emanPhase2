@@ -10,7 +10,7 @@ class Page1Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ColoredBox(
-      color: Color(0xFFF8F6F0),
+      color: Color(0xFFEB4548),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -312,7 +312,7 @@ class _DiscoverSection extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(10, 14, 10, 12),
         decoration: BoxDecoration(
-          color: const Color(0xFFF2F0EC),
+          color: const Color(0xFFEB4548),
           borderRadius: BorderRadius.circular(24),
         ),
         child: const Column(
