@@ -10,7 +10,7 @@ class Page1Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ColoredBox(
-      color: Color(0xFFF8F6F0),
+      color: Color(0xFFEB4548),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -310,37 +310,44 @@ class _DiscoverSection extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(14, 14, 14, 16),
+        padding: const EdgeInsets.fromLTRB(10, 14, 10, 12),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFFFFF),
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: const [BoxShadow(color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2))],
+          color: const Color(0xFFEB4548),
+          borderRadius: BorderRadius.circular(24),
         ),
         child: const Column(
           children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'اكتشف المزيد',
-                style: TextStyle(
-                  color: Color(0xFF1E293B),
-                  fontSize: 34,
-                  fontFamily: 'Amiri',
-                  fontWeight: FontWeight.w700,
-                ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4),
+              child: Row(
+                children: [
+                  Text('Services', style: TextStyle(color: Color(0xFF8A8F98), fontSize: 13)),
+                  Spacer(),
+                  Text(
+                    'اكتشف المزيد',
+                    style: TextStyle(
+                      color: Color(0xFF2D3239),
+                      fontSize: 23,
+                      fontFamily: 'Amiri',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 12),
             Row(
               children: [
-                _FilterChip(label: 'All', selected: true),
                 SizedBox(width: 8),
-                _FilterChip(icon: Icons.nights_stay_outlined),
+                _FilterChip(icon: Icons.wallet_travel_outlined, width: 102),
+                SizedBox(width: 10),
+                _FilterChip(icon: Icons.dark_mode_outlined, width: 102),
+                Spacer(),
+                _FilterChip(label: 'All', selected: true, width: 66),
                 SizedBox(width: 8),
-                _FilterChip(icon: Icons.wallet_membership_outlined),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 12),
             _ServiceTilesGrid(),
           ],
         ),
@@ -354,89 +361,161 @@ class _ServiceTilesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const services = [
-      (Icons.explore_outlined, 'استكشاف'),
-      (Icons.menu_book_outlined, 'الصلاة'),
-      (Icons.restaurant_outlined, 'المطاعم'),
-      (Icons.bed_outlined, 'الفنادق'),
-      (Icons.spa_outlined, 'السبحة'),
-      (Icons.flight_outlined, 'الطيران'),
-      (Icons.train_outlined, 'القطار'),
-    ];
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final itemWidth = (constraints.maxWidth - 16) / 3;
-
-        return Wrap(
-          spacing: 8,
-          runSpacing: 8,
+    return Column(
+      children: const [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for (final service in services)
-              SizedBox(
-                width: itemWidth,
-                child: _ServiceTile(icon: service.$1, label: service.$2),
+            Expanded(
+              child: _ServiceTile(
+                icon: Icons.flight_outlined,
+                label: 'الطيران',
+                badge: 'New',
+                iconColor: Color(0xFF4F8FF9),
+                height: 226,
               ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                children: [
+                  _ServiceTile(icon: Icons.menu_book_outlined, label: 'الصلاة'),
+                  SizedBox(height: 10),
+                  _ServiceTile(icon: Icons.no_food_outlined, label: 'المطاعم'),
+                ],
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                children: [
+                  _ServiceTile(
+                    icon: Icons.explore_outlined,
+                    label: 'استكشاف',
+                    iconBackground: Color(0xFFFFECD0),
+                    iconColor: Color(0xFFEE9A16),
+                  ),
+                  SizedBox(height: 10),
+                  _ServiceTile(icon: Icons.bed_outlined, label: 'الفنادق'),
+                ],
+              ),
+            ),
           ],
-        );
-      },
+        ),
+        SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: _ServiceTile(
+                icon: Icons.train_outlined,
+                label: 'قطار الحرمين',
+                badge: 'Popular',
+                iconBackground: Color(0xFFD8F3DE),
+                iconColor: Color(0xFF4FA567),
+                height: 104,
+                fullWidthLabel: true,
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(child: _ServiceTile(icon: Icons.diamond_outlined, label: 'السبحة', height: 104)),
+          ],
+        ),
+      ],
     );
   }
 }
 
 class _FilterChip extends StatelessWidget {
-  const _FilterChip({this.label, this.icon, this.selected = false});
+  const _FilterChip({this.label, this.icon, this.selected = false, this.width = 50});
 
   final String? label;
   final IconData? icon;
   final bool selected;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50,
-      height: 50,
+      width: width,
+      height: 58,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: selected ? const Color(0xFF3E2723) : const Color(0xFFFFFFFF),
+        borderRadius: BorderRadius.circular(18),
+        color: selected ? const Color(0xFF452824) : const Color(0xFFFFFFFF),
       ),
       child: Center(
         child: label != null
-            ? Text(label!, style: TextStyle(color: selected ? Colors.white : Colors.black, fontSize: 12))
-            : Icon(icon, size: 21, color: const Color(0xFF121826)),
+            ? Text(
+                label!,
+                style: TextStyle(color: selected ? Colors.white : Colors.black, fontSize: 23, fontFamily: 'Amiri'),
+              )
+            : Icon(icon, size: 22, color: const Color(0xFF573B34)),
       ),
     );
   }
 }
 
 class _ServiceTile extends StatelessWidget {
-  const _ServiceTile({required this.icon, required this.label});
+  const _ServiceTile({
+    required this.icon,
+    required this.label,
+    this.badge,
+    this.iconBackground,
+    this.iconColor,
+    this.height = 106,
+    this.fullWidthLabel = false,
+  });
 
   final IconData icon;
   final String label;
+  final String? badge;
+  final Color? iconBackground;
+  final Color? iconColor;
+  final double height;
+  final bool fullWidthLabel;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 112,
-      padding: const EdgeInsets.all(10),
+      height: height,
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(11, 10, 11, 12),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Icon(icon, size: 20),
+          if (badge != null)
+            Text(badge!, style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 12))
+          else
+            const SizedBox(height: 16),
+          const Spacer(),
+          Align(
+            alignment: fullWidthLabel ? Alignment.centerLeft : Alignment.center,
+            child: Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: iconBackground ?? const Color(0x00000000),
+              ),
+              child: Icon(icon, size: 22, color: iconColor ?? const Color(0xFF573B34)),
+            ),
+          ),
           const Spacer(),
           Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             textDirection: TextDirection.rtl,
+            textAlign: fullWidthLabel ? TextAlign.left : TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF1F2937),
-              fontSize: 13,
+              fontSize: 16,
               fontFamily: 'Amiri',
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ],
