@@ -327,7 +327,7 @@ class _DiscoverSection extends StatelessWidget {
                     'اكتشف المزيد',
                     style: TextStyle(
                       color: Color(0xFF2D3239),
-                      fontSize: 38,
+                      fontSize: 23,
                       fontFamily: 'Amiri',
                       fontWeight: FontWeight.w700,
                     ),
@@ -447,7 +447,7 @@ class _FilterChip extends StatelessWidget {
         child: label != null
             ? Text(
                 label!,
-                style: TextStyle(color: selected ? Colors.white : Colors.black, fontSize: 32, fontFamily: 'Amiri'),
+                style: TextStyle(color: selected ? Colors.white : Colors.black, fontSize: 23, fontFamily: 'Amiri'),
               )
             : Icon(icon, size: 22, color: const Color(0xFF573B34)),
       ),
@@ -513,7 +513,7 @@ class _ServiceTile extends StatelessWidget {
             textAlign: fullWidthLabel ? TextAlign.left : TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF1F2937),
-              fontSize: 34,
+              fontSize: 23,
               fontFamily: 'Amiri',
               fontWeight: FontWeight.w700,
             ),
