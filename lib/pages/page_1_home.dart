@@ -9,16 +9,73 @@ class Page1Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: Color(0xFFEB4548),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            _HeroSection(),
-            _QuranCard(),
-            _DiscoverSection(),
-            SizedBox(height: 24),
-          ],
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      // AppBar سيكون شفافاً ويأخذ لون الخلفية
+      appBar: AppBar(
+        backgroundColor: Colors.transparent, // شفاف
+        elevation: 0, // بدون ظل
+        leading: const Padding(
+          padding: EdgeInsets.only(right: 10),
+          child: CircleAvatar(
+            radius: 20,
+            backgroundColor: Color(0xFFF3B33B),
+            child: Icon(Icons.person_outline, size: 25, color: Colors.white),
+          ),
+        ),
+        actions: const [
+          TopIcon(iconPath: AppIcons.wallet, size: 25),
+          SizedBox(width: 8),
+          TopIcon(iconPath: AppIcons.notification, size: 25),
+          SizedBox(width: 8),
+          TopIcon(iconPath: AppIcons.menu, size: 25),
+          SizedBox(width: 15),
+        ],
+
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF8A6A4E),
+              Color(0xFF6F513A),
+              Color(0xFF523A29),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const _HeroSection(),
+              Container(
+                height: 900,
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0x12000000),
+                        blurRadius: 8,
+                        offset: Offset(0, 2))
+                  ],
+                ),
+                child: const Column(
+                  children: [
+                    _QuranCard(),
+                    _DiscoverSection(),
+                    SizedBox(height: 24),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -31,23 +88,12 @@ class _HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: RadialGradient(
-          center: Alignment(0, -0.6),
-          radius: 1.35,
-          colors: [
-            Color(0xFF8A6A4E),
-            Color(0xFF6F513A),
-            Color(0xFF523A29),
-          ],
-        ),
-      ),
+      // width: double.maxFinite,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
-      child: Column(
-        children: const [
-          HomeTopBar(),
-          SizedBox(height: 22),
+      child: const Column(
+        children: [
+          //  HomeTopBar(),
+          SizedBox(height: 100),
           _PrayerFocus(),
           SizedBox(height: 18),
           _FeatureActions(),
@@ -72,14 +118,17 @@ class _PrayerFocus extends StatelessWidget {
             border: Border.all(color: Colors.white24),
             color: const Color(0xFF7A5B42),
           ),
-          child: const Center(child: AssetIconView(assetPath: AppIcons.hajj, size: 34)),
+          child: const Center(
+              child: AssetIconView(assetPath: AppIcons.hajj, size: 34)),
         ),
         const SizedBox(height: 12),
-        const Text("22 Sha'ban 1447", style: TextStyle(color: Colors.white70, fontSize: 14)),
+        const Text("22 Sha'ban 1447",
+            style: TextStyle(color: Colors.white70, fontSize: 14)),
         const SizedBox(height: 4),
         const Text(
           'Fajr 5:25 AM',
-          style: TextStyle(color: Colors.white, fontSize: 47, fontWeight: FontWeight.w300),
+          style: TextStyle(
+              color: Colors.white, fontSize: 47, fontWeight: FontWeight.w300),
         ),
         const SizedBox(height: 14),
         Container(
@@ -94,7 +143,8 @@ class _PrayerFocus extends StatelessWidget {
             children: [
               Icon(Icons.wb_sunny_outlined, color: Color(0xFFFCC83D), size: 16),
               SizedBox(width: 6),
-              Text('Goodness starts with Dhikr Allah', style: TextStyle(color: Colors.white, fontSize: 11)),
+              Text('Goodness starts with Dhikr Allah',
+                  style: TextStyle(color: Colors.white, fontSize: 11)),
             ],
           ),
         ),
@@ -108,10 +158,11 @@ class _FeatureActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: const [
-        _ActionCircle(iconPath: AppIcons.rawdah, label: 'الروضة', selected: true),
+      children: [
+        _ActionCircle(
+            iconPath: AppIcons.rawdah, label: 'الروضة', selected: true),
         _ActionCircle(iconPath: AppIcons.hajj, label: 'الحج'),
         _ActionCircle(iconPath: AppIcons.umrah, label: 'العمره'),
         _AlertCircle(),
@@ -121,7 +172,8 @@ class _FeatureActions extends StatelessWidget {
 }
 
 class _ActionCircle extends StatelessWidget {
-  const _ActionCircle({required this.iconPath, required this.label, this.selected = false});
+  const _ActionCircle(
+      {required this.iconPath, required this.label, this.selected = false});
 
   final String iconPath;
   final String label;
@@ -136,7 +188,9 @@ class _ActionCircle extends StatelessWidget {
           height: 56,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            color: selected ? Colors.white.withAlpha(18) : Colors.white.withAlpha(10),
+            color: selected
+                ? Colors.white.withAlpha(18)
+                : Colors.white.withAlpha(10),
             border: Border.all(color: Colors.white24),
           ),
           child: Center(
@@ -148,7 +202,9 @@ class _ActionCircle extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        Text(label, style: const TextStyle(color: Colors.white, fontFamily: 'Amiri', fontSize: 16)),
+        Text(label,
+            style: const TextStyle(
+                color: Colors.white, fontFamily: 'Amiri', fontSize: 16)),
       ],
     );
   }
@@ -183,15 +239,18 @@ class _AlertCircle extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('إغلاق', style: TextStyle(fontFamily: 'Amiri', fontSize: 16)),
+            child: const Text('إغلاق',
+                style: TextStyle(fontFamily: 'Amiri', fontSize: 16)),
           ),
           FilledButton(
             onPressed: () {
               Navigator.of(dialogContext).pop();
               _openEmergencyReportPage(context);
             },
-            style: FilledButton.styleFrom(backgroundColor: const Color(0xFFEB4548)),
-            child: const Text('الإبلاغ عن حالة طارئة', style: TextStyle(fontFamily: 'Amiri', fontSize: 16)),
+            style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFFEB4548)),
+            child: const Text('الإبلاغ عن حالة طارئة',
+                style: TextStyle(fontFamily: 'Amiri', fontSize: 16)),
           ),
         ],
       ),
@@ -227,7 +286,9 @@ class _AlertCircle extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        const Text('الطوارئ', style: TextStyle(color: Colors.white, fontFamily: 'Amiri', fontSize: 16)),
+        const Text('الطوارئ',
+            style: TextStyle(
+                color: Colors.white, fontFamily: 'Amiri', fontSize: 16)),
       ],
     );
   }
@@ -239,63 +300,62 @@ class _QuranCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0x614632),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      height: 280,
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFFFFF),
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: const [
+          BoxShadow(
+              color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2))
+        ],
       ),
-      padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
-      child: Container(
-        height: 280,
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-        decoration: BoxDecoration(
-          color: const Color(0xFFFFFFFF),
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: const [BoxShadow(color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2))],
-        ),
-        child: Column(
-          children: [
-            const Row(
+      child: Column(
+        children: [
+          const Row(
+            children: [
+              Icon(Icons.menu_book_outlined,
+                  color: Color(0xFF2565EB), size: 17),
+              Spacer(),
+              Text(
+                'القرآن الكريم',
+                style: TextStyle(
+                  color: Color(0xFF1F2938),
+                  fontSize: 23,
+                  fontFamily: 'Amiri',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          const Text('Al-Fatiha • Verse 1 • Page 1',
+              style: TextStyle(color: Color(0xFF6B7280), fontSize: 11)),
+          const SizedBox(height: 12),
+          Container(
+            width: 176,
+            height: 38,
+            decoration: BoxDecoration(
+                color: const Color(0xFFF8F9FA),
+                borderRadius: BorderRadius.circular(20)),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.menu_book_outlined, color: Color(0xFF2565EB), size: 17),
-                Spacer(),
                 Text(
-                  'القرآن الكريم',
+                  'ابدا تلاوتك',
                   style: TextStyle(
-                    color: Color(0xFF1F2938),
                     fontSize: 23,
+                    color: Color(0xFF1F2938),
                     fontFamily: 'Amiri',
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+                SizedBox(width: 8),
+                Icon(Icons.arrow_forward, size: 16),
               ],
             ),
-            const Spacer(),
-            const Text('Al-Fatiha • Verse 1 • Page 1', style: TextStyle(color: Color(0xFF6B7280), fontSize: 11)),
-            const SizedBox(height: 12),
-            Container(
-              width: 176,
-              height: 38,
-              decoration: BoxDecoration(color: const Color(0xFFF8F9FA), borderRadius: BorderRadius.circular(20)),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'ابدا تلاوتك',
-                    style: TextStyle(
-                      fontSize: 23,
-                      color: Color(0xFF1F2938),
-                      fontFamily: 'Amiri',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Icon(Icons.arrow_forward, size: 16),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -312,14 +372,8 @@ class _DiscoverSection extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(14, 14, 14, 16),
         decoration: BoxDecoration(
-<<<<<<< HEAD
-          color: const Color(0xFFFFFFFF),
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: const [BoxShadow(color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2))],
-=======
           color: const Color(0xFFEB4548),
           borderRadius: BorderRadius.circular(24),
->>>>>>> 5d249b5c2ad377f6a78746f4b0fabb9654d914b7
         ),
         child: const Column(
           children: [
@@ -407,7 +461,10 @@ class _FilterChip extends StatelessWidget {
       ),
       child: Center(
         child: label != null
-            ? Text(label!, style: TextStyle(color: selected ? Colors.white : Colors.black, fontSize: 12))
+            ? Text(label!,
+                style: TextStyle(
+                    color: selected ? Colors.white : Colors.black,
+                    fontSize: 12))
             : Icon(icon, size: 21, color: const Color(0xFF121826)),
       ),
     );

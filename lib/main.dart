@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'pages/nusuk_home_page.dart';
 
@@ -18,6 +19,12 @@ class NusukApp extends StatelessWidget {
         fontFamily: 'Roboto',
       ),
       home: const NusukHomePage(),
+      builder: (context, child) {
+        return Directionality(
+          textDirection: TextDirection.rtl, // تحديد اتجاه النصوص
+          child: child!,
+        );
+      },
     );
   }
 }
