@@ -17,18 +17,18 @@ class HomeTopBar extends StatelessWidget {
         ),
         SizedBox(width: 10),
         Spacer(),
-        _TopIcon(iconPath: AppIcons.wallet, size: 19),
+        TopIcon(iconPath: AppIcons.wallet, size: 19),
         SizedBox(width: 8),
-        _TopIcon(iconPath: AppIcons.notification, size: 19),
+        TopIcon(iconPath: AppIcons.notification, size: 19),
         SizedBox(width: 8),
-        _TopIcon(iconPath: AppIcons.menu, size: 19),
+        TopIcon(iconPath: AppIcons.menu, size: 19),
       ],
     );
   }
 }
 
-class _TopIcon extends StatelessWidget {
-  const _TopIcon({required this.iconPath, this.size = 15});
+class TopIcon extends StatelessWidget {
+  const TopIcon({required this.iconPath, this.size = 15});
 
   final String iconPath;
   final double size;

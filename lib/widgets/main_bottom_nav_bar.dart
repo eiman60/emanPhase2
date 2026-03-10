@@ -15,12 +15,11 @@ class MainBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(28),
+        // borderRadius: BorderRadius.circular(28),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

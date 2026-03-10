@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../widgets/main_bottom_nav_bar.dart';
 import 'page_1_home.dart';
@@ -15,49 +16,72 @@ class NusukHomePage extends StatefulWidget {
 }
 
 class _NusukHomePageState extends State<NusukHomePage> {
-  int _selectedIndex = 0;
+  int currentIndex = 0;
 
-  void _onNavTap(int index) {
+  List pages = [
+    const Page1Home(),
+    const Page2(),
+    const Page4(),
+    const Page5(),
+  ];
+
+  void onTap(int index) {
     setState(() {
-      _selectedIndex = index;
+      currentIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget page;
-    if (_selectedIndex == 0) {
-      page = const Page1Home();
-    } else if (_selectedIndex == 1) {
-      page = const Page2();
-    } else if (_selectedIndex == 2) {
-      page = Page3Chat(onBack: () => _onNavTap(0));
-    } else if (_selectedIndex == 3) {
-      page = const Page4();
-    } else {
-      page = const Page5();
-    }
-
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F6F0),
-      bottomNavigationBar: _selectedIndex == 2
-          ? null
-          : SafeArea(
-              top: false,
-              minimum: const EdgeInsets.only(bottom: 6),
-              child: SizedBox(
-                height: 60,
-                child: MainBottomNavBar(
-                  selectedIndex: _selectedIndex,
-                  onTap: _onNavTap,
+      extendBody: true,
+      body: pages[currentIndex],
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(15), // المسافة من جميع الأطراف
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25), // انحناء الأطراف
+            child: BottomNavigationBar(
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              items: [
+                BottomNavigationBarItem(
+                  label: "home",
+                  icon: Image.asset(
+                    "assets/icons/image_2.png",
+                    height: 20,
+                  ),
                 ),
-              ),
+                BottomNavigationBarItem(
+                  label: "home2",
+                  icon: Image.asset(
+                    "assets/icons/image_2.png",
+                    height: 20,
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: "home3",
+                  icon: Image.asset(
+                    "assets/icons/image_9.png",
+                    height: 20,
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: "more",
+                  icon: Image.asset(
+                    "assets/icons/image_2.png",
+                    height: 20,
+                  ),
+                ),
+              ],
+              type: BottomNavigationBarType.fixed,
+              onTap: onTap,
+              currentIndex: currentIndex,
+              selectedItemColor: Colors.yellow,
+              unselectedItemColor: Colors.black54,
+              backgroundColor: Colors.green,
+              elevation: 0,
             ),
-      body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 375),
-            child: page,
           ),
         ),
       ),
