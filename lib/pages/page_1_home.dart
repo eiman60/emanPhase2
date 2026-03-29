@@ -54,7 +54,7 @@ class Page1Home extends StatelessWidget {
                 height: 900,
                 padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
                 decoration: const BoxDecoration(
-                  color: Color(0xFFFFFFFF),
+                  color: Color(0xFFF8F6F0),
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
                     topLeft: Radius.circular(20),
@@ -312,22 +312,20 @@ class _QuranCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.menu_book_outlined,
-                  color: Color(0xFF2565EB), size: 17),
-              Spacer(),
-              Text(
-                'القرآن الكريم',
-                style: TextStyle(
-                  color: Color(0xFF1F2938),
-                  fontSize: 23,
-                  fontFamily: 'Amiri',
-                  fontWeight: FontWeight.w700,
-                ),
+              Text('القرآن الكريم',
+              style: TextStyle(
+                color: Color(0xFF1F2938),
+                fontSize: 23,
+                fontFamily: 'Amiri',
+                fontWeight: FontWeight.w700,
               ),
-            ],
-          ),
+            ),
+                Spacer(),
+                Icon(Icons.menu_book_outlined, color: Color(0xFF2565EB), size: 17),
+                ],
+              ),
           const Spacer(),
           const Text('Al-Fatiha • Verse 1 • Page 1',
               style: TextStyle(color: Color(0xFF6B7280), fontSize: 11)),
@@ -367,13 +365,13 @@ class _DiscoverSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(14, 14, 14, 16),
+        padding: const EdgeInsets.fromLTRB(0, 14, 0, 16),
         decoration: BoxDecoration(
-          color: const Color(0xFFEB4548),
-          borderRadius: BorderRadius.circular(24),
+          color: const Color(0xFFF8F6F0),
+          borderRadius: BorderRadius.circular(14),
         ),
         child: const Column(
           children: [
@@ -383,7 +381,7 @@ class _DiscoverSection extends StatelessWidget {
                 'اكتشف المزيد',
                 style: TextStyle(
                   color: Color(0xFF1E293B),
-                  fontSize: 34,
+                  fontSize: 18,
                   fontFamily: 'Amiri',
                   fontWeight: FontWeight.w700,
                 ),
@@ -483,14 +481,22 @@ class _ServiceTile extends StatelessWidget {
       height: 112,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(10),
-      ),
+  color: const Color(0xFFFFFFFF),
+  borderRadius: BorderRadius.circular(10),
+  boxShadow: const [
+    BoxShadow(
+      color: Color(0x12000000),
+      blurRadius: 8,
+      offset: Offset(0, 2),
+    ),
+  ],
+),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(icon, size: 20),
-          const Spacer(),
+          SizedBox(height: 8),
           Text(
             label,
             textDirection: TextDirection.rtl,
