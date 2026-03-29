@@ -79,7 +79,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
               currentIndex: currentIndex,
               selectedItemColor: Colors.yellow,
               unselectedItemColor: Colors.black54,
-              backgroundColor: Colors.green,
+              backgroundColor: const Color(0xFFFFFFFF),
               elevation: 0,
             ),
           ),
