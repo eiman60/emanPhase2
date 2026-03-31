@@ -117,8 +117,33 @@ class _ComposerBar extends StatelessWidget {
             decoration: const BoxDecoration(color: Color(0xFFD1AA22), shape: BoxShape.circle),
             child: const Icon(Icons.arrow_upward, color: Colors.white, size: 18),
           ),
+          _ToolIcon(icon: Icons.calendar_today_outlined),
+          _ToolIcon(icon: Icons.crop_original_outlined),
+          _ToolIcon(icon: Icons.tune),
+          _ToolIcon(icon: Icons.hexagon_outlined, highlighted: true),
         ],
       ),
+    );
+  }
+}
+
+class _ToolIcon extends StatelessWidget {
+  const _ToolIcon({required this.icon, this.highlighted = false});
+
+  final IconData icon;
+  final bool highlighted;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 34,
+      height: 34,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: highlighted ? const Color(0xFFF3DE9A) : Colors.transparent,
+        border: highlighted ? null : Border.all(color: const Color(0xFFD6D3CF)),
+      ),
+      child: Icon(icon, size: 18, color: const Color(0xFF574B40)),
     );
   }
 }
