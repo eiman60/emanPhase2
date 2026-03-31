@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Page3Chat extends StatefulWidget {
-  const Page3Chat({super.key, required this.onBack});
-
-  final VoidCallback onBack;
+  const Page3Chat({super.key});
 
   @override
   State<Page3Chat> createState() => _Page3ChatState();
@@ -50,7 +48,7 @@ class _Page3ChatState extends State<Page3Chat> {
       color: const Color(0xFFF1F0EC),
       child: Column(
         children: [
-          _ChatHeader(onBack: widget.onBack),
+          const _ChatHeader(),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -67,9 +65,12 @@ class _Page3ChatState extends State<Page3Chat> {
                     ),
             ),
           ),
-          _ChatComposer(
-            controller: _controller,
-            onSend: _sendMessage,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 88),
+            child: _ChatComposer(
+              controller: _controller,
+              onSend: _sendMessage,
+            ),
           ),
         ],
       ),
@@ -90,9 +91,7 @@ class _ChatMessage {
 }
 
 class _ChatHeader extends StatelessWidget {
-  const _ChatHeader({required this.onBack});
-
-  final VoidCallback onBack;
+  const _ChatHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +102,6 @@ class _ChatHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Row(
         children: [
-          IconButton(
-            onPressed: onBack,
-            icon: const Icon(Icons.arrow_back, color: Color(0xFF6B5B48), size: 24),
-          ),
-          const SizedBox(width: 2),
           const CircleAvatar(
             radius: 22,
             backgroundColor: Color(0xFFF9EFC4),
