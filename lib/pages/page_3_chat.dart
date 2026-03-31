@@ -8,172 +8,219 @@ class Page3Chat extends StatefulWidget {
 }
 
 class _Page3ChatState extends State<Page3Chat> {
-  final TextEditingController _controller = TextEditingController();
-  final List<_ChatMessage> _messages = [];
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _sendMessage() {
-    final value = _controller.text.trim();
-    if (value.isEmpty) {
-      return;
-    }
-
-    setState(() {
-      _messages.add(
-        _ChatMessage(
-          text: value,
-          time: _timeLabel(DateTime.now()),
-          isOutgoing: true,
-        ),
-      );
-      _controller.clear();
-    });
-  }
-
-  String _timeLabel(DateTime time) {
-    final period = time.hour >= 12 ? 'PM' : 'AM';
-    final hour = time.hour % 12 == 0 ? 12 : time.hour % 12;
-    final minute = time.minute.toString().padLeft(2, '0');
-    return '$hour:$minute $period';
-  }
-
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: const Color(0xFFF1F0EC),
+      color: const Color(0xFFF3F2EF),
       child: Column(
         children: [
-          const _ChatHeader(),
+          const _ChatTopBar(),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _messages.isEmpty
-                  ? const SizedBox.shrink()
-                  : ListView.separated(
-                      padding: const EdgeInsets.only(top: 16, bottom: 16),
-                      itemBuilder: (context, index) {
-                        final message = _messages[index];
-                        return _MessageBubble(message: message);
-                      },
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
-                      itemCount: _messages.length,
-                    ),
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Color(0xFFF3F2EF),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
+                children: [
+                  const _DatePill(label: 'Today, 10:24 AM'),
+                  const SizedBox(height: 14),
+                  const _IncomingBubble(
+                    text:
+                        'Assalamu alaikum, Ahmed! 🌙\n\nI am your Nusuk AI assistant. How can I help you plan your spiritual journey today?',
+                    time: '10:24 AM',
+                  ),
+                  const SizedBox(height: 10),
+                  const _OutgoingBubble(
+                    text: 'What are the requirements to perform Umrah this season?',
+                    time: '10:26 AM',
+                  ),
+                  const SizedBox(height: 10),
+                  const _IncomingBubble(
+                    text:
+                        'For this season, you will need an active Umrah permit which you can easily issue directly through this app.\n\nPlease also ensure your visa is valid. Would you like me to guide you to the permit issuance page?',
+                    time: '10:27 AM',
+                  ),
+                ],
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 88),
-            child: _ChatComposer(
-              controller: _controller,
-              onSend: _sendMessage,
-            ),
-          ),
+          const _ComposerBar(),
+          const SizedBox(height: 10),
+          const _ChatToolsRow(),
+          const SizedBox(height: 92),
         ],
       ),
     );
   }
 }
 
-class _ChatMessage {
-  const _ChatMessage({
-    required this.text,
-    required this.time,
-    required this.isOutgoing,
-  });
-
-  final String text;
-  final String time;
-  final bool isOutgoing;
-}
-
-class _ChatHeader extends StatelessWidget {
-  const _ChatHeader();
+class _ChatTopBar extends StatelessWidget {
+  const _ChatTopBar();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 66,
+      height: 108,
       width: double.infinity,
-      color: const Color(0xFFFFFFFF),
-      padding: const EdgeInsets.symmetric(horizontal: 14),
+      padding: const EdgeInsets.fromLTRB(18, 40, 18, 14),
+      decoration: const BoxDecoration(
+        color: Color(0xFF5B3928),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+      ),
       child: Row(
         children: [
-          const CircleAvatar(
-            radius: 22,
-            backgroundColor: Color(0xFFF9EFC4),
-            child: Icon(Icons.auto_awesome, color: Color(0xFFF2B806), size: 24),
-          ),
-          const SizedBox(width: 10),
           const Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Nusuk AI',
-                  style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
+                  'Nusuk AI ✨',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                  ),
                 ),
+                SizedBox(height: 2),
                 Row(
                   children: [
-                    Icon(Icons.circle, size: 8, color: Color(0xFF1D4ED8)),
+                    Icon(Icons.circle, size: 9, color: Color(0xFF34C759)),
                     SizedBox(width: 4),
                     Text(
                       'Online',
-                      style: TextStyle(fontSize: 11, color: Color(0xFF1D4ED8), fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFFF0EDE7),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          const Icon(Icons.more_vert, color: Color(0xFF5A4A35), size: 24),
+          const Icon(Icons.more_vert, color: Color(0xFFF2EDE6), size: 22),
         ],
       ),
     );
   }
 }
 
-class _MessageBubble extends StatelessWidget {
-  const _MessageBubble({required this.message});
+class _DatePill extends StatelessWidget {
+  const _DatePill({required this.label});
 
-  final _ChatMessage message;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: const Color(0xFFE8E7E4),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 11,
+            color: Color(0xFF8A8A88),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _IncomingBubble extends StatelessWidget {
+  const _IncomingBubble({required this.text, required this.time});
+
+  final String text;
+  final String time;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          width: 26,
+          height: 26,
+          decoration: const BoxDecoration(color: Color(0xFFF6EBC6), shape: BoxShape.circle),
+          child: const Icon(Icons.auto_awesome_outlined, color: Color(0xFF8E6E53), size: 14),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF9F9F8),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  text,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Color(0xFF2E2A28),
+                    height: 1.45,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    time,
+                    style: const TextStyle(fontSize: 11, color: Color(0xFFA09A93)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _OutgoingBubble extends StatelessWidget {
+  const _OutgoingBubble({required this.text, required this.time});
+
+  final String text;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: message.isOutgoing ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: Alignment.centerRight,
       child: Container(
-        width: 292,
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+        constraints: const BoxConstraints(maxWidth: 260),
+        padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
         decoration: BoxDecoration(
-          color: message.isOutgoing ? const Color(0xFF846548) : const Color(0xFFF5F5F5),
-          borderRadius: BorderRadius.circular(message.isOutgoing ? 20 : 16),
-          border: message.isOutgoing ? null : Border.all(color: const Color(0xFFE8E8E8)),
+          color: const Color(0xFF4A3028),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              message.text,
-              style: TextStyle(
-                fontSize: 16.5,
-                color: message.isOutgoing ? Colors.white : const Color(0xFF253043),
-                height: 1.45,
-              ),
+              text,
+              style: const TextStyle(fontSize: 15, color: Colors.white, height: 1.4),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                message.time,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: message.isOutgoing ? const Color(0xFFD9DCE2) : const Color(0xFF838A96),
-                ),
+                time,
+                style: const TextStyle(fontSize: 11, color: Color(0xFFE8D9D0)),
               ),
             ),
           ],
@@ -183,66 +230,89 @@ class _MessageBubble extends StatelessWidget {
   }
 }
 
-class _ChatComposer extends StatelessWidget {
-  const _ChatComposer({
-    required this.controller,
-    required this.onSend,
-  });
-
-  final TextEditingController controller;
-  final VoidCallback onSend;
+class _ComposerBar extends StatelessWidget {
+  const _ComposerBar();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 66,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: const BoxDecoration(
-        color: Color(0xFFFFFFFF),
-        border: Border(top: BorderSide(color: Color(0xFFE4E2DD))),
+      margin: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFFEFEEEC),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
         children: [
+          const Icon(Icons.attach_file, color: Color(0xFF746C64), size: 20),
+          const SizedBox(width: 8),
+          const Expanded(
+            child: Text(
+              'Ask and plan your journey...',
+              style: TextStyle(color: Color(0xFF827B74), fontSize: 15),
+            ),
+          ),
+          const Icon(Icons.mic_none, color: Color(0xFF746C64), size: 20),
+          const SizedBox(width: 8),
           Container(
-            width: 38,
-            height: 38,
-            decoration: const BoxDecoration(color: Color(0xFFE7E2D7), shape: BoxShape.circle),
-            child: const Icon(Icons.add, color: Color(0xFF5D4B39), size: 22),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Container(
-              height: 38,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1EFE8),
-                borderRadius: BorderRadius.circular(19),
-              ),
-              alignment: Alignment.centerLeft,
-              child: TextField(
-                controller: controller,
-                onSubmitted: (_) => onSend(),
-                decoration: const InputDecoration(
-                  hintText: 'Type a message...',
-                  hintStyle: TextStyle(color: Color(0xFF5C4D40), fontSize: 16),
-                  isCollapsed: true,
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          GestureDetector(
-            onTap: onSend,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(color: Color(0xFFF9C216), shape: BoxShape.circle),
-              child: const Icon(Icons.send_outlined, color: Colors.white, size: 20),
-            ),
+            width: 34,
+            height: 34,
+            decoration: const BoxDecoration(color: Color(0xFFD1AA22), shape: BoxShape.circle),
+            child: const Icon(Icons.arrow_upward, color: Colors.white, size: 18),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ChatToolsRow extends StatelessWidget {
+  const _ChatToolsRow();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 52,
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF6F5F3),
+        borderRadius: BorderRadius.circular(28),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _ToolIcon(
+            icon: Icons.auto_awesome_outlined,
+            highlighted: true,
+          ),
+          _ToolIcon(icon: Icons.calendar_today_outlined),
+          _ToolIcon(icon: Icons.crop_original_outlined),
+          _ToolIcon(icon: Icons.tune),
+          _ToolIcon(icon: Icons.hexagon_outlined, highlighted: true),
+        ],
+      ),
+    );
+  }
+}
+
+class _ToolIcon extends StatelessWidget {
+  const _ToolIcon({required this.icon, this.highlighted = false});
+
+  final IconData icon;
+  final bool highlighted;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 34,
+      height: 34,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: highlighted ? const Color(0xFFF3DE9A) : Colors.transparent,
+        border: highlighted ? null : Border.all(color: const Color(0xFFD6D3CF)),
+      ),
+      child: Icon(icon, size: 18, color: const Color(0xFF574B40)),
     );
   }
 }
