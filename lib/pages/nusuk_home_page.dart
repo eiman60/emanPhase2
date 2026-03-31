@@ -26,7 +26,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
     final pages = [
       const Page1Home(),
       const Page2(),
-      Page3Chat(onBack: () => onTap(0)),
+      const Page3Chat(),
       const Page4(),
       const Page5(),
     ];
