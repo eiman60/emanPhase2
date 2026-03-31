@@ -22,34 +22,10 @@ class _Page3ChatState extends State<Page3Chat> {
                 color: Color(0xFFF3F2EF),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
-                children: [
-                  const _DatePill(label: 'Today, 10:24 AM'),
-                  const SizedBox(height: 14),
-                  const _IncomingBubble(
-                    text:
-                        'Assalamu alaikum, Ahmed! 🌙\n\nI am your Nusuk AI assistant. How can I help you plan your spiritual journey today?',
-                    time: '10:24 AM',
-                  ),
-                  const SizedBox(height: 10),
-                  const _OutgoingBubble(
-                    text: 'What are the requirements to perform Umrah this season?',
-                    time: '10:26 AM',
-                  ),
-                  const SizedBox(height: 10),
-                  const _IncomingBubble(
-                    text:
-                        'For this season, you will need an active Umrah permit which you can easily issue directly through this app.\n\nPlease also ensure your visa is valid. Would you like me to guide you to the permit issuance page?',
-                    time: '10:27 AM',
-                  ),
-                ],
-              ),
+              child: const SizedBox.shrink(),
             ),
           ),
           const _ComposerBar(),
-          const SizedBox(height: 10),
-          const _ChatToolsRow(),
           const SizedBox(height: 92),
         ],
       ),
@@ -111,125 +87,6 @@ class _ChatTopBar extends StatelessWidget {
   }
 }
 
-class _DatePill extends StatelessWidget {
-  const _DatePill({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(
-          color: const Color(0xFFE8E7E4),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: Color(0xFF8A8A88),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _IncomingBubble extends StatelessWidget {
-  const _IncomingBubble({required this.text, required this.time});
-
-  final String text;
-  final String time;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Container(
-          width: 26,
-          height: 26,
-          decoration: const BoxDecoration(color: Color(0xFFF6EBC6), shape: BoxShape.circle),
-          child: const Icon(Icons.auto_awesome_outlined, color: Color(0xFF8E6E53), size: 14),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF9F9F8),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  text,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: Color(0xFF2E2A28),
-                    height: 1.45,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    time,
-                    style: const TextStyle(fontSize: 11, color: Color(0xFFA09A93)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _OutgoingBubble extends StatelessWidget {
-  const _OutgoingBubble({required this.text, required this.time});
-
-  final String text;
-  final String time;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 260),
-        padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-        decoration: BoxDecoration(
-          color: const Color(0xFF4A3028),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              text,
-              style: const TextStyle(fontSize: 15, color: Colors.white, height: 1.4),
-            ),
-            const SizedBox(height: 6),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                time,
-                style: const TextStyle(fontSize: 11, color: Color(0xFFE8D9D0)),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _ComposerBar extends StatelessWidget {
   const _ComposerBar();
 
@@ -259,32 +116,6 @@ class _ComposerBar extends StatelessWidget {
             height: 34,
             decoration: const BoxDecoration(color: Color(0xFFD1AA22), shape: BoxShape.circle),
             child: const Icon(Icons.arrow_upward, color: Colors.white, size: 18),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ChatToolsRow extends StatelessWidget {
-  const _ChatToolsRow();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 52,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF6F5F3),
-        borderRadius: BorderRadius.circular(28),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _ToolIcon(
-            icon: Icons.auto_awesome_outlined,
-            highlighted: true,
           ),
           _ToolIcon(icon: Icons.calendar_today_outlined),
           _ToolIcon(icon: Icons.crop_original_outlined),
