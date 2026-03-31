@@ -110,6 +110,7 @@ class _ComposerBar extends StatelessWidget {
           const Icon(Icons.mic_none, color: Color(0xFF746C64), size: 20),
         ],
       ),
+      child: Icon(icon, size: 18, color: const Color(0xFF574B40)),
     );
   }
 }
