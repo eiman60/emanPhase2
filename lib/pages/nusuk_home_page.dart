@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
-import '../widgets/main_bottom_nav_bar.dart';
 import 'page_1_home.dart';
 import 'page_2.dart';
 import 'page_3_chat.dart';
@@ -18,13 +15,6 @@ class NusukHomePage extends StatefulWidget {
 class _NusukHomePageState extends State<NusukHomePage> {
   int currentIndex = 0;
 
-  List pages = [
-    const Page1Home(),
-    const Page2(),
-    const Page4(),
-    const Page5(),
-  ];
-
   void onTap(int index) {
     setState(() {
       currentIndex = index;
@@ -33,6 +23,14 @@ class _NusukHomePageState extends State<NusukHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      const Page1Home(),
+      const Page2(),
+      Page3Chat(onBack: () => onTap(0)),
+      const Page4(),
+      const Page5(),
+    ];
+
     return Scaffold(
       extendBody: true,
       body: pages[currentIndex],
@@ -56,6 +54,13 @@ class _NusukHomePageState extends State<NusukHomePage> {
                   label: "home2",
                   icon: Image.asset(
                     "assets/icons/image_2.png",
+                    height: 20,
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: "chat",
+                  icon: Image.asset(
+                    "assets/icons/image_15.png",
                     height: 20,
                   ),
                 ),
