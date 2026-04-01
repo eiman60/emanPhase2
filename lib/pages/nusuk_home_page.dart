@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'page_1_home.dart';
 import 'page_2.dart';
@@ -45,16 +46,26 @@ class _NusukHomePageState extends State<NusukHomePage> {
               items: [
                 BottomNavigationBarItem(
                   label: "home",
-                  icon: Image.asset(
-                    "assets/icons/image_2.png",
-                    height: 20,
+                  icon: const Icon(
+                    Icons.home_outlined,
+                    size: 20,
+                  ),
+                  activeIcon: const Icon(
+                    Icons.home,
+                    size: 20,
+                    color: Color(0xFFF3B33B),
                   ),
                 ),
                 BottomNavigationBarItem(
                   label: "home2",
-                  icon: Image.asset(
-                    "assets/icons/image_2.png",
-                    height: 20,
+                  icon: const Icon(
+                    CupertinoIcons.compass,
+                    size: 20,
+                  ),
+                  activeIcon: const Icon(
+                    CupertinoIcons.compass_fill,
+                    size: 20,
+                    color: Color(0xFFF3B33B),
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -82,7 +93,7 @@ class _NusukHomePageState extends State<NusukHomePage> {
               type: BottomNavigationBarType.fixed,
               onTap: onTap,
               currentIndex: currentIndex,
-              selectedItemColor: Colors.yellow,
+              selectedItemColor: const Color(0xFFF3B33B),
               unselectedItemColor: Colors.black54,
               backgroundColor: const Color(0xFFFFFFFF),
               elevation: 0,
