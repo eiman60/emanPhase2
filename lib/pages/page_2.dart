@@ -158,8 +158,7 @@ class _TripTimelineCard extends StatelessWidget {
 }
 
 class _TimelineRow extends StatelessWidget {
-  const _TimelineRow({required Color dotColor, required this.title})
-      : dotColor = dotColor;
+  const _TimelineRow({required this.dotColor, required this.title});
 
   final Color dotColor;
   final String title;
