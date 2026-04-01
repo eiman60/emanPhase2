@@ -98,6 +98,7 @@ class _SearchBar extends StatelessWidget {
 class _SectionTitle extends StatelessWidget {
   const _SectionTitle({required this.title, this.actionText});
 
+  final Color dotColor;
   final String title;
   final String? actionText;
 
