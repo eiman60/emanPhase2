@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 
 import '../app_icons.dart';
 import '../widgets/top_bar.dart';
@@ -128,10 +128,10 @@ class _PrayerFocus extends StatelessWidget {
       builder: (context, snapshot) {
         final now = snapshot.data ?? DateTime.now();
         final dateText = _toArabicDigits(
-          DateFormat('EEEE، d MMMM y', 'ar').format(now),
+          intl.DateFormat('EEEE، d MMMM y', 'ar').format(now),
         );
         final timeText = _toArabicDigits(
-          DateFormat('hh:mm:ss a', 'ar').format(now),
+          intl.DateFormat('hh:mm:ss a', 'ar').format(now),
         );
 
         return Column(
