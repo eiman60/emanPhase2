@@ -80,7 +80,7 @@ class Page3Chat extends StatelessWidget {
     margin: const EdgeInsets.symmetric(horizontal: 12),
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
     decoration: BoxDecoration(
-      color: const Color(0xFFEFEEEC),
+      color: const Color(0xFFE9E7E4),
       borderRadius: BorderRadius.circular(18),
     ),
     child: const Row(
