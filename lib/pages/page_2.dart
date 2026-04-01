@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../app_icons.dart';
+import '../widgets/top_bar.dart';
+
 class Page2 extends StatelessWidget {
   const Page2({super.key});
 
@@ -8,6 +11,35 @@ class Page2 extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 14),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Color(0xFFF3B33B),
+              child: Icon(Icons.person_outline, size: 25, color: Colors.white),
+            ),
+          ),
+          actions: const [
+            TopIcon(iconPath: AppIcons.wallet, size: 25),
+            SizedBox(width: 8),
+            TopIcon(iconPath: AppIcons.notification, size: 25),
+            SizedBox(width: 8),
+            TopIcon(iconPath: AppIcons.menu, size: 25),
+            SizedBox(width: 15),
+          ],
+          centerTitle: true,
+          title: const Text(
+            'Discover',
+            style: TextStyle(
+              fontSize: 27,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF171717),
+            ),
+          ),
+        ),
         backgroundColor: const Color(0xFFF2F1ED),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -15,8 +47,6 @@ class Page2 extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                _DiscoverHeader(),
-                SizedBox(height: 14),
                 _SearchBar(),
                 SizedBox(height: 18),
                 _SectionTitle(title: 'Trip Timeline', actionText: '⋯'),
@@ -35,40 +65,6 @@ class Page2 extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _DiscoverHeader extends StatelessWidget {
-  const _DiscoverHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 32,
-          height: 32,
-          decoration: const BoxDecoration(
-            color: Color(0xFFF2BE2E),
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(Icons.person, size: 17, color: Color(0xFF1A1A1A)),
-        ),
-        const Expanded(
-          child: Center(
-            child: Text(
-              'Discover',
-              style: TextStyle(
-                fontSize: 27,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF171717),
-              ),
-            ),
-          ),
-        ),
-        const Icon(Icons.grid_view_rounded, size: 24, color: Color(0xFF141414)),
-      ],
     );
   }
 }
@@ -102,6 +98,7 @@ class _SearchBar extends StatelessWidget {
 class _SectionTitle extends StatelessWidget {
   const _SectionTitle({required this.title, this.actionText});
 
+  final Color dotColor;
   final String title;
   final String? actionText;
 
