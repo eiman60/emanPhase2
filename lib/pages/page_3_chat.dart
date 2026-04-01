@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Page3Chat extends StatefulWidget {
+class Page3Chat extends StatelessWidget {
   const Page3Chat({super.key});
 
   @override
-  State<Page3Chat> createState() => _Page3ChatState();
-}
-
-class _Page3ChatState extends State<Page3Chat> {
-  @override
   Widget build(BuildContext context) {
-    return ColoredBox(
+    return Container(
       color: const Color(0xFFF3F2EF),
       child: Column(
         children: [
-          const _ChatTopBar(),
+          _buildHeader(),
           Expanded(
             child: Container(
               width: double.infinity,
@@ -22,22 +17,16 @@ class _Page3ChatState extends State<Page3Chat> {
                 color: Color(0xFFF3F2EF),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
-              child: const SizedBox.shrink(),
             ),
           ),
-          const _ComposerBar(),
+          _buildComposer(),
           const SizedBox(height: 92),
         ],
       ),
     );
   }
-}
 
-class _ChatTopBar extends StatelessWidget {
-  const _ChatTopBar();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildHeader() {
     return Container(
       height: 108,
       width: double.infinity,
@@ -48,13 +37,13 @@ class _ChatTopBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Text(
-                  'Nusuk AI ✨',
+                  'Nusuk AI',
                   style: TextStyle(
                     fontSize: 24,
                     color: Colors.white,
@@ -85,13 +74,8 @@ class _ChatTopBar extends StatelessWidget {
       ),
     );
   }
-}
 
-class _ComposerBar extends StatelessWidget {
-  const _ComposerBar();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildComposer() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -99,15 +83,15 @@ class _ComposerBar extends StatelessWidget {
         color: const Color(0xFFEFEEEC),
         borderRadius: BorderRadius.circular(18),
       ),
-      child: Row(
+      child: const Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Text(
               'Ask and plan your journey...',
               style: TextStyle(color: Color(0xFF827B74), fontSize: 15),
             ),
           ),
-          const Icon(Icons.mic_none, color: Color(0xFF746C64), size: 20),
+          Icon(Icons.mic_none, color: Color(0xFF746C64), size: 20),
         ],
       ),
       child: Icon(icon, size: 18, color: const Color(0xFF574B40)),
