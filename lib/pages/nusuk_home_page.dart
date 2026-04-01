@@ -70,9 +70,14 @@ class _NusukHomePageState extends State<NusukHomePage> {
                 ),
                 BottomNavigationBarItem(
                   label: "chat",
-                  icon: Image.asset(
-                    "assets/icons/image_15.png",
-                    height: 20,
+                  icon: const Icon(
+                    Icons.auto_awesome_outlined,
+                    size: 20,
+                  ),
+                  activeIcon: const Icon(
+                    Icons.auto_awesome,
+                    size: 20,
+                    color: Color(0xFFF3B33B),
                   ),
                 ),
                 BottomNavigationBarItem(
