@@ -76,25 +76,26 @@ class Page3Chat extends StatelessWidget {
   }
 
   Widget _buildComposer() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEFEEEC),
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: const Row(
-        children: [
-          Expanded(
-            child: Text(
-              'Ask and plan your journey...',
-              style: TextStyle(color: Color(0xFF827B74), fontSize: 15),
-            ),
+  return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 12),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    decoration: BoxDecoration(
+      color: const Color(0xFFEFEEEC),
+      borderRadius: BorderRadius.circular(18),
+    ),
+    child: const Row(
+      children: [
+        Expanded(
+          child: Text(
+            'Ask and plan your journey...',
+            style: TextStyle(color: Color(0xFF827B74), fontSize: 15),
           ),
-          Icon(Icons.mic_none, color: Color(0xFF746C64), size: 20),
-        ],
-      ),
-      child: Icon(icon, size: 18, color: const Color(0xFF574B40)),
-    );
-  }
+        ),
+        Icon(Icons.mic_none, color: Color(0xFF746C64), size: 20),
+        SizedBox(width: 8),
+        Icon(Icons.send, color: Color(0xFF574B40), size: 18),
+      ],
+    ),
+  );
+}
 }
