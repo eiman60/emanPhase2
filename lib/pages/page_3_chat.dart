@@ -6,7 +6,7 @@ class Page3Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFF3F2EF),
+      color: const Color(0xFFF8F6F0),
       child: Column(
         children: [
           _buildHeader(),
@@ -14,7 +14,7 @@ class Page3Chat extends StatelessWidget {
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: Color(0xFFF3F2EF),
+                color: Color(0xFFF8F6F0),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
             ),
