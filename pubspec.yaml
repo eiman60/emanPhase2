@@ -27,6 +27,5 @@ flutter:
   generate: true
   assets:
     - assets/icons/
-    - lib/icons/
 flutter_intl:
   enabled: true
