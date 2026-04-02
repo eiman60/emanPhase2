@@ -9,72 +9,75 @@ class Page1Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      // AppBar سيكون شفافاً ويأخذ لون الخلفية
-      appBar: AppBar(
-        backgroundColor: Colors.transparent, // شفاف
-        elevation: 0, // بدون ظل
-        leading: const Padding(
-          padding: EdgeInsets.only(right: 10),
-          child: CircleAvatar(
-            radius: 20,
-            backgroundColor: Color(0xFFF3B33B),
-            child: Icon(Icons.person_outline, size: 25, color: Colors.white),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        // AppBar سيكون شفافاً ويأخذ لون الخلفية
+        appBar: AppBar(
+          backgroundColor: Colors.transparent, // شفاف
+          elevation: 0, // بدون ظل
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 14),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Color(0xFFF3B33B),
+              child: Icon(Icons.person_outline, size: 25, color: Colors.white),
+            ),
           ),
-        ),
-        actions: const [
-          TopIcon(iconPath: AppIcons.wallet, size: 25),
-          SizedBox(width: 8),
-          TopIcon(iconPath: AppIcons.notification, size: 25),
-          SizedBox(width: 8),
-          TopIcon(iconPath: AppIcons.menu, size: 25),
-          SizedBox(width: 15),
-        ],
+          actions: const [
+            Icon(Icons.more_vert, size: 25, color: Color(0xFFEDEDED)),
+            SizedBox(width: 8),
+            TopIcon(iconPath: AppIcons.notification, size: 25),
+            SizedBox(width: 8),
+            TopIcon(iconPath: AppIcons.wallet, size: 25),
+            SizedBox(width: 15),
+          ],
 
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF8A6A4E),
-              Color(0xFF6F513A),
-              Color(0xFF523A29),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+          centerTitle: true,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const _HeroSection(),
-              Container(
-                height: 900,
-                padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFF8F6F0),
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF8A6A4E),
+                Color(0xFF6F513A),
+                Color(0xFF523A29),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const _HeroSection(),
+                Container(
+                  height: 900,
+                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF8F6F0),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0x12000000),
+                          blurRadius: 8,
+                          offset: Offset(0, 2))
+                    ],
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color(0x12000000),
-                        blurRadius: 8,
-                        offset: Offset(0, 2))
-                  ],
-                ),
-                child: const Column(
-                  children: [
-                    _QuranCard(),
-                    _DiscoverSection(),
-                    SizedBox(height: 24),
-                  ],
-                ),
-              )
-            ],
+                  child: const Column(
+                    children: [
+                      _QuranCard(),
+                      _DiscoverSection(),
+                      SizedBox(height: 24),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
