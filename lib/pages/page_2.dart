@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../app_icons.dart';
-import '../widgets/top_bar.dart';
 
 class Page2 extends StatelessWidget {
   const Page2({super.key});
@@ -25,9 +23,10 @@ class Page2 extends StatelessWidget {
           actions: const [
             Icon(Icons.more_vert, size: 25, color: Color(0xFF171717)),
             SizedBox(width: 8),
-            TopIcon(iconPath: AppIcons.notification, size: 25),
+            Icon(Icons.notifications_outlined,
+                size: 25, color: Color(0xFF171717)),
             SizedBox(width: 8),
-            TopIcon(iconPath: AppIcons.wallet, size: 25),
+            Icon(Icons.wallet_outlined, size: 25, color: Color(0xFF171717)),
             SizedBox(width: 15),
           ],
           centerTitle: true,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
 import '../app_icons.dart';
-import '../widgets/top_bar.dart';
 import 'emergency_report_page.dart';
 
 class Page1Home extends StatelessWidget {
@@ -29,9 +28,10 @@ class Page1Home extends StatelessWidget {
           actions: const [
             Icon(Icons.more_vert, size: 25, color: Color(0xFFEDEDED)),
             SizedBox(width: 8),
-            TopIcon(iconPath: AppIcons.notification, size: 25),
+            Icon(Icons.notifications_outlined,
+                size: 25, color: Color(0xFFEDEDED)),
             SizedBox(width: 8),
-            TopIcon(iconPath: AppIcons.wallet, size: 25),
+            Icon(Icons.wallet_outlined, size: 25, color: Color(0xFFEDEDED)),
             SizedBox(width: 15),
           ],
 
