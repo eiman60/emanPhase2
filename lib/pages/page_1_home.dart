@@ -27,11 +27,11 @@ class Page1Home extends StatelessWidget {
             ),
           ),
           actions: const [
-            TopIcon(iconPath: AppIcons.wallet, size: 25),
+            Icon(Icons.more_vert, size: 25, color: Color(0xFFEDEDED)),
             SizedBox(width: 8),
             TopIcon(iconPath: AppIcons.notification, size: 25),
             SizedBox(width: 8),
-            TopIcon(iconPath: AppIcons.menu, size: 25),
+            TopIcon(iconPath: AppIcons.wallet, size: 25),
             SizedBox(width: 15),
           ],
 
