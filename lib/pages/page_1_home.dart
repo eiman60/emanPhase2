@@ -356,7 +356,7 @@ class _QuranCard extends StatelessWidget {
                     color: const Color(0xFFF6F6F6),
                     child: Image.asset(
                       'assets/icons/fatiha_bitmap.png',
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       errorBuilder: (_, __, ___) => const Center(
                         child: Text(
                           'Add assets/icons/fatiha_bitmap.png',
@@ -399,7 +399,7 @@ class _QuranCard extends StatelessWidget {
                 Text(
                   'ابدا تلاوتك',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 16,
                     color: Color(0xFF1F2938),
                     fontFamily: 'Amiri',
                     fontWeight: FontWeight.w700,
@@ -430,33 +430,36 @@ class _DiscoverSection extends StatelessWidget {
           color: const Color(0xFFF8F6F0),
           borderRadius: BorderRadius.circular(14),
         ),
-        child: const Column(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'اكتشف المزيد',
-                style: TextStyle(
-                  color: Color(0xFF1E293B),
-                  fontSize: 18,
-                  fontFamily: 'Amiri',
-                  fontWeight: FontWeight.w700,
+        child: const Directionality(
+          textDirection: TextDirection.rtl,
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'اكتشف المزيد',
+                  style: TextStyle(
+                    color: Color(0xFF1E293B),
+                    fontSize: 18,
+                    fontFamily: 'Amiri',
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                _FilterChip(label: 'All', selected: true),
-                SizedBox(width: 8),
-                _FilterChip(icon: Icons.nights_stay_outlined),
-                SizedBox(width: 8),
-                _FilterChip(icon: Icons.wallet_membership_outlined),
-              ],
-            ),
-            SizedBox(height: 10),
-            _ServiceTilesGrid(),
-          ],
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  _FilterChip(label: 'الجميع', selected: true),
+                  SizedBox(width: 8),
+                  _FilterChip(icon: Icons.nights_stay_outlined),
+                  SizedBox(width: 8),
+                  _FilterChip(icon: Icons.wallet_membership_outlined),
+                ],
+              ),
+              SizedBox(height: 10),
+              _ServiceTilesGrid(),
+            ],
+          ),
         ),
       ),
     );
