@@ -5,11 +5,11 @@ class Page3Chat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xFFF8F6F0),
-      child: Column(
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8F6F0),
+      appBar: _buildAppBar(),
+      body: Column(
         children: [
-          _buildHeader(),
           Expanded(
             child: Container(
               width: double.infinity,
@@ -26,52 +26,50 @@ class Page3Chat extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      height: 108,
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(18, 40, 18, 14),
-      decoration: const BoxDecoration(
-        color: Color(0xFF5B3928),
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      backgroundColor: const Color(0xFF5B3928),
+      elevation: 0,
+      toolbarHeight: 86,
+      titleSpacing: 0,
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
       ),
-      child: Row(
+      title: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'Nusuk AI',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.2,
-                  ),
-                ),
-                SizedBox(height: 2),
-                Row(
-                  children: [
-                    Icon(Icons.circle, size: 9, color: Color(0xFF34C759)),
-                    SizedBox(width: 4),
-                    Text(
-                      'Online',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Color(0xFFF0EDE7),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+          Text(
+            'Nusuk AI',
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.2,
             ),
           ),
-          const Icon(Icons.more_vert, color: Color(0xFFF2EDE6), size: 22),
+          SizedBox(height: 2),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.circle, size: 9, color: Color(0xFF34C759)),
+              SizedBox(width: 4),
+              Text(
+                'Online',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFFF0EDE7),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
+      actions: const [
+        Icon(Icons.more_vert, color: Color(0xFFF2EDE6), size: 22),
+        SizedBox(width: 12),
+      ],
     );
   }
 
