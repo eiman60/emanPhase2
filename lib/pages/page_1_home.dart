@@ -354,21 +354,13 @@ class _QuranCard extends StatelessWidget {
                 children: [
                   Container(
                     color: const Color(0xFFF6F6F6),
-                    padding: const EdgeInsets.fromLTRB(14, 12, 14, 26),
-                    child: const FittedBox(
-                      fit: BoxFit.contain,
-                      child: Text(
-                        'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ\n'
-                        'الْحَمْدُ لِلّٰهِ رَبِّ الْعَالَمِينَ\n'
-                        'الرَّحْمٰنِ الرَّحِيمِ مَالِكِ يَوْمِ الدِّينِ\n'
-                        'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF111111),
-                          fontSize: 30,
-                          fontFamily: 'Amiri',
-                          fontWeight: FontWeight.w700,
-                          height: 1.8,
+                    child: Image.asset(
+                      'assets/icons/fatiha_bitmap.png',
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const Center(
+                        child: Text(
+                          'Add assets/icons/fatiha_bitmap.png',
+                          style: TextStyle(color: Color(0xFF6B7280), fontSize: 12),
                         ),
                       ),
                     ),
@@ -394,9 +386,6 @@ class _QuranCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 10),
-          const Text('Al-Fatiha • Verse 1 • Page 1',
-              style: TextStyle(color: Color(0xFF6B7280), fontSize: 11)),
           const SizedBox(height: 12),
           Container(
             width: 176,
@@ -410,7 +399,7 @@ class _QuranCard extends StatelessWidget {
                 Text(
                   'ابدا تلاوتك',
                   style: TextStyle(
-                    fontSize: 23,
+                    fontSize: 24,
                     color: Color(0xFF1F2938),
                     fontFamily: 'Amiri',
                     fontWeight: FontWeight.w700,
