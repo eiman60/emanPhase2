@@ -71,7 +71,7 @@ class Page3Chat extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
