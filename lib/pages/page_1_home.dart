@@ -238,7 +238,7 @@ class _ActionCircle extends StatelessWidget {
         const SizedBox(height: 6),
         Text(label,
             style: const TextStyle(
-                color: Colors.white, fontFamily: 'Amiri', fontSize: 16)),
+                color: Colors.white, fontFamily: 'IBM Plex Sans Arabic', fontSize: 16)),
       ],
     );
   }
@@ -262,19 +262,19 @@ class _AlertCircle extends StatelessWidget {
         title: const Text(
           'الطوارئ',
           textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: 'Amiri', fontWeight: FontWeight.w700),
+          style: TextStyle(fontFamily: 'IBM Plex Sans Arabic', fontWeight: FontWeight.w700),
         ),
         content: const Text(
           'إذا كنت بحاجة إلى المساعدة الفورية، يمكنك إرسال بلاغ طارئ الآن.',
           textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: 'Amiri', height: 1.5),
+          style: TextStyle(fontFamily: 'IBM Plex Sans Arabic', height: 1.5),
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
             child: const Text('إغلاق',
-                style: TextStyle(fontFamily: 'Amiri', fontSize: 16)),
+                style: TextStyle(fontFamily: 'IBM Plex Sans Arabic', fontSize: 16)),
           ),
           FilledButton(
             onPressed: () {
@@ -284,7 +284,7 @@ class _AlertCircle extends StatelessWidget {
             style: FilledButton.styleFrom(
                 backgroundColor: const Color(0xFFEB4548)),
             child: const Text('الإبلاغ عن حالة طارئة',
-                style: TextStyle(fontFamily: 'Amiri', fontSize: 16)),
+                style: TextStyle(fontFamily: 'IBM Plex Sans Arabic', fontSize: 16)),
           ),
         ],
       ),
@@ -322,7 +322,7 @@ class _AlertCircle extends StatelessWidget {
         const SizedBox(height: 6),
         const Text('الطوارئ',
             style: TextStyle(
-                color: Colors.white, fontFamily: 'Amiri', fontSize: 16)),
+                color: Colors.white, fontFamily: 'IBM Plex Sans Arabic', fontSize: 16)),
       ],
     );
   }
@@ -401,7 +401,7 @@ class _QuranCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     color: Color(0xFF1F2938),
-                    fontFamily: 'Amiri',
+                    fontFamily: 'IBM Plex Sans Arabic',
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -441,7 +441,7 @@ class _DiscoverSection extends StatelessWidget {
                   style: TextStyle(
                     color: Color(0xFF1E293B),
                     fontSize: 18,
-                    fontFamily: 'Amiri',
+                    fontFamily: 'IBM Plex Sans Arabic',
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -563,7 +563,7 @@ class _ServiceTile extends StatelessWidget {
             style: const TextStyle(
               color: Color(0xFF1F2937),
               fontSize: 13,
-              fontFamily: 'Amiri',
+              fontFamily: 'IBM Plex Sans Arabic',
               fontWeight: FontWeight.w700,
             ),
           ),
