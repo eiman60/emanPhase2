@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'pages/nusuk_home_page.dart';
 
@@ -16,7 +17,10 @@ class NusukApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        fontFamily: 'Roboto',
+        fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
+        textTheme: GoogleFonts.ibmPlexSansArabicTextTheme(
+          ThemeData.light().textTheme,
+        ),
       ),
       locale: const Locale('ar'),
       supportedLocales: const [
