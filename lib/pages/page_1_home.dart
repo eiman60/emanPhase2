@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 
 import '../app_icons.dart';
 import '../widgets/top_bar.dart';
@@ -109,49 +110,79 @@ class _HeroSection extends StatelessWidget {
 class _PrayerFocus extends StatelessWidget {
   const _PrayerFocus();
 
+  String _toArabicDigits(String value) {
+    const western = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    var localized = value;
+    for (var i = 0; i < western.length; i++) {
+      localized = localized.replaceAll(western[i], arabic[i]);
+    }
+    return localized;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 110,
-          height: 110,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.white24),
-            color: const Color(0xFF7A5B42),
-          ),
-          child: const Center(
-              child: AssetIconView(assetPath: AppIcons.hajj, size: 34)),
-        ),
-        const SizedBox(height: 12),
-        const Text("22 Sha'ban 1447",
-            style: TextStyle(color: Colors.white70, fontSize: 14)),
-        const SizedBox(height: 4),
-        const Text(
-          'Fajr 5:25 AM',
-          style: TextStyle(
-              color: Colors.white, fontSize: 47, fontWeight: FontWeight.w300),
-        ),
-        const SizedBox(height: 14),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.white.withAlpha(30),
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: Colors.white24),
-          ),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.wb_sunny_outlined, color: Color(0xFFFCC83D), size: 16),
-              SizedBox(width: 6),
-              Text('Goodness starts with Dhikr Allah',
-                  style: TextStyle(color: Colors.white, fontSize: 11)),
-            ],
-          ),
-        ),
-      ],
+    return StreamBuilder<DateTime>(
+      stream: Stream<DateTime>.periodic(
+        const Duration(seconds: 1),
+        (_) => DateTime.now(),
+      ),
+      initialData: DateTime.now(),
+      builder: (context, snapshot) {
+        final now = snapshot.data ?? DateTime.now();
+        final dateText = _toArabicDigits(
+          intl.DateFormat('EEEE، d MMMM y', 'ar').format(now),
+        );
+        final timeText = _toArabicDigits(
+          intl.DateFormat('hh:mm:ss a', 'ar').format(now),
+        );
+
+        return Column(
+          children: [
+            Container(
+              width: 110,
+              height: 110,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white24),
+                color: const Color(0xFF7A5B42),
+              ),
+              child: const Center(
+                  child: AssetIconView(assetPath: AppIcons.hajj, size: 34)),
+            ),
+            const SizedBox(height: 12),
+            Text(dateText,
+                style: const TextStyle(color: Colors.white70, fontSize: 14)),
+            const SizedBox(height: 4),
+            Text(
+              timeText,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 47,
+                  fontWeight: FontWeight.w300),
+            ),
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(30),
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: Colors.white24),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.access_time,
+                      color: Color(0xFFFCC83D), size: 16),
+                  SizedBox(width: 6),
+                  Text('الوقت الحالي',
+                      style: TextStyle(color: Colors.white, fontSize: 11)),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
