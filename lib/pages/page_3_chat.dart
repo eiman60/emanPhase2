@@ -27,49 +27,62 @@ class Page3Chat extends StatelessWidget {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      backgroundColor: const Color(0xFF5B3928),
-      elevation: 0,
-      toolbarHeight: 86,
-      titleSpacing: 0,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
-      ),
-      title: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Nusuk AI',
-            style: TextStyle(
-              fontSize: 24,
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.2,
-            ),
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(86),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: AppBar(
+          backgroundColor: const Color(0xFF5B3928),
+          elevation: 0,
+          toolbarHeight: 86,
+          titleSpacing: 0,
+          leading: const Icon(
+            Icons.upload_outlined,
+            color: Color(0xFFF2EDE6),
+            size: 24,
           ),
-          SizedBox(height: 2),
-          Row(
-            mainAxisSize: MainAxisSize.min,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+          ),
+          title: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.circle, size: 9, color: Color(0xFF34C759)),
-              SizedBox(width: 4),
               Text(
-                'Online',
+                'مساعدك الشخصي',
                 style: TextStyle(
-                  fontSize: 13,
-                  color: Color(0xFFF0EDE7),
-                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.2,
+                ),
+              ),
+              SizedBox(height: 2),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.circle, size: 9, color: Color(0xFF34C759)),
+                  SizedBox(width: 4),
+                  Text(
+                    'Online',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFFF0EDE7),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
-        ],
+          actions: const [
+            Padding(
+              padding: EdgeInsets.only(right: 12),
+              child: Icon(Icons.apps, color: Color(0xFFF2EDE6), size: 22),
+            ),
+          ],
+        ),
       ),
-      actions: const [
-        Icon(Icons.more_vert, color: Color(0xFFF2EDE6), size: 22),
-        SizedBox(width: 12),
-      ],
     );
   }
 
