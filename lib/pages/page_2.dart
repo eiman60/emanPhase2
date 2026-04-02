@@ -7,7 +7,7 @@ class Page2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -31,7 +31,7 @@ class Page2 extends StatelessWidget {
           ],
           centerTitle: true,
           title: const Text(
-            'Discover',
+            'اكتشف',
             style: TextStyle(
               fontSize: 27,
               fontWeight: FontWeight.w700,
@@ -48,15 +48,15 @@ class Page2 extends StatelessWidget {
               children: const [
                 _SearchBar(),
                 SizedBox(height: 18),
-                _SectionTitle(title: 'Trip Timeline', actionText: '⋯'),
+                _SectionTitle(title: 'الجدول الزمني للرحلة', actionText: '⋯'),
                 SizedBox(height: 10),
                 _TripTimelineCard(),
                 SizedBox(height: 18),
-                _SectionTitle(title: 'Categories', actionText: 'See all'),
+                _SectionTitle(title: 'الفئات', actionText: 'عرض الكل'),
                 SizedBox(height: 10),
                 _CategoriesRow(),
                 SizedBox(height: 18),
-                _SectionTitle(title: 'Trending Now'),
+                _SectionTitle(title: 'الرائج الآن'),
                 SizedBox(height: 10),
                 _TrendingList(),
               ],
@@ -85,7 +85,7 @@ class _SearchBar extends StatelessWidget {
           Icon(Icons.search, size: 21, color: Color(0xFF8F9092)),
           SizedBox(width: 8),
           Text(
-            'Search ...',
+            'ابحث...',
             style: TextStyle(color: Color(0xFF9DA0A4), fontSize: 16),
           ),
         ],
@@ -143,12 +143,12 @@ class _TripTimelineCard extends StatelessWidget {
         children: const [
           _TimelineRow(
             dotColor: Color(0xFFCACACA),
-            title: 'Start Journey',
+            title: 'بداية الرحلة',
           ),
           SizedBox(height: 13),
           _TimelineRow(
             dotColor: Color(0xFFF2BE2E),
-            title: 'Return Journey',
+            title: 'العودة من الرحلة',
           ),
         ],
       ),
@@ -182,7 +182,7 @@ class _TimelineRow extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               const Text(
-                'Select Date',
+                'اختر التاريخ',
                 style: TextStyle(
                   color: Color(0xFF1D1D1D),
                   fontSize: 21,
@@ -199,7 +199,7 @@ class _TimelineRow extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: const Text(
-            'Add',
+            'إضافة',
             style: TextStyle(
               color: Color(0xFF4A4A4A),
               fontWeight: FontWeight.w600,
@@ -217,10 +217,10 @@ class _CategoriesRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const categories = [
-      ('Health', Icons.favorite_border, Color(0xFF261613)),
-      ('Family', Icons.family_restroom_outlined, Color(0xFFD8D6D1)),
-      ('Adventure', Icons.terrain_outlined, Color(0xFFD8D6D1)),
-      ('Relaxation', Icons.coffee_outlined, Color(0xFFD8D6D1)),
+      ('الصحة', Icons.favorite_border, Color(0xFF261613)),
+      ('العائلة', Icons.family_restroom_outlined, Color(0xFFD8D6D1)),
+      ('المغامرة', Icons.terrain_outlined, Color(0xFFD8D6D1)),
+      ('الاسترخاء', Icons.coffee_outlined, Color(0xFFD8D6D1)),
     ];
 
     return SizedBox(
@@ -315,7 +315,7 @@ class _TrendingCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: const Text(
-                  'Health & Wellness',
+                  'الصحة والعافية',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 11,
@@ -331,7 +331,7 @@ class _TrendingCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 Text(
-                  'Bali Wellness Retreat',
+                  'منتجع بالي الصحي',
                   style: TextStyle(
                     color: Color(0xFF202020),
                     fontSize: 17,
@@ -344,7 +344,7 @@ class _TrendingCard extends StatelessWidget {
                     Icon(Icons.star_border, size: 15, color: Color(0xFFF2BE2E)),
                     SizedBox(width: 3),
                     Text(
-                      '4.9 (120 reviews)',
+                      '4.9 (120 تقييمًا)',
                       style: TextStyle(color: Color(0xFF7D7D7D), fontSize: 13),
                     ),
                   ],
