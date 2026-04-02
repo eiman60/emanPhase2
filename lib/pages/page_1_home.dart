@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../app_icons.dart';
-import '../widgets/top_bar.dart';
 import 'emergency_report_page.dart';
 
 class Page1Home extends StatelessWidget {
@@ -9,72 +8,76 @@ class Page1Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      // AppBar سيكون شفافاً ويأخذ لون الخلفية
-      appBar: AppBar(
-        backgroundColor: Colors.transparent, // شفاف
-        elevation: 0, // بدون ظل
-        leading: const Padding(
-          padding: EdgeInsets.only(right: 10),
-          child: CircleAvatar(
-            radius: 20,
-            backgroundColor: Color(0xFFF3B33B),
-            child: Icon(Icons.person_outline, size: 25, color: Colors.white),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        // AppBar سيكون شفافاً ويأخذ لون الخلفية
+        appBar: AppBar(
+          backgroundColor: Colors.transparent, // شفاف
+          elevation: 0, // بدون ظل
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 14),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Color(0xFFF3B33B),
+              child: Icon(Icons.person_outline, size: 25, color: Colors.white),
+            ),
           ),
-        ),
-        actions: const [
-          TopIcon(iconPath: AppIcons.wallet, size: 25),
-          SizedBox(width: 8),
-          TopIcon(iconPath: AppIcons.notification, size: 25),
-          SizedBox(width: 8),
-          TopIcon(iconPath: AppIcons.menu, size: 25),
-          SizedBox(width: 15),
-        ],
+          actions: const [
+            Icon(Icons.wallet_outlined, size: 25, color: Color(0xFFEDEDED)),
+            SizedBox(width: 8),
+            Icon(Icons.notifications_outlined,
+                size: 25, color: Color(0xFFEDEDED)),
+            SizedBox(width: 8),
+            Icon(Icons.more_vert, size: 25, color: Color(0xFFEDEDED)),
+            SizedBox(width: 15),
+          ],
 
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF8A6A4E),
-              Color(0xFF6F513A),
-              Color(0xFF523A29),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+          centerTitle: true,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const _HeroSection(),
-              Container(
-                height: 900,
-                padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFF8F6F0),
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF8A6A4E),
+                Color(0xFF6F513A),
+                Color(0xFF523A29),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const _HeroSection(),
+                Container(
+                  height: 900,
+                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF8F6F0),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0x12000000),
+                          blurRadius: 8,
+                          offset: Offset(0, 2))
+                    ],
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color(0x12000000),
-                        blurRadius: 8,
-                        offset: Offset(0, 2))
-                  ],
-                ),
-                child: const Column(
-                  children: [
-                    _QuranCard(),
-                    _DiscoverSection(),
-                    SizedBox(height: 24),
-                  ],
-                ),
-              )
-            ],
+                  child: const Column(
+                    children: [
+                      _QuranCard(),
+                      _DiscoverSection(),
+                      SizedBox(height: 24),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -312,23 +315,46 @@ class _QuranCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              Text('القرآن الكريم',
-              style: TextStyle(
-                color: Color(0xFF1F2938),
-                fontSize: 23,
-                fontFamily: 'Amiri',
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-                Spacer(),
-                Icon(Icons.menu_book_outlined, color: Color(0xFF2565EB), size: 17),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Container(
+                    color: const Color(0xFFF6F6F6),
+                    child: Image.asset(
+                      'assets/icons/fatiha_bitmap.png',
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const Center(
+                        child: Text(
+                          'Add assets/icons/fatiha_bitmap.png',
+                          style: TextStyle(color: Color(0xFF6B7280), fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 48,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0x00FFFFFF),
+                            Color(0xCCFFFFFF),
+                            Color(0xFFFFFFFF),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-          const Spacer(),
-          const Text('Al-Fatiha • Verse 1 • Page 1',
-              style: TextStyle(color: Color(0xFF6B7280), fontSize: 11)),
+            ),
+          ),
           const SizedBox(height: 12),
           Container(
             width: 176,
@@ -342,7 +368,7 @@ class _QuranCard extends StatelessWidget {
                 Text(
                   'ابدا تلاوتك',
                   style: TextStyle(
-                    fontSize: 23,
+                    fontSize: 24,
                     color: Color(0xFF1F2938),
                     fontFamily: 'Amiri',
                     fontWeight: FontWeight.w700,
