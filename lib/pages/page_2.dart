@@ -36,9 +36,9 @@ class Page2 extends StatelessWidget {
               ],
               centerTitle: true,
               title: const Text(
-                'اكتشف',
+                'استكشاف',
                 style: TextStyle(
-                  fontSize: 27,
+                  fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF171717),
                 ),
@@ -46,7 +46,7 @@ class Page2 extends StatelessWidget {
             ),
           ),
         ),
-        backgroundColor: const Color(0xFFF2F1ED),
+        backgroundColor: const Color(0xFFF8F6F0),
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(14, 12, 14, 16),
@@ -83,7 +83,7 @@ class _SearchBar extends StatelessWidget {
     return Container(
       height: 44,
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F8F8),
+        color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -115,8 +115,8 @@ class _SectionTitle extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
             color: Color(0xFF191919),
           ),
         ),
@@ -192,7 +192,7 @@ class _TimelineRow extends StatelessWidget {
                 'اختر التاريخ',
                 style: TextStyle(
                   color: Color(0xFF1D1D1D),
-                  fontSize: 21,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
               ),
