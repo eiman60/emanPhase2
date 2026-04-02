@@ -36,9 +36,9 @@ class Page2 extends StatelessWidget {
               ],
               centerTitle: true,
               title: const Text(
-                'اكتشف',
+                'استكشاف',
                 style: TextStyle(
-                  fontSize: 27,
+                  fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF171717),
                 ),
