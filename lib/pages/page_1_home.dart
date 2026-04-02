@@ -26,12 +26,12 @@ class Page1Home extends StatelessWidget {
             ),
           ),
           actions: const [
-            Icon(Icons.more_vert, size: 25, color: Color(0xFFEDEDED)),
+            Icon(Icons.wallet_outlined, size: 25, color: Color(0xFFEDEDED)),
             SizedBox(width: 8),
             Icon(Icons.notifications_outlined,
                 size: 25, color: Color(0xFFEDEDED)),
             SizedBox(width: 8),
-            Icon(Icons.wallet_outlined, size: 25, color: Color(0xFFEDEDED)),
+            Icon(Icons.more_vert, size: 25, color: Color(0xFFEDEDED)),
             SizedBox(width: 15),
           ],
 
