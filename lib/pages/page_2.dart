@@ -9,33 +9,37 @@ class Page2 extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: const Padding(
-            padding: EdgeInsets.only(left: 14),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundColor: Color(0xFFF3B33B),
-              child: Icon(Icons.person_outline, size: 25, color: Colors.white),
+        appBar: Directionality(
+          textDirection: TextDirection.ltr,
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: const Padding(
+              padding: EdgeInsets.only(left: 14),
+              child: CircleAvatar(
+                radius: 20,
+                backgroundColor: Color(0xFFF3B33B),
+                child:
+                    Icon(Icons.person_outline, size: 25, color: Colors.white),
+              ),
             ),
-          ),
-          actions: const [
-            Icon(Icons.wallet_outlined, size: 25, color: Color(0xFF171717)),
-            SizedBox(width: 8),
-            Icon(Icons.notifications_outlined,
-                size: 25, color: Color(0xFF171717)),
-            SizedBox(width: 8),
-            Icon(Icons.more_vert, size: 25, color: Color(0xFF171717)),
-            SizedBox(width: 15),
-          ],
-          centerTitle: true,
-          title: const Text(
-            'استكشاف',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF171717),
+            actions: const [
+              Icon(Icons.wallet_outlined, size: 25, color: Color(0xFF171717)),
+              SizedBox(width: 8),
+              Icon(Icons.notifications_outlined,
+                  size: 25, color: Color(0xFF171717)),
+              SizedBox(width: 8),
+              Icon(Icons.more_vert, size: 25, color: Color(0xFF171717)),
+              SizedBox(width: 15),
+            ],
+            centerTitle: true,
+            title: const Text(
+              'اكتشف',
+              style: TextStyle(
+                fontSize: 27,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF171717),
+              ),
             ),
           ),
         ),
