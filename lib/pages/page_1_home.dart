@@ -346,21 +346,55 @@ class _QuranCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              Text('القرآن الكريم',
-              style: TextStyle(
-                color: Color(0xFF1F2938),
-                fontSize: 23,
-                fontFamily: 'Amiri',
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-                Spacer(),
-                Icon(Icons.menu_book_outlined, color: Color(0xFF2565EB), size: 17),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Container(
+                    color: const Color(0xFFF6F6F6),
+                    padding: const EdgeInsets.fromLTRB(14, 12, 14, 26),
+                    child: const FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(
+                        'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ\n'
+                        'الْحَمْدُ لِلّٰهِ رَبِّ الْعَالَمِينَ\n'
+                        'الرَّحْمٰنِ الرَّحِيمِ مَالِكِ يَوْمِ الدِّينِ\n'
+                        'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF111111),
+                          fontSize: 30,
+                          fontFamily: 'Amiri',
+                          fontWeight: FontWeight.w700,
+                          height: 1.8,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 48,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0x00FFFFFF),
+                            Color(0xCCFFFFFF),
+                            Color(0xFFFFFFFF),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-          const Spacer(),
+            ),
+          ),
+          const SizedBox(height: 10),
           const Text('Al-Fatiha • Verse 1 • Page 1',
               style: TextStyle(color: Color(0xFF6B7280), fontSize: 11)),
           const SizedBox(height: 12),
