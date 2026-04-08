@@ -59,6 +59,10 @@ class Page2 extends StatelessWidget {
                 SizedBox(height: 10),
                 _TripTimelineCard(),
                 SizedBox(height: 18),
+                _SectionTitle(title: 'المواقع', actionText: 'عرض الكل'),
+                SizedBox(height: 10),
+                _LocationsRow(),
+                SizedBox(height: 18),
                 _SectionTitle(title: 'الفئات', actionText: 'عرض الكل'),
                 SizedBox(height: 10),
                 _CategoriesRow(),
@@ -264,6 +268,68 @@ class _CategoriesRow extends StatelessWidget {
                     fontSize: 13,
                     color: Color(0xFF252525),
                     fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _LocationsRow extends StatelessWidget {
+  const _LocationsRow();
+
+  @override
+  Widget build(BuildContext context) {
+    const locations = [
+      ('منى', Icons.place_outlined),
+      ('عرفات', Icons.place_outlined),
+      ('مزدلفة', Icons.place_outlined),
+      ('مكة المكرمة', Icons.place_outlined),
+    ];
+
+    return SizedBox(
+      height: 108,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: locations.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        itemBuilder: (_, index) {
+          final location = locations[index];
+
+          return Container(
+            width: 130,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF2BE2E).withAlpha(28),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    location.$2,
+                    color: Color(0xFF9E6F08),
+                    size: 22,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  location.$1,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Color(0xFF202020),
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
