@@ -59,6 +59,10 @@ class Page2 extends StatelessWidget {
                 SizedBox(height: 10),
                 _TripTimelineCard(),
                 SizedBox(height: 18),
+                _SectionTitle(title: 'المواقع', actionText: 'عرض الكل'),
+                SizedBox(height: 10),
+                _LocationsRow(),
+                SizedBox(height: 18),
                 _SectionTitle(title: 'الفئات', actionText: 'عرض الكل'),
                 SizedBox(height: 10),
                 _CategoriesRow(),
@@ -271,6 +275,132 @@ class _CategoriesRow extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _LocationsRow extends StatelessWidget {
+  const _LocationsRow();
+
+  @override
+  Widget build(BuildContext context) {
+    const locations = [
+      ('منى', Icons.place_outlined),
+      ('عرفات', Icons.place_outlined),
+      ('مزدلفة', Icons.place_outlined),
+      ('مكة المكرمة', Icons.place_outlined),
+    ];
+
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Text(
+            'أنت الآن في: مكة المكرمة',
+            style: TextStyle(
+              fontSize: 14,
+              color: Color(0xFF353535),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF2BE2E),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'تحديث الموقع',
+                  style: TextStyle(
+                    color: Color(0xFF2E2303),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFFFFF),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: const Color(0xFFE0E0E0)),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'فتح الخريطه',
+                  style: TextStyle(
+                    color: Color(0xFF373737),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          height: 108,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: locations.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 10),
+            itemBuilder: (_, index) {
+              final location = locations[index];
+
+              return Container(
+                width: 130,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF2BE2E).withAlpha(28),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        location.$2,
+                        color: Color(0xFF9E6F08),
+                        size: 22,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      location.$1,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: Color(0xFF202020),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
