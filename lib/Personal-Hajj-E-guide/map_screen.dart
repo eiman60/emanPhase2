@@ -67,7 +67,6 @@ class _MapScreenState extends State<MapScreen> {
         color: isInside ? Colors.green.withValues(alpha: 0.3) : Colors.blue.withValues(alpha: 0.1),
         borderStrokeWidth: isInside ? 3 : 1,
         borderColor: isInside ? Colors.green : Colors.blueGrey,
-        isFilled: true,
       ));
     }
     setState(() {
