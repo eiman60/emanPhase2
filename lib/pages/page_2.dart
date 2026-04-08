@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Personal-Hajj-E-guide/map_screen.dart';
 
 
 class Page2 extends StatelessWidget {
@@ -59,7 +60,7 @@ class Page2 extends StatelessWidget {
                 SizedBox(height: 10),
                 _TripTimelineCard(),
                 SizedBox(height: 18),
-                _SectionTitle(title: 'المواقع', actionText: 'عرض الكل'),
+                _SectionTitle(title: 'الخريطه', actionText: 'عرض الكل'),
                 SizedBox(height: 10),
                 _LocationsRow(),
                 SizedBox(height: 18),
@@ -332,20 +333,28 @@ class _LocationsRow extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFFFFF),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: const Color(0xFFE0E0E0)),
-                ),
-                alignment: Alignment.center,
-                child: const Text(
-                  'فتح الخريطه',
-                  style: TextStyle(
-                    color: Color(0xFF373737),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const MapScreen()),
+                  );
+                },
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFFFFF),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: const Color(0xFFE0E0E0)),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'فتح الخريطه',
+                    style: TextStyle(
+                      color: Color(0xFF373737),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ),
