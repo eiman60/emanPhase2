@@ -91,7 +91,43 @@ class _MapScreenState extends State<MapScreen> {
         return zone['name'] as String;
       }
     }
+
+    // fallback: إذا كانت النقطة قريبة جداً من نطاق معروف، اعتبرها ضمنه
+    String? nearestZone;
+    double nearestDistance = double.infinity;
+
+    for (final zone in _zonePolygons) {
+      final points = zone['points'] as List<ll.LatLng>;
+      final center = _polygonCenter(points);
+      final distance = Geolocator.distanceBetween(
+        point.latitude,
+        point.longitude,
+        center.latitude,
+        center.longitude,
+      );
+
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestZone = zone['name'] as String;
+      }
+    }
+
+    // 3000m tolerance لتسهيل الاختيار اليدوي على الخريطة
+    if (nearestZone != null && nearestDistance <= 3000) {
+      return nearestZone;
+    }
+
     return "خارج نطاق المشاعر المقدسة";
+  }
+
+  ll.LatLng _polygonCenter(List<ll.LatLng> polygon) {
+    double lat = 0;
+    double lng = 0;
+    for (final p in polygon) {
+      lat += p.latitude;
+      lng += p.longitude;
+    }
+    return ll.LatLng(lat / polygon.length, lng / polygon.length);
   }
 
   bool _containsLocation(ll.LatLng point, List<ll.LatLng> polygon) {
