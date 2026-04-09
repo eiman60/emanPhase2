@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Personal-Hajj-E-guide/map_screen.dart';
+import '../Personal-Hajj-E-guide/location_service.dart';
 
 
 class Page2 extends StatelessWidget {
@@ -56,7 +57,7 @@ class Page2 extends StatelessWidget {
               children: const [
                 _SearchBar(),
                 SizedBox(height: 18),
-                _SectionTitle(title: 'الجدول الزمني للرحلة', actionText: '⋯'),
+                _SectionTitle(title: 'مناسك الحج بالترتيب', actionText: '⋯'),
                 SizedBox(height: 10),
                 _TripTimelineCard(),
                 SizedBox(height: 18),
@@ -140,8 +141,67 @@ class _SectionTitle extends StatelessWidget {
   }
 }
 
-class _TripTimelineCard extends StatelessWidget {
+class _TripTimelineCard extends StatefulWidget {
   const _TripTimelineCard();
+
+  @override
+  State<_TripTimelineCard> createState() => _TripTimelineCardState();
+}
+
+class _TripTimelineCardState extends State<_TripTimelineCard> {
+  final LocationService _locationService = LocationService();
+  String _currentZone = 'جاري تحديد الموقع...';
+  bool _isLoading = true;
+
+  static const List<String> _hajjOrder = [
+    'منى',
+    'عرفات',
+    'مزدلفة',
+    'الحرم المكي',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentZone();
+  }
+
+  Future<void> _loadCurrentZone() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final zone = await _locationService.checkUserZone();
+    if (!mounted) return;
+
+    setState(() {
+      _currentZone = zone;
+      _isLoading = false;
+    });
+  }
+
+  Color _dotColorForStep(int stepIndex) {
+    final currentIndex = _hajjOrder.indexOf(_currentZone);
+    if (currentIndex == -1) return const Color(0xFFCACACA);
+    if (stepIndex < currentIndex) return const Color(0xFF3BAF5D);
+    if (stepIndex == currentIndex) return const Color(0xFFF2BE2E);
+    return const Color(0xFFCACACA);
+  }
+
+  Future<void> _chooseLocationFromMap() async {
+    final selectedZone = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (_) => const MapScreen()),
+    );
+
+    if (!mounted || selectedZone == null) return;
+    await _loadCurrentZone();
+  }
+
+  Future<void> _clearManualSelection() async {
+    LocationService.clearManualZoneOverride();
+    await _loadCurrentZone();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,15 +212,62 @@ class _TripTimelineCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       child: Column(
-        children: const [
-          _TimelineRow(
-            dotColor: Color(0xFFCACACA),
-            title: 'بداية الرحلة',
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'مناسك الحج بالترتيب',
+            style: TextStyle(
+              color: Color(0xFF1D1D1D),
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
           ),
-          SizedBox(height: 13),
-          _TimelineRow(
-            dotColor: Color(0xFFF2BE2E),
-            title: 'العودة من الرحلة',
+          const SizedBox(height: 10),
+          for (var i = 0; i < _hajjOrder.length; i++) ...[
+            _TimelineRow(
+              dotColor: _dotColorForStep(i),
+              title: _hajjOrder[i],
+              isCurrent: _hajjOrder[i] == _currentZone,
+            ),
+            if (i != _hajjOrder.length - 1) const SizedBox(height: 13),
+          ],
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  _isLoading ? 'جاري تحديث حالتك...' : 'موقعك الحالي: $_currentZone',
+                  style: const TextStyle(
+                    color: Color(0xFF666666),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: _loadCurrentZone,
+                icon: const Icon(Icons.refresh, size: 20, color: Color(0xFF545454)),
+                tooltip: 'تحديث الموقع',
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: TextButton.icon(
+                  onPressed: _chooseLocationFromMap,
+                  icon: const Icon(Icons.map_outlined, size: 18),
+                  label: const Text('اختيار الموقع من الخريطة'),
+                ),
+              ),
+              if (LocationService.manualZoneOverride != null)
+                TextButton.icon(
+                  onPressed: _clearManualSelection,
+                  icon: const Icon(Icons.gps_fixed, size: 18),
+                  label: const Text('العودة للموقع الحقيقي'),
+                ),
+            ],
           ),
         ],
       ),
@@ -169,10 +276,15 @@ class _TripTimelineCard extends StatelessWidget {
 }
 
 class _TimelineRow extends StatelessWidget {
-  const _TimelineRow({required this.dotColor, required this.title});
+  const _TimelineRow({
+    required this.dotColor,
+    required this.title,
+    this.isCurrent = false,
+  });
 
   final Color dotColor;
   final String title;
+  final bool isCurrent;
 
   @override
   Widget build(BuildContext context) {
@@ -193,30 +305,21 @@ class _TimelineRow extends StatelessWidget {
                 style: const TextStyle(color: Color(0xFF868686), fontSize: 13),
               ),
               const SizedBox(height: 2),
-              const Text(
-                'اختر التاريخ',
+              Text(
+                isCurrent ? 'المحطة الحالية' : 'قيد المتابعة',
                 style: TextStyle(
-                  color: Color(0xFF1D1D1D),
+                  color: isCurrent ? const Color(0xFF1D1D1D) : const Color(0xFF7A7A7A),
                   fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: isCurrent ? FontWeight.w700 : FontWeight.w600,
                 ),
               ),
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF2F2F2),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Text(
-            'إضافة',
-            style: TextStyle(
-              color: Color(0xFF4A4A4A),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        Icon(
+          isCurrent ? Icons.my_location : Icons.check_circle_outline,
+          color: isCurrent ? const Color(0xFFF2BE2E) : const Color(0xFF8D8D8D),
+          size: 20,
         ),
       ],
     );
