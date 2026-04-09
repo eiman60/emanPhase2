@@ -4,6 +4,17 @@ import 'dart:convert';
 import 'database_helper.dart';
 
 class LocationService {
+  static String? _manualZoneOverride;
+
+  static void setManualZoneOverride(String zoneName) {
+    _manualZoneOverride = zoneName;
+  }
+
+  static void clearManualZoneOverride() {
+    _manualZoneOverride = null;
+  }
+
+  static String? get manualZoneOverride => _manualZoneOverride;
 
   // دالة مساعدة لإنشاء موقع افتراضي في مشعر منى للاختبار (مظللة حالياً)
   /*
@@ -47,6 +58,10 @@ class LocationService {
 
   Future<String> checkUserZone() async {
     try {
+      if (_manualZoneOverride != null) {
+        return _manualZoneOverride!;
+      }
+
       // الموقع الفعلي الان 
       Position position = await getCurrentLocation();
       

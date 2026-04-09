@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' as ll;
+import 'package:maps_toolkit/maps_toolkit.dart' as mp;
 import 'dart:convert';
 import 'database_helper.dart';
 import 'location_service.dart'; 
@@ -18,8 +19,10 @@ class _MapScreenState extends State<MapScreen> {
   final LocationService _locationService = LocationService(); 
   
   List<Polygon> _polygons = [];
+  List<Map<String, dynamic>> _zonePolygons = [];
   String _statusMessage = "جاري فحص موقعك في المشاعر...";
   bool _isSatellite = false; 
+  String? _selectedZoneFromTap;
   
   final String _streetUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
   final String _satelliteUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
@@ -50,13 +53,18 @@ class _MapScreenState extends State<MapScreen> {
   void _loadMapData() async {
     final zones = await DatabaseHelper.instance.getZones();
     List<Polygon> temp = [];
+    List<Map<String, dynamic>> zoneData = [];
     String foundZone = "خارج نطاق المشاعر حالياً";
     
     for (var zone in zones) {
       var pointsList = jsonDecode(zone['points']) as List;
       List<ll.LatLng> points = pointsList.map((p) => ll.LatLng(p['lat'], p['lng'])).toList();
+      zoneData.add({
+        'name': zone['name'],
+        'points': points,
+      });
       
-      bool isInside = _checkIfInside(_userPos, points);
+      bool isInside = _containsLocation(_userPos, points);
       
       if (isInside) {
         foundZone = "أنت الآن في نطاق: ${zone['name']}";
@@ -71,22 +79,29 @@ class _MapScreenState extends State<MapScreen> {
     }
     setState(() {
       _polygons = temp;
+      _zonePolygons = zoneData;
       _statusMessage = foundZone;
     });
   }
 
-  bool _checkIfInside(ll.LatLng point, List<ll.LatLng> polygon) {
-    var intersections = 0;
-    for (var i = 0; i < polygon.length; i++) {
-      var j = (i + 1) % polygon.length;
-      if (((polygon[i].latitude <= point.latitude && point.latitude < polygon[j].latitude) ||
-          (polygon[j].latitude <= point.latitude && point.latitude < polygon[i].latitude)) &&
-          (point.longitude < (polygon[j].longitude - polygon[i].longitude) * (point.latitude - polygon[i].latitude) / (polygon[j].latitude - polygon[i].latitude) + 
-          polygon[i].longitude)) {
-        intersections++;
+  String _zoneNameForPoint(ll.LatLng point) {
+    for (final zone in _zonePolygons) {
+      final points = zone['points'] as List<ll.LatLng>;
+      if (_containsLocation(point, points)) {
+        return zone['name'] as String;
       }
     }
-    return intersections % 2 != 0;
+    return "خارج نطاق المشاعر المقدسة";
+  }
+
+  bool _containsLocation(ll.LatLng point, List<ll.LatLng> polygon) {
+    final mpPolygon =
+        polygon.map((p) => mp.LatLng(p.latitude, p.longitude)).toList();
+    return mp.PolygonUtil.containsLocation(
+      mp.LatLng(point.latitude, point.longitude),
+      mpPolygon,
+      false,
+    );
   }
 
   @override
@@ -99,6 +114,15 @@ class _MapScreenState extends State<MapScreen> {
             options: MapOptions(
               initialCenter: _userPos,
               initialZoom: 16,
+              onTap: (_, point) {
+                final zone = _zoneNameForPoint(point);
+                setState(() {
+                  _userPos = point;
+                  _mapController.move(point, 16);
+                  _selectedZoneFromTap = zone;
+                  _statusMessage = "الموقع المختار: $zone";
+                });
+              },
             ),
             children: [
               TileLayer(
@@ -169,6 +193,38 @@ class _MapScreenState extends State<MapScreen> {
               label: const Text("رجوع", style: TextStyle(color: Colors.blue)),
             ),
           ),
+
+          if (_selectedZoneFromTap != null)
+            Positioned(
+              left: 20,
+              right: 20,
+              bottom: 95,
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.95),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 8)],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "الموقع المختار: $_selectedZoneFromTap",
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        LocationService.setManualZoneOverride(_selectedZoneFromTap!);
+                        Navigator.pop(context, _selectedZoneFromTap);
+                      },
+                      child: const Text("اعتماد كموقع حالي"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
