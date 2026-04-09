@@ -18,8 +18,10 @@ class _MapScreenState extends State<MapScreen> {
   final LocationService _locationService = LocationService(); 
   
   List<Polygon> _polygons = [];
+  List<Map<String, dynamic>> _zonePolygons = [];
   String _statusMessage = "جاري فحص موقعك في المشاعر...";
   bool _isSatellite = false; 
+  String? _selectedZoneFromTap;
   
   final String _streetUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
   final String _satelliteUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
@@ -50,11 +52,16 @@ class _MapScreenState extends State<MapScreen> {
   void _loadMapData() async {
     final zones = await DatabaseHelper.instance.getZones();
     List<Polygon> temp = [];
+    List<Map<String, dynamic>> zoneData = [];
     String foundZone = "خارج نطاق المشاعر حالياً";
     
     for (var zone in zones) {
       var pointsList = jsonDecode(zone['points']) as List;
       List<ll.LatLng> points = pointsList.map((p) => ll.LatLng(p['lat'], p['lng'])).toList();
+      zoneData.add({
+        'name': zone['name'],
+        'points': points,
+      });
       
       bool isInside = _checkIfInside(_userPos, points);
       
@@ -71,8 +78,19 @@ class _MapScreenState extends State<MapScreen> {
     }
     setState(() {
       _polygons = temp;
+      _zonePolygons = zoneData;
       _statusMessage = foundZone;
     });
+  }
+
+  String _zoneNameForPoint(ll.LatLng point) {
+    for (final zone in _zonePolygons) {
+      final points = zone['points'] as List<ll.LatLng>;
+      if (_checkIfInside(point, points)) {
+        return zone['name'] as String;
+      }
+    }
+    return "خارج نطاق المشاعر المقدسة";
   }
 
   bool _checkIfInside(ll.LatLng point, List<ll.LatLng> polygon) {
@@ -99,6 +117,12 @@ class _MapScreenState extends State<MapScreen> {
             options: MapOptions(
               initialCenter: _userPos,
               initialZoom: 16,
+              onTap: (_, point) {
+                final zone = _zoneNameForPoint(point);
+                setState(() {
+                  _selectedZoneFromTap = zone;
+                });
+              },
             ),
             children: [
               TileLayer(
@@ -169,6 +193,38 @@ class _MapScreenState extends State<MapScreen> {
               label: const Text("رجوع", style: TextStyle(color: Colors.blue)),
             ),
           ),
+
+          if (_selectedZoneFromTap != null)
+            Positioned(
+              left: 20,
+              right: 20,
+              bottom: 95,
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.95),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 8)],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "الموقع المختار: $_selectedZoneFromTap",
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        LocationService.setManualZoneOverride(_selectedZoneFromTap!);
+                        Navigator.pop(context, _selectedZoneFromTap);
+                      },
+                      child: const Text("اعتماد كموقع حالي"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
