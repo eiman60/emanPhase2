@@ -188,6 +188,21 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
     return const Color(0xFFCACACA);
   }
 
+  Future<void> _chooseLocationFromMap() async {
+    final selectedZone = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (_) => const MapScreen()),
+    );
+
+    if (!mounted || selectedZone == null) return;
+    await _loadCurrentZone();
+  }
+
+  Future<void> _clearManualSelection() async {
+    LocationService.clearManualZoneOverride();
+    await _loadCurrentZone();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -234,6 +249,24 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
                 icon: const Icon(Icons.refresh, size: 20, color: Color(0xFF545454)),
                 tooltip: 'تحديث الموقع',
               ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: TextButton.icon(
+                  onPressed: _chooseLocationFromMap,
+                  icon: const Icon(Icons.map_outlined, size: 18),
+                  label: const Text('اختيار الموقع من الخريطة'),
+                ),
+              ),
+              if (LocationService.manualZoneOverride != null)
+                TextButton.icon(
+                  onPressed: _clearManualSelection,
+                  icon: const Icon(Icons.gps_fixed, size: 18),
+                  label: const Text('العودة للموقع الحقيقي'),
+                ),
             ],
           ),
         ],
