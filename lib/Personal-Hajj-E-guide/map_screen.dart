@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' as ll;
+import 'package:maps_toolkit/maps_toolkit.dart' as mp;
 import 'dart:convert';
 import 'database_helper.dart';
 import 'location_service.dart'; 
@@ -63,7 +64,7 @@ class _MapScreenState extends State<MapScreen> {
         'points': points,
       });
       
-      bool isInside = _checkIfInside(_userPos, points);
+      bool isInside = _containsLocation(_userPos, points);
       
       if (isInside) {
         foundZone = "أنت الآن في نطاق: ${zone['name']}";
@@ -86,25 +87,21 @@ class _MapScreenState extends State<MapScreen> {
   String _zoneNameForPoint(ll.LatLng point) {
     for (final zone in _zonePolygons) {
       final points = zone['points'] as List<ll.LatLng>;
-      if (_checkIfInside(point, points)) {
+      if (_containsLocation(point, points)) {
         return zone['name'] as String;
       }
     }
     return "خارج نطاق المشاعر المقدسة";
   }
 
-  bool _checkIfInside(ll.LatLng point, List<ll.LatLng> polygon) {
-    var intersections = 0;
-    for (var i = 0; i < polygon.length; i++) {
-      var j = (i + 1) % polygon.length;
-      if (((polygon[i].latitude <= point.latitude && point.latitude < polygon[j].latitude) ||
-          (polygon[j].latitude <= point.latitude && point.latitude < polygon[i].latitude)) &&
-          (point.longitude < (polygon[j].longitude - polygon[i].longitude) * (point.latitude - polygon[i].latitude) / (polygon[j].latitude - polygon[i].latitude) + 
-          polygon[i].longitude)) {
-        intersections++;
-      }
-    }
-    return intersections % 2 != 0;
+  bool _containsLocation(ll.LatLng point, List<ll.LatLng> polygon) {
+    final mpPolygon =
+        polygon.map((p) => mp.LatLng(p.latitude, p.longitude)).toList();
+    return mp.PolygonUtil.containsLocation(
+      mp.LatLng(point.latitude, point.longitude),
+      mpPolygon,
+      false,
+    );
   }
 
   @override
@@ -120,7 +117,10 @@ class _MapScreenState extends State<MapScreen> {
               onTap: (_, point) {
                 final zone = _zoneNameForPoint(point);
                 setState(() {
+                  _userPos = point;
+                  _mapController.move(point, 16);
                   _selectedZoneFromTap = zone;
+                  _statusMessage = "الموقع المختار: $zone";
                 });
               },
             ),
