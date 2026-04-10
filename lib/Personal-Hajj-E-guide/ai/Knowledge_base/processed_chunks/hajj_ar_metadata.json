@@ -1,0 +1,9 @@
+{
+  "source_file": "Hajj_Ar_v3.txt",
+  "total_chunks": 65,
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "text_fields": {
+    "display": "text_display",
+    "embedding": "text_for_embedding"
+  }
+}
