@@ -476,6 +476,13 @@ class _CategoryImageCard extends StatelessWidget {
   }
 }
 
+class _CategoryItem {
+  const _CategoryItem({required this.label, required this.icon});
+
+  final String label;
+  final IconData icon;
+}
+
 class _LocationsRow extends StatelessWidget {
   const _LocationsRow();
 
