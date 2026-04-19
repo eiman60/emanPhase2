@@ -72,7 +72,7 @@ class Page1Home extends StatelessWidget {
                   child: const Column(
                     children: [
                       _QuranCard(),
-                      _DiscoverSection(),
+                      _DhikrSection(),
                       SizedBox(height: 24),
                     ],
                   ),
@@ -415,8 +415,27 @@ class _QuranCard extends StatelessWidget {
   }
 }
 
-class _DiscoverSection extends StatelessWidget {
-  const _DiscoverSection();
+class _DhikrSection extends StatefulWidget {
+  const _DhikrSection();
+
+  @override
+  State<_DhikrSection> createState() => _DhikrSectionState();
+}
+
+class _DhikrSectionState extends State<_DhikrSection> {
+  int _activeIndex = 0;
+
+  void _goNext() {
+    if (_activeIndex < _dhikrCards.length - 1) {
+      setState(() => _activeIndex++);
+    }
+  }
+
+  void _goPrevious() {
+    if (_activeIndex > 0) {
+      setState(() => _activeIndex--);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -424,40 +443,45 @@ class _DiscoverSection extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(0, 14, 0, 16),
+        padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
         decoration: BoxDecoration(
           color: const Color(0xFFF8F6F0),
           borderRadius: BorderRadius.circular(14),
         ),
-        child: const Directionality(
+        child: Directionality(
           textDirection: TextDirection.rtl,
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'اكتشف المزيد',
-                  style: TextStyle(
-                    color: Color(0xFF1E293B),
-                    fontSize: 18,
-                    fontFamily: 'IBM Plex Sans Arabic',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Row(
+          child: GestureDetector(
+            onHorizontalDragEnd: (details) {
+              if (details.primaryVelocity == null) {
+                return;
+              }
+
+              if (details.primaryVelocity! < -100) {
+                _goNext();
+              } else if (details.primaryVelocity! > 100) {
+                _goPrevious();
+              }
+            },
+            child: SizedBox(
+              height: 440,
+              child: Stack(
                 children: [
-                  _FilterChip(label: 'الجميع', selected: true),
-                  SizedBox(width: 8),
-                  _FilterChip(icon: Icons.nights_stay_outlined),
-                  SizedBox(width: 8),
-                  _FilterChip(icon: Icons.wallet_membership_outlined),
+                  for (int i = _activeIndex; i < _dhikrCards.length; i++)
+                    AnimatedPositioned(
+                      duration: const Duration(milliseconds: 260),
+                      curve: Curves.easeOutCubic,
+                      top: (i - _activeIndex) * 52,
+                      left: 0,
+                      right: 0,
+                      child: _DhikrCard(
+                        data: _dhikrCards[i],
+                        expanded: i == _activeIndex,
+                        onTap: () => setState(() => _activeIndex = i),
+                      ),
+                    ),
                 ],
               ),
-              SizedBox(height: 10),
-              _ServiceTilesGrid(),
-            ],
+            ),
           ),
         ),
       ),
@@ -465,108 +489,136 @@ class _DiscoverSection extends StatelessWidget {
   }
 }
 
-class _ServiceTilesGrid extends StatelessWidget {
-  const _ServiceTilesGrid();
+class _DhikrCardData {
+  const _DhikrCardData({
+    required this.title,
+    required this.subtitle,
+    required this.color,
+    required this.content,
+  });
 
-  @override
-  Widget build(BuildContext context) {
-    const services = [
-      (Icons.explore_outlined, 'استكشاف'),
-      (Icons.menu_book_outlined, 'الصلاة'),
-      (Icons.restaurant_outlined, 'المطاعم'),
-      (Icons.bed_outlined, 'الفنادق'),
-      (Icons.spa_outlined, 'السبحة'),
-      (Icons.flight_outlined, 'الطيران'),
-      (Icons.train_outlined, 'القطار'),
-    ];
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final itemWidth = (constraints.maxWidth - 16) / 3;
-
-        return Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (final service in services)
-              SizedBox(
-                width: itemWidth,
-                child: _ServiceTile(icon: service.$1, label: service.$2),
-              ),
-          ],
-        );
-      },
-    );
-  }
+  final String title;
+  final String subtitle;
+  final Color color;
+  final String content;
 }
 
-class _FilterChip extends StatelessWidget {
-  const _FilterChip({this.label, this.icon, this.selected = false});
+const _dhikrCards = [
+  _DhikrCardData(
+    title: 'أذكار المساء',
+    subtitle: 'لِنَطْمَئِنَّ',
+    color: Color(0xFF6F4E37),
+    content:
+        'اللهم بك أمسينا وبك نحيا وبك نموت وإليك المصير.\nاللهم إني أسألك خير هذه الليلة وخير ما بعدها.',
+  ),
+  _DhikrCardData(
+    title: 'دعاء السفر',
+    subtitle: 'لِنَطْمَئِنَّ',
+    color: Color(0xFF7C5A40),
+    content:
+        'سبحان الذي سخر لنا هذا وما كنا له مقرنين.\nاللهم هون علينا سفرنا هذا واطوِ عنا بُعده.',
+  ),
+  _DhikrCardData(
+    title: 'دعاء النوم',
+    subtitle: 'لِنَطْمَئِنَّ',
+    color: Color(0xFF88644A),
+    content:
+        'باسمك اللهم أموت وأحيا.\nاللهم قني عذابك يوم تبعث عبادك، واجعل ليلتي سكينة وطمأنينة.',
+  ),
+  _DhikrCardData(
+    title: 'دعاء الخروج',
+    subtitle: 'لِنَطْمَئِنَّ',
+    color: Color(0xFF957157),
+    content:
+        'بسم الله، توكلت على الله، لا حول ولا قوة إلا بالله.\nاللهم إني أعوذ بك أن أضل أو أُضل.',
+  ),
+  _DhikrCardData(
+    title: 'دعاء ليلة القدر',
+    subtitle: 'لِنَطْمَئِنَّ',
+    color: Color(0xFFA27E65),
+    content:
+        'اللهم إنك عفوٌ كريمٌ تحب العفو فاعفُ عني.\nاللهم اجعل لنا من كل همٍ فرجًا ومن كل ضيقٍ مخرجًا.',
+  ),
+];
 
-  final String? label;
-  final IconData? icon;
-  final bool selected;
+class _DhikrCard extends StatelessWidget {
+  const _DhikrCard({
+    required this.data,
+    required this.expanded,
+    required this.onTap,
+  });
+
+  final _DhikrCardData data;
+  final bool expanded;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: selected ? const Color(0xFF3E2723) : const Color(0xFFFFFFFF),
-      ),
-      child: Center(
-        child: label != null
-            ? Text(label!,
-                style: TextStyle(
-                    color: selected ? Colors.white : Colors.black,
-                    fontSize: 12))
-            : Icon(icon, size: 21, color: const Color(0xFF121826)),
-      ),
-    );
-  }
-}
-
-class _ServiceTile extends StatelessWidget {
-  const _ServiceTile({required this.icon, required this.label});
-
-  final IconData icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 112,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-  color: const Color(0xFFFFFFFF),
-  borderRadius: BorderRadius.circular(10),
-  boxShadow: const [
-    BoxShadow(
-      color: Color(0x12000000),
-      blurRadius: 8,
-      offset: Offset(0, 2),
-    ),
-  ],
-),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(icon, size: 20),
-          SizedBox(height: 8),
-          Text(
-            label,
-            textDirection: TextDirection.rtl,
-            style: const TextStyle(
-              color: Color(0xFF1F2937),
-              fontSize: 13,
-              fontFamily: 'IBM Plex Sans Arabic',
-              fontWeight: FontWeight.w700,
+    return InkWell(
+      borderRadius: BorderRadius.circular(18),
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 240),
+        curve: Curves.easeOutCubic,
+        width: double.infinity,
+        height: expanded ? 280 : 86,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: data.color,
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x22000000),
+              blurRadius: 8,
+              offset: Offset(0, 2),
             ),
           ),
-        ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  data.title,
+                  style: const TextStyle(
+                    color: Color(0xFFF8F6F0),
+                    fontSize: 24,
+                    fontFamily: 'IBM Plex Sans Arabic',
+                    fontWeight: FontWeight.w700,
+                    height: 1.2,
+                  ),
+                ),
+                Text(
+                  data.subtitle,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontFamily: 'IBM Plex Sans Arabic',
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+            if (expanded) ...[
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  data.content,
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                    color: Color(0xFFF8F6F0),
+                    fontSize: 20,
+                    height: 1.65,
+                    fontFamily: 'IBM Plex Sans Arabic',
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
