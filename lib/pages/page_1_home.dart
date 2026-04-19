@@ -617,7 +617,7 @@ class _DhikrCard extends StatelessWidget {
               blurRadius: 8,
               offset: Offset(0, 2),
             ),
-          ),
+          ],
         ),
         child: expanded
             ? Column(
