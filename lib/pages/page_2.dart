@@ -61,10 +61,6 @@ class Page2 extends StatelessWidget {
                 SizedBox(height: 10),
                 _TripTimelineCard(),
                 SizedBox(height: 18),
-                _SectionTitle(title: 'الخريطه', actionText: 'عرض الكل'),
-                SizedBox(height: 10),
-                _LocationsRow(),
-                SizedBox(height: 18),
                 _SectionTitle(title: 'الفئات', actionText: 'عرض الكل'),
                 SizedBox(height: 10),
                 _CategoriesRow(),
@@ -214,15 +210,6 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'مناسك الحج بالترتيب',
-            style: TextStyle(
-              color: Color(0xFF1D1D1D),
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 10),
           for (var i = 0; i < _hajjOrder.length; i++) ...[
             _TimelineRow(
               dotColor: _dotColorForStep(i),
@@ -326,58 +313,164 @@ class _TimelineRow extends StatelessWidget {
   }
 }
 
-class _CategoriesRow extends StatelessWidget {
+class _CategoriesRow extends StatefulWidget {
   const _CategoriesRow();
 
   @override
+  State<_CategoriesRow> createState() => _CategoriesRowState();
+}
+
+class _CategoriesRowState extends State<_CategoriesRow> {
+  int _selectedIndex = 0;
+
+  static const List<_CategoryItem> _categories = [
+    _CategoryItem(label: 'الصحة', icon: Icons.favorite_border),
+    _CategoryItem(label: 'العائلة', icon: Icons.family_restroom_outlined),
+    _CategoryItem(label: 'المغامرة', icon: Icons.terrain_outlined),
+    _CategoryItem(label: 'الاسترخاء', icon: Icons.coffee_outlined),
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    const categories = [
-      ('الصحة', Icons.favorite_border, Color(0xFF261613)),
-      ('العائلة', Icons.family_restroom_outlined, Color(0xFFD8D6D1)),
-      ('المغامرة', Icons.terrain_outlined, Color(0xFFD8D6D1)),
-      ('الاسترخاء', Icons.coffee_outlined, Color(0xFFD8D6D1)),
-    ];
+    final selectedCategory = _categories[_selectedIndex];
 
-    return SizedBox(
-      height: 102,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
-        itemBuilder: (context, index) {
-          final category = categories[index];
-          final isSelected = index == 0;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 102,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: _categories.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 10),
+            itemBuilder: (context, index) {
+              final category = _categories[index];
+              final isSelected = index == _selectedIndex;
 
-          return SizedBox(
-            width: 78,
-            child: Column(
-              children: [
-                Container(
-                  width: 70,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: category.$3,
-                    borderRadius: BorderRadius.circular(13),
-                  ),
-                  child: Icon(
-                    category.$2,
-                    color: isSelected ? Colors.white : const Color(0xFF404040),
-                    size: 26,
+              return InkWell(
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+                borderRadius: BorderRadius.circular(13),
+                child: SizedBox(
+                  width: 78,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 70,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? const Color(0xFF261613)
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(13),
+                          border: Border.all(
+                            color: const Color(0xFFD8D6D1),
+                          ),
+                        ),
+                        child: Icon(
+                          category.icon,
+                          color: isSelected
+                              ? Colors.white
+                              : const Color(0xFF404040),
+                          size: 26,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        category.label,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF252525),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  category.$1,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Color(0xFF252525),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 240,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: 3,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (_, __) => _CategoryImageCard(
+              categoryLabel: selectedCategory.label,
             ),
-          );
-        },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CategoryItem {
+  const _CategoryItem({required this.label, required this.icon});
+
+  final String label;
+  final IconData icon;
+}
+
+class _CategoryImageCard extends StatelessWidget {
+  const _CategoryImageCard({required this.categoryLabel});
+
+  final String categoryLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 190,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFFCCCCCC),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
+              ),
+              padding: const EdgeInsets.all(8),
+              alignment: Alignment.topLeft,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF5F5F5F),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  categoryLabel,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(10, 9, 10, 12),
+            child: Text(
+              'مكان الصورة',
+              style: TextStyle(
+                color: Color(0xFF202020),
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
