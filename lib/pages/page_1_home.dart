@@ -562,6 +562,43 @@ class _DhikrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardHeader = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          data.title,
+          style: const TextStyle(
+            color: Color(0xFFF8F6F0),
+            fontSize: 24,
+            fontFamily: 'IBM Plex Sans Arabic',
+            fontWeight: FontWeight.w700,
+            height: 1.2,
+          ),
+        ),
+        Text(
+          data.subtitle,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontFamily: 'IBM Plex Sans Arabic',
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
+    );
+
+    final cardContent = Text(
+      data.content,
+      textAlign: TextAlign.right,
+      style: const TextStyle(
+        color: Color(0xFFF8F6F0),
+        fontSize: 20,
+        height: 1.65,
+        fontFamily: 'IBM Plex Sans Arabic',
+      ),
+    );
+
     return InkWell(
       borderRadius: BorderRadius.circular(18),
       onTap: onTap,
@@ -582,54 +619,24 @@ class _DhikrCard extends StatelessWidget {
             ),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data.title,
-                  style: const TextStyle(
-                    color: Color(0xFFF8F6F0),
-                    fontSize: 24,
-                    fontFamily: 'IBM Plex Sans Arabic',
-                    fontWeight: FontWeight.w700,
-                    height: 1.2,
-                  ),
-                ),
-                Text(
-                  data.subtitle,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontFamily: 'IBM Plex Sans Arabic',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-            if (expanded) ...[
-              const SizedBox(height: 16),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    data.content,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Color(0xFFF8F6F0),
-                      fontSize: 20,
-                      height: 1.65,
-                      fontFamily: 'IBM Plex Sans Arabic',
+        child: expanded
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  cardHeader,
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: cardContent,
                     ),
                   ),
-                ),
+                ],
+              )
+            : Align(
+                alignment: Alignment.topRight,
+                child: cardHeader,
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
