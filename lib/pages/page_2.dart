@@ -395,45 +395,83 @@ class _CategoriesRowState extends State<_CategoriesRow> {
           ),
         ),
         const SizedBox(height: 12),
-        Container(
-          width: double.infinity,
-          height: 120,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFD8D6D1)),
-          ),
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'صورة فئة ${selectedCategory.label}',
-                style: const TextStyle(
-                  color: Color(0xFF252525),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'مكان مخصص لإضافة الصورة لاحقاً',
-                style: TextStyle(
-                  color: Color(0xFF6B6B6B),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const Spacer(),
-              const Icon(
-                Icons.image_outlined,
-                color: Color(0xFF8E8E8E),
-                size: 24,
-              ),
-            ],
+        SizedBox(
+          height: 240,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: 3,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (_, __) => _CategoryImageCard(
+              categoryLabel: selectedCategory.label,
+            ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _CategoryItem {
+  const _CategoryItem({required this.label, required this.icon});
+
+  final String label;
+  final IconData icon;
+}
+
+class _CategoryImageCard extends StatelessWidget {
+  const _CategoryImageCard({required this.categoryLabel});
+
+  final String categoryLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 190,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFFCCCCCC),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
+              ),
+              padding: const EdgeInsets.all(8),
+              alignment: Alignment.topLeft,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF5F5F5F),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  categoryLabel,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(10, 9, 10, 12),
+            child: Text(
+              'مكان الصورة',
+              style: TextStyle(
+                color: Color(0xFF202020),
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
