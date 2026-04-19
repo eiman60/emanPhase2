@@ -583,6 +583,7 @@ class _DhikrCard extends StatelessWidget {
           ),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -611,16 +612,18 @@ class _DhikrCard extends StatelessWidget {
             ),
             if (expanded) ...[
               const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  data.content,
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(
-                    color: Color(0xFFF8F6F0),
-                    fontSize: 20,
-                    height: 1.65,
-                    fontFamily: 'IBM Plex Sans Arabic',
+              Expanded(
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    data.content,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: Color(0xFFF8F6F0),
+                      fontSize: 20,
+                      height: 1.65,
+                      fontFamily: 'IBM Plex Sans Arabic',
+                    ),
                   ),
                 ),
               ),
