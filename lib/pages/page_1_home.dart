@@ -439,6 +439,14 @@ class _DhikrSectionState extends State<_DhikrSection> {
 
   @override
   Widget build(BuildContext context) {
+    const cards = [
+      ('أذكار المساء', 'لِنَطْمَئِنَّ', Color(0xFF6F4E37)),
+      ('دعاء السفر', 'لِنَطْمَئِنَّ', Color(0xFF7C5A40)),
+      ('دعاء النوم', 'لِنَطْمَئِنَّ', Color(0xFF88644A)),
+      ('دعاء الخروج', 'لِنَطْمَئِنَّ', Color(0xFF957157)),
+      ('دعاء ليلة القدر', 'لِنَطْمَئِنَّ', Color(0xFFA27E65)),
+    ];
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
