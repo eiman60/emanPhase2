@@ -61,10 +61,6 @@ class Page2 extends StatelessWidget {
                 SizedBox(height: 10),
                 _TripTimelineCard(),
                 SizedBox(height: 18),
-                _SectionTitle(title: 'الخريطه', actionText: 'عرض الكل'),
-                SizedBox(height: 10),
-                _LocationsRow(),
-                SizedBox(height: 18),
                 _SectionTitle(title: 'الفئات', actionText: 'عرض الكل'),
                 SizedBox(height: 10),
                 _CategoriesRow(),
@@ -214,15 +210,6 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'مناسك الحج بالترتيب',
-            style: TextStyle(
-              color: Color(0xFF1D1D1D),
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 10),
           for (var i = 0; i < _hajjOrder.length; i++) ...[
             _TimelineRow(
               dotColor: _dotColorForStep(i),
