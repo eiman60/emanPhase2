@@ -24,8 +24,24 @@ class _Page3ChatState extends State<Page3Chat> {
 
   bool _isSending = false;
 
+  static const String _configuredApiBaseUrl = String.fromEnvironment(
+    'AI_API_BASE_URL',
+    defaultValue: '',
+  );
+
   String get _apiBaseUrl {
-    if (kIsWeb) return 'http://localhost:8000';
+    if (_configuredApiBaseUrl.trim().isNotEmpty) {
+      return _configuredApiBaseUrl.trim();
+    }
+
+    if (kIsWeb) {
+      final webHost = Uri.base.host;
+      if (webHost.isNotEmpty && webHost != 'localhost' && webHost != '127.0.0.1') {
+        return 'https://$webHost';
+      }
+      return 'http://localhost:8000';
+    }
+
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return 'http://10.0.2.2:8000';
@@ -88,7 +104,8 @@ class _Page3ChatState extends State<Page3Chat> {
         _messages.add(
           _ChatMessage(
             text:
-                'تعذر الوصول إلى خدمة AI. شغّل الخادم من مجلد AI باستخدام uvicorn ثم أعد المحاولة.',
+                'تعذر الوصول إلى خدمة AI على $_apiBaseUrl. '
+                'يمكنك تمرير المتغير AI_API_BASE_URL عبر --dart-define أو تشغيل الخادم محلياً.',
             isUser: false,
             isError: true,
           ),
