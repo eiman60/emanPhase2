@@ -699,7 +699,7 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
                 expanded: true,
                 onTap: () {},
               ),
-            ],
+            ),
           ),
         ),
         const SizedBox(height: 10),
@@ -722,90 +722,6 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
           ),
         ),
         const SizedBox(height: 12),
-      ],
-    );
-  }
-}
-
-class _CustomDhikrSection extends StatefulWidget {
-  const _CustomDhikrSection();
-
-  @override
-  State<_CustomDhikrSection> createState() => _CustomDhikrSectionState();
-}
-
-class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
-  final List<_DhikrCardData> _customCards = [];
-
-  Future<void> _showCreateDialog() async {
-    final titleController = TextEditingController();
-    final contentController = TextEditingController();
-
-    await showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('إضافة ذكر جديد'),
-        content: Directionality(
-          textDirection: TextDirection.rtl,
-          child: SizedBox(
-            width: 360,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: titleController,
-                  decoration: const InputDecoration(
-                    labelText: 'العنوان',
-                    hintText: 'مثال: ذكر بعد الصلاة',
-                  ),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: contentController,
-                  minLines: 3,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    labelText: 'المحتوى',
-                    hintText: 'اكتب الذكر هنا...',
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              _customCards.length,
-              (index) => AnimatedContainer(
-                duration: const Duration(milliseconds: 220),
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                width: index == _customActiveIndex ? 16 : 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: index == _customActiveIndex
-                      ? const Color(0xFF8A6A4E)
-                      : const Color(0xFFD9D4C8),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-        ],
-        Center(
-          child: FilledButton(
-            onPressed: _showCreateDialog,
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF8A6A4E),
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-            ),
-            child: const Text(
-              'اضف اذكارك',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-            ),
-          ),
-        ),
       ],
     );
   }
