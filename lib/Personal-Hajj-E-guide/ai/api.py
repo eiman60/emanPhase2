@@ -2,7 +2,7 @@
 Hajj Guide API — FastAPI wrapper around the RAG pipeline.
 
 تشغيل:
-    uvicorn Ai.api:app --reload --host 0.0.0.0 --port 8000
+    python -m uvicorn api:app --reload --host 0.0.0.0 --port 8000
 
 Endpoints:
     POST /ask          ← السؤال والجواب
