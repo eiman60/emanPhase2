@@ -659,29 +659,70 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (_customCards.isNotEmpty) ...[
-          SizedBox(
-            height: 296,
-            child: PageView.builder(
-              controller: _customPageController,
-              itemCount: _customCards.length,
-              onPageChanged: (index) => setState(() => _customActiveIndex = index),
-              itemBuilder: (_, index) => GestureDetector(
-                onVerticalDragEnd: (details) {
-                  if ((details.primaryVelocity ?? 0) > 450) {
-                    _deleteActiveCard();
-                  }
-                },
-                child: _DhikrCard(
-                  data: _customCards[index],
-                  expanded: true,
-                  onTap: () {},
-                ),
+        _customCards.isNotEmpty
+            ? _buildCardsArea()
+            : const SizedBox.shrink(),
+        Center(
+          child: FilledButton(
+            onPressed: _showCreateDialog,
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xFF8A6A4E),
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
+            ),
+            child: const Text(
+              'اضف اذكارك',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCardsArea() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 296,
+          child: PageView.builder(
+            controller: _customPageController,
+            itemCount: _customCards.length,
+            onPageChanged: (index) => setState(() => _customActiveIndex = index),
+            itemBuilder: (_, index) => GestureDetector(
+              onVerticalDragEnd: (details) {
+                if ((details.primaryVelocity ?? 0) > 450) {
+                  _deleteActiveCard();
+                }
+              },
+              child: _DhikrCard(
+                data: _customCards[index],
+                expanded: true,
+                onTap: () {},
               ),
             ],
           ),
         ),
-      ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            _customCards.length,
+            (index) => AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              width: index == _customActiveIndex ? 16 : 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: index == _customActiveIndex
+                    ? const Color(0xFF8A6A4E)
+                    : const Color(0xFFD9D4C8),
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+      ],
     );
   }
 }
