@@ -24,13 +24,27 @@ class _Page3ChatState extends State<Page3Chat> {
 
   bool _isSending = false;
 
-  String get _apiBaseUrl {
-    if (kIsWeb) return 'http://localhost:8000';
+  static const String _configuredApiBaseUrl = String.fromEnvironment(
+    'AI_API_BASE_URL',
+    defaultValue: '',
+  );
+
+  String get _apiBaseUrl => _apiBaseUrlCandidates.first;
+
+  List<String> get _apiBaseUrlCandidates {
+    final configured = _configuredApiBaseUrl.trim();
+    if (configured.isNotEmpty) return [configured];
+
+    if (kIsWeb) {
+      final origin = Uri.base.origin;
+      return [origin, 'http://localhost:8000'];
+    }
+
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return 'http://10.0.2.2:8000';
+        return ['http://10.0.2.2:8000'];
       default:
-        return 'http://localhost:8000';
+        return ['http://localhost:8000'];
     }
   }
 
@@ -46,13 +60,28 @@ class _Page3ChatState extends State<Page3Chat> {
     _scrollToBottom();
 
     try {
-      final response = await http.post(
-        Uri.parse('$_apiBaseUrl/ask'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'question': text}),
-      );
+      http.Response? response;
+      String? lastTriedBaseUrl;
+
+      for (final baseUrl in _apiBaseUrlCandidates) {
+        lastTriedBaseUrl = baseUrl;
+        try {
+          response = await http.post(
+            Uri.parse('$baseUrl/ask'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({'question': text}),
+          );
+          break;
+        } catch (_) {
+          continue;
+        }
+      }
 
       if (!mounted) return;
+
+      if (response == null) {
+        throw Exception('AI backend is unreachable');
+      }
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -75,7 +104,8 @@ class _Page3ChatState extends State<Page3Chat> {
           _messages.add(
             _ChatMessage(
               text:
-                  'تعذر الاتصال بخدمة الذكاء الاصطناعي (HTTP ${response.statusCode}). تأكد من تشغيل الخادم على $_apiBaseUrl.',
+                  'تعذر الاتصال بخدمة الذكاء الاصطناعي (HTTP ${response!.statusCode}). '
+                  'تأكد من تشغيل الخادم على ${lastTriedBaseUrl ?? _apiBaseUrl}.',
               isUser: false,
               isError: true,
             ),
@@ -88,7 +118,8 @@ class _Page3ChatState extends State<Page3Chat> {
         _messages.add(
           _ChatMessage(
             text:
-                'تعذر الوصول إلى خدمة AI. شغّل الخادم من مجلد AI باستخدام uvicorn ثم أعد المحاولة.',
+                'تعذر الوصول إلى خدمة AI. تم تجربة: ${_apiBaseUrlCandidates.join(' ثم ')}. '
+                'يمكنك تمرير المتغير AI_API_BASE_URL عبر --dart-define أو تشغيل الخادم محلياً.',
             isUser: false,
             isError: true,
           ),
