@@ -50,6 +50,11 @@ class Page1Home extends StatelessWidget {
             ),
           ),
           child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.viewPaddingOf(context).bottom +
+                  kBottomNavigationBarHeight +
+                  20,
+            ),
             child: Column(
               children: [
                 const _HeroSection(),
