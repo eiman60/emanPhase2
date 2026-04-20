@@ -54,7 +54,6 @@ class Page1Home extends StatelessWidget {
               children: [
                 const _HeroSection(),
                 Container(
-                  height: 900,
                   padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
                   decoration: const BoxDecoration(
                     color: Color(0xFFF8F6F0),
@@ -73,6 +72,8 @@ class Page1Home extends StatelessWidget {
                     children: [
                       _QuranCard(),
                       _DhikrSection(),
+                      SizedBox(height: 16),
+                      _CustomDhikrSection(),
                       SizedBox(height: 24),
                     ],
                   ),
@@ -424,29 +425,42 @@ class _DhikrSection extends StatefulWidget {
 
 class _DhikrSectionState extends State<_DhikrSection> {
   int _activeIndex = 0;
+  late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _activeIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void _goNext() {
     if (_activeIndex < _dhikrCards.length - 1) {
-      setState(() => _activeIndex++);
+      _pageController.animateToPage(
+        _activeIndex + 1,
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOutCubic,
+      );
     }
   }
 
   void _goPrevious() {
     if (_activeIndex > 0) {
-      setState(() => _activeIndex--);
+      _pageController.animateToPage(
+        _activeIndex - 1,
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOutCubic,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    const cards = [
-      ('أذكار المساء', 'لِنَطْمَئِنَّ', Color(0xFF6F4E37)),
-      ('دعاء السفر', 'لِنَطْمَئِنَّ', Color(0xFF7C5A40)),
-      ('دعاء النوم', 'لِنَطْمَئِنَّ', Color(0xFF88644A)),
-      ('دعاء الخروج', 'لِنَطْمَئِنَّ', Color(0xFF957157)),
-      ('دعاء ليلة القدر', 'لِنَطْمَئِنَّ', Color(0xFFA27E65)),
-    ];
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
@@ -458,40 +472,196 @@ class _DhikrSectionState extends State<_DhikrSection> {
         ),
         child: Directionality(
           textDirection: TextDirection.rtl,
-          child: GestureDetector(
-            onHorizontalDragEnd: (details) {
-              if (details.primaryVelocity == null) {
-                return;
-              }
-
-              if (details.primaryVelocity! < -100) {
-                _goNext();
-              } else if (details.primaryVelocity! > 100) {
-                _goPrevious();
-              }
-            },
-            child: SizedBox(
-              height: 440,
-              child: Stack(
-                children: [
-                  for (int i = _activeIndex; i < _dhikrCards.length; i++)
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 260),
-                      curve: Curves.easeOutCubic,
-                      top: (i - _activeIndex) * 52,
-                      left: 0,
-                      right: 0,
-                      child: _DhikrCard(
-                        data: _dhikrCards[i],
-                        expanded: i == _activeIndex,
-                        onTap: () => setState(() => _activeIndex = i),
-                      ),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 296,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: _dhikrCards.length,
+                  onPageChanged: (index) => setState(() => _activeIndex = index),
+                  itemBuilder: (context, i) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: _DhikrCard(
+                      data: _dhikrCards[i],
+                      expanded: true,
+                      onTap: () {
+                        if (i > _activeIndex) {
+                          _goNext();
+                        } else if (i < _activeIndex) {
+                          _goPrevious();
+                        }
+                      },
                     ),
-                ],
+                  ),
+                ),
               ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  _dhikrCards.length,
+                  (index) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 220),
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    width: index == _activeIndex ? 16 : 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: index == _activeIndex
+                          ? const Color(0xFF6F4E37)
+                          : const Color(0xFFD9D4C8),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CustomDhikrSection extends StatefulWidget {
+  const _CustomDhikrSection();
+
+  @override
+  State<_CustomDhikrSection> createState() => _CustomDhikrSectionState();
+}
+
+class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
+  final List<_DhikrCardData> _customCards = [];
+
+  Future<void> _showCreateDialog() async {
+    final titleController = TextEditingController();
+    final contentController = TextEditingController();
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('إضافة ذكر جديد'),
+        content: Directionality(
+          textDirection: TextDirection.rtl,
+          child: SizedBox(
+            width: 360,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'العنوان',
+                    hintText: 'مثال: ذكر بعد الصلاة',
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: contentController,
+                  minLines: 3,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    labelText: 'المحتوى',
+                    hintText: 'اكتب الذكر هنا...',
+                  ),
+                ),
+              ],
             ),
           ),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('إلغاء'),
+          ),
+          FilledButton(
+            onPressed: () {
+              final title = titleController.text.trim();
+              final content = contentController.text.trim();
+              if (title.isEmpty || content.isEmpty) {
+                return;
+              }
+              setState(() {
+                _customCards.add(
+                  _DhikrCardData(
+                    title: title,
+                    color: const Color(0xFFF3B33B),
+                    content: content,
+                  ),
+                );
+              });
+              Navigator.of(dialogContext).pop();
+            },
+            child: const Text('حفظ'),
+          ),
+        ],
+      ),
+    );
+
+    titleController.dispose();
+    contentController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFE4DCCF)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'أذكاري الخاصة',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF5D4633),
+                ),
+              ),
+              FilledButton.icon(
+                onPressed: _showCreateDialog,
+                icon: const Icon(Icons.add),
+                label: const Text('إضافة'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF8A6A4E),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          if (_customCards.isEmpty)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 18),
+              child: Text(
+                'أضف بطاقة ذكر جديدة من زر "إضافة".',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF8A857A),
+                  fontSize: 16,
+                ),
+              ),
+            )
+          else
+            ListView.separated(
+              itemCount: _customCards.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (_, __) => const SizedBox(height: 10),
+              itemBuilder: (context, index) => _DhikrCard(
+                data: _customCards[index],
+                expanded: true,
+                onTap: () {},
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -500,13 +670,11 @@ class _DhikrSectionState extends State<_DhikrSection> {
 class _DhikrCardData {
   const _DhikrCardData({
     required this.title,
-    required this.subtitle,
     required this.color,
     required this.content,
   });
 
   final String title;
-  final String subtitle;
   final Color color;
   final String content;
 }
@@ -514,35 +682,30 @@ class _DhikrCardData {
 const _dhikrCards = [
   _DhikrCardData(
     title: 'أذكار المساء',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFF6F4E37),
     content:
         'اللهم بك أمسينا وبك نحيا وبك نموت وإليك المصير.\nاللهم إني أسألك خير هذه الليلة وخير ما بعدها.',
   ),
   _DhikrCardData(
     title: 'دعاء السفر',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFF7C5A40),
     content:
         'سبحان الذي سخر لنا هذا وما كنا له مقرنين.\nاللهم هون علينا سفرنا هذا واطوِ عنا بُعده.',
   ),
   _DhikrCardData(
     title: 'دعاء النوم',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFF88644A),
     content:
         'باسمك اللهم أموت وأحيا.\nاللهم قني عذابك يوم تبعث عبادك، واجعل ليلتي سكينة وطمأنينة.',
   ),
   _DhikrCardData(
     title: 'دعاء الخروج',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFF957157),
     content:
         'بسم الله، توكلت على الله، لا حول ولا قوة إلا بالله.\nاللهم إني أعوذ بك أن أضل أو أُضل.',
   ),
   _DhikrCardData(
     title: 'دعاء ليلة القدر',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFFA27E65),
     content:
         'اللهم إنك عفوٌ كريمٌ تحب العفو فاعفُ عني.\nاللهم اجعل لنا من كل همٍ فرجًا ومن كل ضيقٍ مخرجًا.',
@@ -563,7 +726,7 @@ class _DhikrCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardHeader = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -574,15 +737,6 @@ class _DhikrCard extends StatelessWidget {
             fontFamily: 'IBM Plex Sans Arabic',
             fontWeight: FontWeight.w700,
             height: 1.2,
-          ),
-        ),
-        Text(
-          data.subtitle,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontFamily: 'IBM Plex Sans Arabic',
-            fontWeight: FontWeight.w700,
           ),
         ),
       ],
@@ -617,7 +771,7 @@ class _DhikrCard extends StatelessWidget {
               blurRadius: 8,
               offset: Offset(0, 2),
             ),
-          ),
+          ],
         ),
         child: expanded
             ? Column(
