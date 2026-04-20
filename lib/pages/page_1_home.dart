@@ -532,6 +532,169 @@ class _CustomDhikrSection extends StatefulWidget {
 
 class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
   final List<_DhikrCardData> _customCards = [];
+  late final PageController _customPageController;
+  int _customActiveIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _customPageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _customPageController.dispose();
+    super.dispose();
+  }
+
+  void _deleteActiveCard() {
+    if (_customCards.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      _customCards.removeAt(_customActiveIndex);
+      if (_customCards.isEmpty) {
+        _customActiveIndex = 0;
+      } else if (_customActiveIndex >= _customCards.length) {
+        _customActiveIndex = _customCards.length - 1;
+      }
+    });
+
+    if (_customCards.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        _customPageController.jumpToPage(_customActiveIndex);
+      });
+    }
+  }
+
+  Future<void> _showCreateDialog() async {
+    final titleController = TextEditingController();
+    final contentController = TextEditingController();
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: const Text(
+          'إضافة ذكر جديد',
+          style: TextStyle(color: Color(0xFF8A6A4E), fontWeight: FontWeight.w700),
+        ),
+        content: Directionality(
+          textDirection: TextDirection.rtl,
+          child: SizedBox(
+            width: 360,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'العنوان',
+                    hintText: 'مثال: ذكر بعد الصلاة',
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: contentController,
+                  minLines: 3,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    labelText: 'المحتوى',
+                    hintText: 'اكتب الذكر هنا...',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('إلغاء'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xFF8A6A4E),
+            ),
+            onPressed: () {
+              final title = titleController.text.trim();
+              final content = contentController.text.trim();
+              if (title.isEmpty || content.isEmpty) {
+                return;
+              }
+              setState(() {
+                _customCards.add(
+                  _DhikrCardData(
+                    title: title,
+                    color: const Color(0xFFF3B33B),
+                    content: content,
+                  ),
+                );
+                _customActiveIndex = _customCards.length - 1;
+              });
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (!mounted || _customCards.isEmpty) return;
+                _customPageController.animateToPage(
+                  _customActiveIndex,
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeOutCubic,
+                );
+              });
+              Navigator.of(dialogContext).pop();
+            },
+            child: const Text('حفظ'),
+          ),
+        ],
+      ),
+    );
+
+    titleController.dispose();
+    contentController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (_customCards.isNotEmpty) ...[
+          SizedBox(
+            height: 296,
+            child: PageView.builder(
+              controller: _customPageController,
+              itemCount: _customCards.length,
+              onPageChanged: (index) => setState(() => _customActiveIndex = index),
+              itemBuilder: (_, index) => GestureDetector(
+                onVerticalDragEnd: (details) {
+                  if ((details.primaryVelocity ?? 0) > 450) {
+                    _deleteActiveCard();
+                  }
+                },
+                child: _DhikrCard(
+                  data: _customCards[index],
+                  expanded: true,
+                  onTap: () {},
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CustomDhikrSection extends StatefulWidget {
+  const _CustomDhikrSection();
+
+  @override
+  State<_CustomDhikrSection> createState() => _CustomDhikrSectionState();
+}
+
+class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
+  final List<_DhikrCardData> _customCards = [];
 
   Future<void> _showCreateDialog() async {
     final titleController = TextEditingController();
@@ -568,101 +731,41 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
               ],
             ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('إلغاء'),
-          ),
-          FilledButton(
-            onPressed: () {
-              final title = titleController.text.trim();
-              final content = contentController.text.trim();
-              if (title.isEmpty || content.isEmpty) {
-                return;
-              }
-              setState(() {
-                _customCards.add(
-                  _DhikrCardData(
-                    title: title,
-                    color: const Color(0xFFF3B33B),
-                    content: content,
-                  ),
-                );
-              });
-              Navigator.of(dialogContext).pop();
-            },
-            child: const Text('حفظ'),
-          ),
-        ],
-      ),
-    );
-
-    titleController.dispose();
-    contentController.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFE4DCCF)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'أذكاري الخاصة',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF5D4633),
-                ),
-              ),
-              FilledButton.icon(
-                onPressed: _showCreateDialog,
-                icon: const Icon(Icons.add),
-                label: const Text('إضافة'),
-                style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF8A6A4E),
-                ),
-              ),
-            ],
-          ),
           const SizedBox(height: 10),
-          if (_customCards.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 18),
-              child: Text(
-                'أضف بطاقة ذكر جديدة من زر "إضافة".',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF8A857A),
-                  fontSize: 16,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              _customCards.length,
+              (index) => AnimatedContainer(
+                duration: const Duration(milliseconds: 220),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: index == _customActiveIndex ? 16 : 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: index == _customActiveIndex
+                      ? const Color(0xFF8A6A4E)
+                      : const Color(0xFFD9D4C8),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-              ),
-            )
-          else
-            ListView.separated(
-              itemCount: _customCards.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              separatorBuilder: (_, __) => const SizedBox(height: 10),
-              itemBuilder: (context, index) => _DhikrCard(
-                data: _customCards[index],
-                expanded: true,
-                onTap: () {},
               ),
             ),
+          ),
+          const SizedBox(height: 12),
         ],
-      ),
+        Center(
+          child: FilledButton(
+            onPressed: _showCreateDialog,
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xFF8A6A4E),
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
+            ),
+            child: const Text(
+              'اضف اذكارك',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
