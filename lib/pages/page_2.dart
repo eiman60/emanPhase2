@@ -323,11 +323,14 @@ class _CategoriesRow extends StatefulWidget {
 class _CategoriesRowState extends State<_CategoriesRow> {
   int _selectedIndex = 0;
 
-  static const List<_CategoryItem> _categories = [
-    _CategoryItem(label: 'الصحة', icon: Icons.favorite_border),
-    _CategoryItem(label: 'العائلة', icon: Icons.family_restroom_outlined),
-    _CategoryItem(label: 'المغامرة', icon: Icons.terrain_outlined),
-    _CategoryItem(label: 'الاسترخاء', icon: Icons.coffee_outlined),
+  static const List<_ExploreCategoryItem> _categories = [
+    _ExploreCategoryItem(label: 'الصحة', icon: Icons.favorite_border),
+    _ExploreCategoryItem(
+      label: 'العائلة',
+      icon: Icons.family_restroom_outlined,
+    ),
+    _ExploreCategoryItem(label: 'المغامرة', icon: Icons.terrain_outlined),
+    _ExploreCategoryItem(label: 'الاسترخاء', icon: Icons.coffee_outlined),
   ];
 
   @override
@@ -411,8 +414,8 @@ class _CategoriesRowState extends State<_CategoriesRow> {
   }
 }
 
-class _CategoryItem {
-  const _CategoryItem({required this.label, required this.icon});
+class _ExploreCategoryItem {
+  const _ExploreCategoryItem({required this.label, required this.icon});
 
   final String label;
   final IconData icon;
