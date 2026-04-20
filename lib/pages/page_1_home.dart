@@ -471,27 +471,50 @@ class _DhikrSectionState extends State<_DhikrSection> {
         ),
         child: Directionality(
           textDirection: TextDirection.rtl,
-          child: SizedBox(
-            height: 296,
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: _dhikrCards.length,
-              onPageChanged: (index) => setState(() => _activeIndex = index),
-              itemBuilder: (context, i) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: _DhikrCard(
-                  data: _dhikrCards[i],
-                  expanded: true,
-                  onTap: () {
-                    if (i > _activeIndex) {
-                      _goNext();
-                    } else if (i < _activeIndex) {
-                      _goPrevious();
-                    }
-                  },
+          child: Column(
+            children: [
+              SizedBox(
+                height: 296,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: _dhikrCards.length,
+                  onPageChanged: (index) => setState(() => _activeIndex = index),
+                  itemBuilder: (context, i) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: _DhikrCard(
+                      data: _dhikrCards[i],
+                      expanded: true,
+                      onTap: () {
+                        if (i > _activeIndex) {
+                          _goNext();
+                        } else if (i < _activeIndex) {
+                          _goPrevious();
+                        }
+                      },
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  _dhikrCards.length,
+                  (index) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 220),
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    width: index == _activeIndex ? 16 : 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: index == _activeIndex
+                          ? const Color(0xFF6F4E37)
+                          : const Color(0xFFD9D4C8),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -502,13 +525,11 @@ class _DhikrSectionState extends State<_DhikrSection> {
 class _DhikrCardData {
   const _DhikrCardData({
     required this.title,
-    required this.subtitle,
     required this.color,
     required this.content,
   });
 
   final String title;
-  final String subtitle;
   final Color color;
   final String content;
 }
@@ -516,35 +537,30 @@ class _DhikrCardData {
 const _dhikrCards = [
   _DhikrCardData(
     title: 'أذكار المساء',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFF6F4E37),
     content:
         'اللهم بك أمسينا وبك نحيا وبك نموت وإليك المصير.\nاللهم إني أسألك خير هذه الليلة وخير ما بعدها.',
   ),
   _DhikrCardData(
     title: 'دعاء السفر',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFF7C5A40),
     content:
         'سبحان الذي سخر لنا هذا وما كنا له مقرنين.\nاللهم هون علينا سفرنا هذا واطوِ عنا بُعده.',
   ),
   _DhikrCardData(
     title: 'دعاء النوم',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFF88644A),
     content:
         'باسمك اللهم أموت وأحيا.\nاللهم قني عذابك يوم تبعث عبادك، واجعل ليلتي سكينة وطمأنينة.',
   ),
   _DhikrCardData(
     title: 'دعاء الخروج',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFF957157),
     content:
         'بسم الله، توكلت على الله، لا حول ولا قوة إلا بالله.\nاللهم إني أعوذ بك أن أضل أو أُضل.',
   ),
   _DhikrCardData(
     title: 'دعاء ليلة القدر',
-    subtitle: 'لِنَطْمَئِنَّ',
     color: Color(0xFFA27E65),
     content:
         'اللهم إنك عفوٌ كريمٌ تحب العفو فاعفُ عني.\nاللهم اجعل لنا من كل همٍ فرجًا ومن كل ضيقٍ مخرجًا.',
@@ -565,7 +581,7 @@ class _DhikrCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardHeader = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -576,15 +592,6 @@ class _DhikrCard extends StatelessWidget {
             fontFamily: 'IBM Plex Sans Arabic',
             fontWeight: FontWeight.w700,
             height: 1.2,
-          ),
-        ),
-        Text(
-          data.subtitle,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontFamily: 'IBM Plex Sans Arabic',
-            fontWeight: FontWeight.w700,
           ),
         ),
       ],
