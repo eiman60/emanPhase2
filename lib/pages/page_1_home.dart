@@ -424,29 +424,42 @@ class _DhikrSection extends StatefulWidget {
 
 class _DhikrSectionState extends State<_DhikrSection> {
   int _activeIndex = 0;
+  late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _activeIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void _goNext() {
     if (_activeIndex < _dhikrCards.length - 1) {
-      setState(() => _activeIndex++);
+      _pageController.animateToPage(
+        _activeIndex + 1,
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOutCubic,
+      );
     }
   }
 
   void _goPrevious() {
     if (_activeIndex > 0) {
-      setState(() => _activeIndex--);
+      _pageController.animateToPage(
+        _activeIndex - 1,
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOutCubic,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    const cards = [
-      ('أذكار المساء', 'لِنَطْمَئِنَّ', Color(0xFF6F4E37)),
-      ('دعاء السفر', 'لِنَطْمَئِنَّ', Color(0xFF7C5A40)),
-      ('دعاء النوم', 'لِنَطْمَئِنَّ', Color(0xFF88644A)),
-      ('دعاء الخروج', 'لِنَطْمَئِنَّ', Color(0xFF957157)),
-      ('دعاء ليلة القدر', 'لِنَطْمَئِنَّ', Color(0xFFA27E65)),
-    ];
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
@@ -458,36 +471,25 @@ class _DhikrSectionState extends State<_DhikrSection> {
         ),
         child: Directionality(
           textDirection: TextDirection.rtl,
-          child: GestureDetector(
-            onHorizontalDragEnd: (details) {
-              if (details.primaryVelocity == null) {
-                return;
-              }
-
-              if (details.primaryVelocity! < -100) {
-                _goNext();
-              } else if (details.primaryVelocity! > 100) {
-                _goPrevious();
-              }
-            },
-            child: SizedBox(
-              height: 440,
-              child: Stack(
-                children: [
-                  for (int i = _activeIndex; i < _dhikrCards.length; i++)
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 260),
-                      curve: Curves.easeOutCubic,
-                      top: (i - _activeIndex) * 52,
-                      left: 0,
-                      right: 0,
-                      child: _DhikrCard(
-                        data: _dhikrCards[i],
-                        expanded: i == _activeIndex,
-                        onTap: () => setState(() => _activeIndex = i),
-                      ),
-                    ),
-                ],
+          child: SizedBox(
+            height: 296,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: _dhikrCards.length,
+              onPageChanged: (index) => setState(() => _activeIndex = index),
+              itemBuilder: (context, i) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: _DhikrCard(
+                  data: _dhikrCards[i],
+                  expanded: true,
+                  onTap: () {
+                    if (i > _activeIndex) {
+                      _goNext();
+                    } else if (i < _activeIndex) {
+                      _goPrevious();
+                    }
+                  },
+                ),
               ),
             ),
           ),
@@ -617,7 +619,7 @@ class _DhikrCard extends StatelessWidget {
               blurRadius: 8,
               offset: Offset(0, 2),
             ),
-          ),
+          ],
         ),
         child: expanded
             ? Column(
