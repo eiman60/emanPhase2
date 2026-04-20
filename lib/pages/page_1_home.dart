@@ -678,6 +678,57 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
                   onTap: () {},
                 ),
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CustomDhikrSection extends StatefulWidget {
+  const _CustomDhikrSection();
+
+  @override
+  State<_CustomDhikrSection> createState() => _CustomDhikrSectionState();
+}
+
+class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
+  final List<_DhikrCardData> _customCards = [];
+
+  Future<void> _showCreateDialog() async {
+    final titleController = TextEditingController();
+    final contentController = TextEditingController();
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('إضافة ذكر جديد'),
+        content: Directionality(
+          textDirection: TextDirection.rtl,
+          child: SizedBox(
+            width: 360,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'العنوان',
+                    hintText: 'مثال: ذكر بعد الصلاة',
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: contentController,
+                  minLines: 3,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    labelText: 'المحتوى',
+                    hintText: 'اكتب الذكر هنا...',
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 10),
