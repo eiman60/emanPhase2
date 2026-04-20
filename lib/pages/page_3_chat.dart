@@ -23,6 +23,8 @@ class _Page3ChatState extends State<Page3Chat> {
   final ScrollController _scrollController = ScrollController();
 
   bool _isSending = false;
+  bool _isCheckingHealth = false;
+  bool _isBackendReachable = false;
 
   static const String _configuredApiBaseUrl = String.fromEnvironment(
     'AI_API_BASE_URL',
@@ -50,6 +52,36 @@ class _Page3ChatState extends State<Page3Chat> {
       default:
         return ['http://localhost:8000'];
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkBackendHealth();
+  }
+
+  Future<void> _checkBackendHealth() async {
+    if (_isCheckingHealth) return;
+    setState(() => _isCheckingHealth = true);
+
+    var reachable = false;
+    for (final baseUrl in _apiBaseUrlCandidates) {
+      try {
+        final response = await http.get(Uri.parse('$baseUrl/health'));
+        if (response.statusCode == 200) {
+          reachable = true;
+          break;
+        }
+      } catch (_) {
+        continue;
+      }
+    }
+
+    if (!mounted) return;
+    setState(() {
+      _isBackendReachable = reachable;
+      _isCheckingHealth = false;
+    });
   }
 
   Future<void> _sendMessage() async {
@@ -171,6 +203,22 @@ class _Page3ChatState extends State<Page3Chat> {
       appBar: _buildAppBar(),
       body: Column(
         children: [
+          if (!_isBackendReachable && !_isCheckingHealth)
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFF2E6),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFF2C39B)),
+              ),
+              child: const Text(
+                'خدمة AI غير متصلة حالياً. تأكد من تشغيل خادم FastAPI على المنفذ 8000 '
+                'واضبط AI_API_BASE_URL إذا كان الخادم على جهاز آخر.',
+                style: TextStyle(color: Color(0xFF7A3E00), fontSize: 12.5),
+              ),
+            ),
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
@@ -213,11 +261,11 @@ class _Page3ChatState extends State<Page3Chat> {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
         ),
-        title: const Column(
+        title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'مساعدك الشخصي',
               style: TextStyle(
                 fontSize: 18,
@@ -230,11 +278,23 @@ class _Page3ChatState extends State<Page3Chat> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.circle, size: 9, color: Color(0xFF34C759)),
-                SizedBox(width: 4),
+                Icon(
+                  Icons.circle,
+                  size: 9,
+                  color: _isCheckingHealth
+                      ? const Color(0xFFFFD166)
+                      : _isBackendReachable
+                      ? const Color(0xFF34C759)
+                      : const Color(0xFFFF6B6B),
+                ),
+                const SizedBox(width: 4),
                 Text(
-                  'AI Connected',
-                  style: TextStyle(
+                  _isCheckingHealth
+                      ? 'Checking AI...'
+                      : _isBackendReachable
+                      ? 'AI Connected'
+                      : 'AI Offline',
+                  style: const TextStyle(
                     fontSize: 13,
                     color: Color(0xFFF0EDE7),
                     fontWeight: FontWeight.w500,
@@ -272,7 +332,14 @@ class _Page3ChatState extends State<Page3Chat> {
             ),
           ),
           IconButton(
-            onPressed: _isSending ? null : _sendMessage,
+            onPressed: _isSending
+                ? null
+                : () async {
+                    if (!_isBackendReachable) {
+                      await _checkBackendHealth();
+                    }
+                    _sendMessage();
+                  },
             icon: const Icon(Icons.send, color: Color(0xFF574B40), size: 20),
           ),
         ],
