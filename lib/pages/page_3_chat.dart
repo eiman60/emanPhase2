@@ -37,6 +37,10 @@ class _Page3ChatState extends State<Page3Chat> {
 
     if (kIsWeb) {
       final origin = Uri.base.origin;
+      final host = Uri.base.host;
+      if (host == 'localhost' || host == '127.0.0.1') {
+        return ['http://localhost:8000', origin];
+      }
       return [origin, 'http://localhost:8000'];
     }
 
@@ -61,23 +65,32 @@ class _Page3ChatState extends State<Page3Chat> {
 
     try {
       http.Response? response;
+      http.Response? lastResponse;
       String? lastTriedBaseUrl;
 
       for (final baseUrl in _apiBaseUrlCandidates) {
         lastTriedBaseUrl = baseUrl;
         try {
-          response = await http.post(
+          final currentResponse = await http.post(
             Uri.parse('$baseUrl/ask'),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({'question': text}),
           );
-          break;
+
+          if (currentResponse.statusCode == 200) {
+            response = currentResponse;
+            break;
+          }
+
+          lastResponse = currentResponse;
         } catch (_) {
           continue;
         }
       }
 
       if (!mounted) return;
+
+      response ??= lastResponse;
 
       if (response == null) {
         throw Exception('AI backend is unreachable');
