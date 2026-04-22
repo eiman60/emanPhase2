@@ -10,7 +10,7 @@ class Page5 extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF8F6F0),
+        backgroundColor: const Color(0xFFF4F5F7),
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Directionality(

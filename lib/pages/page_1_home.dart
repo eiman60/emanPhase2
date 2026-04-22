@@ -41,9 +41,9 @@ class Page1Home extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF8A6A4E),
-                Color(0xFF6F513A),
-                Color(0xFF523A29),
+                Color(0xFF5C4033),
+                Color(0xFF3E2723),
+                Color(0xFF3E2723),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -61,7 +61,7 @@ class Page1Home extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
                   decoration: const BoxDecoration(
-                    color: Color(0xFFF8F6F0),
+                    color: Color(0xFFF4F5F7),
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(20),
@@ -340,11 +340,11 @@ class _QuranCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 280,
+      height: 252,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(18),
         boxShadow: const [
           BoxShadow(
               color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2))
@@ -472,7 +472,7 @@ class _DhikrSectionState extends State<_DhikrSection> {
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF8F6F0),
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(14),
         ),
         child: Directionality(
@@ -486,7 +486,7 @@ class _DhikrSectionState extends State<_DhikrSection> {
                   itemCount: _dhikrCards.length,
                   onPageChanged: (index) => setState(() => _activeIndex = index),
                   itemBuilder: (context, i) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
                     child: _DhikrCard(
                       data: _dhikrCards[i],
                       expanded: true,
@@ -671,7 +671,7 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
           child: FilledButton(
             onPressed: _showCreateDialog,
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF8A6A4E),
+              backgroundColor: const Color(0xFFF3B33B),
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
             ),
             child: const Text(
@@ -693,16 +693,19 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
             controller: _customPageController,
             itemCount: _customCards.length,
             onPageChanged: (index) => setState(() => _customActiveIndex = index),
-            itemBuilder: (_, index) => GestureDetector(
-              onVerticalDragEnd: (details) {
-                if ((details.primaryVelocity ?? 0) > 450) {
-                  _deleteActiveCard();
-                }
-              },
-              child: _DhikrCard(
-                data: _customCards[index],
-                expanded: true,
-                onTap: () {},
+            itemBuilder: (_, index) => Padding(
+              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+              child: GestureDetector(
+                onVerticalDragEnd: (details) {
+                  if ((details.primaryVelocity ?? 0) > 450) {
+                    _deleteActiveCard();
+                  }
+                },
+                child: _DhikrCard(
+                  data: _customCards[index],
+                  expanded: true,
+                  onTap: () {},
+                ),
               ),
             ),
           ),

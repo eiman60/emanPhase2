@@ -199,7 +199,7 @@ class _Page3ChatState extends State<Page3Chat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F6F0),
+      backgroundColor: const Color(0xFFF4F5F7),
       appBar: _buildAppBar(),
       body: Column(
         children: [

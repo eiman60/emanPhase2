@@ -48,7 +48,7 @@ class Page2 extends StatelessWidget {
             ),
           ),
         ),
-        backgroundColor: const Color(0xFFF8F6F0),
+        backgroundColor: const Color(0xFFF4F5F7),
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(14, 12, 14, 16),
