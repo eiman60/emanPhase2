@@ -44,8 +44,8 @@ class NusukApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
-        textTheme: GoogleFonts.ibmPlexSansArabicTextTheme(
+        fontFamily: GoogleFonts.almarai().fontFamily,
+        textTheme: GoogleFonts.almaraiTextTheme(
           ThemeData.light().textTheme,
         ),
       ),
