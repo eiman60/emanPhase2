@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -9,42 +11,74 @@ class Page4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F6F0),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF8A6A4E), Color(0xFF6F513A), Color(0xFF523A29)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+      backgroundColor: const Color(0xFFFFFDF9),
+      body: Stack(
+        children: [
+          const Positioned(
+            top: -120,
+            right: -80,
+            child: _GlowCircle(size: 280, color: Color(0x66F8D768)),
           ),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(
-              left: 18,
-              right: 18,
-              bottom: MediaQuery.viewPaddingOf(context).bottom + 24,
-            ),
-            child: const Column(
-              children: [
-                SizedBox(height: 8),
-                _TopRow(),
-                SizedBox(height: 30),
-                _PrayerHeader(),
-                SizedBox(height: 24),
-                _ActionRow(),
-                SizedBox(height: 26),
-                _QuranPreviewCard(),
-                SizedBox(height: 18),
-                _DhikrCard(),
-                SizedBox(height: 16),
-                _SliderDots(),
-                SizedBox(height: 22),
-                _AddDhikrButton(),
-                SizedBox(height: 12),
-              ],
+          const Positioned(
+            top: 260,
+            left: -110,
+            child: _GlowCircle(size: 260, color: Color(0x55F8D768)),
+          ),
+          const Positioned(
+            bottom: -100,
+            right: 20,
+            child: _GlowCircle(size: 220, color: Color(0x44F8D768)),
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(
+                left: 18,
+                right: 18,
+                bottom: MediaQuery.viewPaddingOf(context).bottom + 24,
+              ),
+              child: const Column(
+                children: [
+                  SizedBox(height: 8),
+                  _TopRow(),
+                  SizedBox(height: 30),
+                  _PrayerHeader(),
+                  SizedBox(height: 24),
+                  _ActionRow(),
+                  SizedBox(height: 26),
+                  _QuranPreviewCard(),
+                  SizedBox(height: 18),
+                  _DhikrCard(),
+                  SizedBox(height: 16),
+                  _SliderDots(),
+                  SizedBox(height: 22),
+                  _AddDhikrButton(),
+                  SizedBox(height: 12),
+                ],
+              ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GlowCircle extends StatelessWidget {
+  const _GlowCircle({required this.size, required this.color});
+
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient(
+          colors: [color, color.withOpacity(0.4), Colors.transparent],
+          stops: const [0, 0.5, 1],
         ),
       ),
     );
@@ -144,13 +178,10 @@ class _PrayerHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 14),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF4F0E6),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: const Row(
+            const _GlassCard(
+              borderRadius: 14,
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.access_time, size: 17, color: Color(0xFF948474)),
@@ -199,13 +230,10 @@ class _ActionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        _GlassCard(
           width: 70,
           height: 70,
-          decoration: const BoxDecoration(
-            color: Color(0xFFF0EEE9),
-            shape: BoxShape.circle,
-          ),
+          borderRadius: 100,
           child: Center(
             child: AssetIconView(
               assetPath: iconPath,
@@ -235,13 +263,17 @@ class _AlertItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        CircleAvatar(
-          radius: 35,
-          backgroundColor: Color(0xFFEC8881),
-          child: AssetIconView(
-            assetPath: AppIcons.alert,
-            size: 28,
-            iconColor: Colors.white,
+        _GlassCard(
+          width: 70,
+          height: 70,
+          borderRadius: 100,
+          tint: Color(0x66EC8881),
+          child: Center(
+            child: AssetIconView(
+              assetPath: AppIcons.alert,
+              size: 28,
+              iconColor: Colors.white,
+            ),
           ),
         ),
         SizedBox(height: 8),
@@ -263,17 +295,13 @@ class _QuranPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return const _GlassCard(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF1EEE8),
-        borderRadius: BorderRadius.circular(8),
-      ),
+      padding: EdgeInsets.fromLTRB(18, 18, 18, 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
+          Text(
             'بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيْمِ',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -283,8 +311,8 @@ class _QuranPreviewCard extends StatelessWidget {
               height: 1.25,
             ),
           ),
-          const SizedBox(height: 16),
-          const Text(
+          SizedBox(height: 16),
+          Text(
             'ٱلْحَمْدُ لِلّٰهِ رَبِّ ٱلْعَٰلَمِينَ ۝ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ۝ مَٰلِكِ يَوْمِ ٱلدِّينِ ۝ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -293,17 +321,14 @@ class _QuranPreviewCard extends StatelessWidget {
               height: 1.65,
             ),
           ),
-          const SizedBox(height: 22),
+          SizedBox(height: 22),
           Center(
-            child: Container(
+            child: _GlassCard(
               width: 130,
               height: 48,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEFEAE0),
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: const Color(0xFFDCD2C3)),
-              ),
-              child: const Row(
+              borderRadius: 6,
+              padding: EdgeInsets.zero,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.arrow_back, size: 22, color: Color(0xFF3A3128)),
@@ -330,14 +355,11 @@ class _DhikrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return const _GlassCard(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE2CDB9),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: const Column(
+      padding: EdgeInsets.fromLTRB(18, 18, 18, 20),
+      tint: Color(0x55E2CDB9),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
@@ -359,6 +381,106 @@ class _DhikrCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SliderDots extends StatelessWidget {
+  const _SliderDots();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _Dot(isActive: false),
+        SizedBox(width: 8),
+        _Dot(isActive: false),
+        SizedBox(width: 8),
+        _Dot(isActive: false),
+        SizedBox(width: 8),
+        _Dot(isActive: true),
+      ],
+    );
+  }
+}
+
+class _Dot extends StatelessWidget {
+  const _Dot({required this.isActive});
+
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      width: isActive ? 22 : 10,
+      height: 10,
+      decoration: BoxDecoration(
+        color: isActive ? const Color(0xFF2D251E) : const Color(0xFFF2EFE9),
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
+  }
+}
+
+class _AddDhikrButton extends StatelessWidget {
+  const _AddDhikrButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _GlassCard(
+      width: double.infinity,
+      height: 62,
+      child: Center(
+        child: Text(
+          'اضف أذكارك',
+          style: TextStyle(
+            color: Color(0xFF332A22),
+            fontSize: 34,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GlassCard extends StatelessWidget {
+  const _GlassCard({
+    required this.child,
+    this.width,
+    this.height,
+    this.padding,
+    this.borderRadius = 8,
+    this.tint = const Color(0x66FFFFFF),
+  });
+
+  final Widget child;
+  final double? width;
+  final double? height;
+  final EdgeInsetsGeometry? padding;
+  final double borderRadius;
+  final Color tint;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+        child: Container(
+          width: width,
+          height: height,
+          padding: padding,
+          decoration: BoxDecoration(
+            color: tint,
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(color: const Color(0x99FFFFFF)),
+          ),
+          child: child,
+        ),
       ),
     );
   }
