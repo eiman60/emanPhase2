@@ -343,7 +343,7 @@ class _QuranCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 280,
+      height: 252,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
@@ -475,8 +475,11 @@ class _DhikrSectionState extends State<_DhikrSection> {
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF8F6F0),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(14),
+          boxShadow: const [
+            BoxShadow(color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2)),
+            ],
         ),
         child: Directionality(
           textDirection: TextDirection.rtl,
@@ -489,7 +492,7 @@ class _DhikrSectionState extends State<_DhikrSection> {
                   itemCount: _dhikrCards.length,
                   onPageChanged: (index) => setState(() => _activeIndex = index),
                   itemBuilder: (context, i) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
                     child: _DhikrCard(
                       data: _dhikrCards[i],
                       expanded: true,
@@ -665,16 +668,19 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: _homeSectionHeight,
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F6F0),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
+        boxShadow: const [
+          BoxShadow(color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2)),
+          ],
       ),
       child: Column(
         children: [
-          Expanded(
+          SizedBox(
+            height: 340,
             child: _customCards.isNotEmpty
                 ? _buildCardsArea()
                 : const Center(
@@ -714,7 +720,7 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
     return Column(
       children: [
         SizedBox(
-          height: 180,
+          height: 296,
           child: PageView.builder(
             controller: _customPageController,
             itemCount: _customCards.length,
