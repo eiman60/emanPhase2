@@ -17,8 +17,8 @@ class _Page4State extends State<Page4> with SingleTickerProviderStateMixin {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 8),
-    )..repeat(reverse: true);
+      duration: const Duration(seconds: 4),
+    )..repeat();
   }
 
   @override
@@ -27,12 +27,28 @@ class _Page4State extends State<Page4> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  double _phaseOpacity({
+    required double t,
+    required double start,
+    required double end,
+  }) {
+    if (t < start || t > end) {
+      return 0;
+    }
+
+    final localT = (t - start) / (end - start);
+    return Curves.easeInOut.transform(1 - ((localT - 0.5).abs() * 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+      animation: _controller,
       builder: (context, _) {
         final t = _controller.value;
+        final glow1Opacity = _phaseOpacity(t: t, start: 0.00, end: 0.45);
+        final glow2Opacity = _phaseOpacity(t: t, start: 0.50, end: 0.95);
+
         return ClipRect(
           child: Stack(
             fit: StackFit.expand,
@@ -41,22 +57,22 @@ class _Page4State extends State<Page4> with SingleTickerProviderStateMixin {
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Transform.translate(
-                  offset: Offset(22 + (t * 20), -85 - (t * 28)),
-                  child: const _SoftGlow(
+                  offset: Offset(16 + (t * 40), -84 - (t * 36)),
+                  child: _SoftGlow(
                     size: 260,
-                    color: Color(0xFFF8D768),
-                    opacity: 0.35,
+                    color: const Color(0xFFF8D768),
+                    opacity: 0.40 * glow1Opacity,
                   ),
                 ),
               ),
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Transform.translate(
-                  offset: Offset(56 + ((1 - t) * 14), -150 - (t * 16)),
-                  child: const _SoftGlow(
+                  offset: Offset(58 + ((1 - t) * 32), -152 - (t * 22)),
+                  child: _SoftGlow(
                     size: 170,
-                    color: Color(0xFFF8D768),
-                    opacity: 0.22,
+                    color: const Color(0xFFF8D768),
+                    opacity: 0.30 * glow2Opacity,
                   ),
                 ),
               ),
