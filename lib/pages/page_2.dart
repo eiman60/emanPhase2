@@ -11,6 +11,7 @@ class Page2 extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Directionality(
@@ -18,6 +19,8 @@ class Page2 extends StatelessWidget {
             child: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
+              surfaceTintColor: Colors.transparent,
+              scrolledUnderElevation: 0,
               leading: const Padding(
                 padding: EdgeInsets.only(left: 14),
                 child: CircleAvatar(
@@ -51,7 +54,12 @@ class Page2 extends StatelessWidget {
         backgroundColor: const Color(0xFFF8F6F0),
         body: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(14, 12, 14, 16),
+            padding: const EdgeInsets.fromLTRB(
+              14,
+              kToolbarHeight + 12,
+              14,
+              16,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
