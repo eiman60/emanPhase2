@@ -71,14 +71,15 @@ class _GlowCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final transparentYellow = Color.fromARGB(0, color.red, color.green, color.blue);
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: RadialGradient(
-          colors: [color, color.withOpacity(0.4), Colors.transparent],
-          stops: const [0, 0.5, 1],
+          colors: [color, color.withValues(alpha: 0.18), transparentYellow],
+          stops: const [0.0, 0.55, 1.0],
         ),
       ),
     );
