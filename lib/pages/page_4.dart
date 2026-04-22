@@ -235,6 +235,8 @@ class _ActionItem extends StatelessWidget {
           width: 70,
           height: 70,
           borderRadius: 100,
+          tint: const Color(0xADFFFFFF),
+          borderColor: const Color(0xFFEEE4D6),
           child: Center(
             child: AssetIconView(
               assetPath: iconPath,
@@ -268,7 +270,8 @@ class _AlertItem extends StatelessWidget {
           width: 70,
           height: 70,
           borderRadius: 100,
-          tint: Color(0x66EC8881),
+          tint: Color(0xF2E98686),
+          borderColor: Color(0xFFD26B6B),
           child: Center(
             child: AssetIconView(
               assetPath: AppIcons.alert,
@@ -299,6 +302,8 @@ class _QuranPreviewCard extends StatelessWidget {
     return const _GlassCard(
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(18, 18, 18, 20),
+      tint: Color(0xBFF9F3EB),
+      borderColor: Color(0xFFEFE5D9),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -456,6 +461,7 @@ class _GlassCard extends StatelessWidget {
     this.padding,
     this.borderRadius = 8,
     this.tint = const Color(0x66FFFFFF),
+    this.borderColor = const Color(0x99FFFFFF),
   });
 
   final Widget child;
@@ -464,6 +470,7 @@ class _GlassCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final double borderRadius;
   final Color tint;
+  final Color borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -478,7 +485,7 @@ class _GlassCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: tint,
             borderRadius: BorderRadius.circular(borderRadius),
-            border: Border.all(color: const Color(0x99FFFFFF)),
+            border: Border.all(color: borderColor),
           ),
           child: child,
         ),
