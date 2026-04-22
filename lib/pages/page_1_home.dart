@@ -344,6 +344,7 @@ class _QuranCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: _homeSectionHeight,
+      width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
@@ -357,7 +358,7 @@ class _QuranCard extends StatelessWidget {
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
               child: Stack(
                 fit: StackFit.expand,
                 children: [
@@ -469,63 +470,61 @@ class _DhikrSectionState extends State<_DhikrSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-      child: Container(
-        height: _homeSectionHeight,
-        width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF8F6F0),
-          borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
-        ),
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 228,
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: _dhikrCards.length,
-                  onPageChanged: (index) => setState(() => _activeIndex = index),
-                  itemBuilder: (context, i) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: _DhikrCard(
-                      data: _dhikrCards[i],
-                      expanded: true,
-                      onTap: () {
-                        if (i > _activeIndex) {
-                          _goNext();
-                        } else if (i < _activeIndex) {
-                          _goPrevious();
-                        }
-                      },
-                    ),
+    return Container(
+      height: _homeSectionHeight,
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F6F0),
+        borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
+      ),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 224,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: _dhikrCards.length,
+                onPageChanged: (index) => setState(() => _activeIndex = index),
+                itemBuilder: (context, i) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: _DhikrCard(
+                    data: _dhikrCards[i],
+                    expanded: true,
+                    onTap: () {
+                      if (i > _activeIndex) {
+                        _goNext();
+                      } else if (i < _activeIndex) {
+                        _goPrevious();
+                      }
+                    },
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  _dhikrCards.length,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 220),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: index == _activeIndex ? 16 : 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: index == _activeIndex
-                          ? const Color(0xFF6F4E37)
-                          : const Color(0xFFD9D4C8),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                _dhikrCards.length,
+                (index) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 220),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: index == _activeIndex ? 16 : 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: index == _activeIndex
+                        ? const Color(0xFF6F4E37)
+                        : const Color(0xFFD9D4C8),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -665,46 +664,6 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _customCards.isNotEmpty
-            ? _buildCardsArea()
-            : Container(
-                height: _homeSectionHeight,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8F6F0),
-                  borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
-                ),
-                alignment: Alignment.center,
-                child: const Text(
-                  'ابدأ بإضافة أذكارك المخصصة',
-                  style: TextStyle(
-                    color: Color(0xFF8A6A4E),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-        const SizedBox(height: 12),
-        Center(
-          child: FilledButton(
-            onPressed: _showCreateDialog,
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFFF3B33B),
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-            ),
-            child: const Text(
-              'اضف اذكارك',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCardsArea() {
     return Container(
       height: _homeSectionHeight,
       width: double.infinity,
@@ -715,47 +674,85 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
       ),
       child: Column(
         children: [
-          SizedBox(
-            height: 224,
-            child: PageView.builder(
-              controller: _customPageController,
-              itemCount: _customCards.length,
-              onPageChanged: (index) => setState(() => _customActiveIndex = index),
-              itemBuilder: (_, index) => GestureDetector(
-                onVerticalDragEnd: (details) {
-                  if ((details.primaryVelocity ?? 0) > 450) {
-                    _deleteActiveCard();
-                  }
-                },
-                child: _DhikrCard(
-                  data: _customCards[index],
-                  expanded: true,
-                  onTap: () {},
-                ),
-              ),
-            ),
+          Expanded(
+            child: _customCards.isNotEmpty
+                ? _buildCardsArea()
+                : const Center(
+                    child: Text(
+                      'ابدأ بإضافة أذكارك المخصصة',
+                      style: TextStyle(
+                        color: Color(0xFF8A6A4E),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Almarai',
+                      ),
+                    ),
+                  ),
           ),
           const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              _customCards.length,
-              (index) => AnimatedContainer(
-                duration: const Duration(milliseconds: 220),
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                width: index == _customActiveIndex ? 16 : 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: index == _customActiveIndex
-                      ? const Color(0xFF8A6A4E)
-                      : const Color(0xFFD9D4C8),
-                  borderRadius: BorderRadius.circular(20),
-                ),
+          FilledButton(
+            onPressed: _showCreateDialog,
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xFFD4AF37),
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
+            ),
+            child: const Text(
+              'اضف اذكارك',
+              style: TextStyle(
+                fontFamily: 'Almarai',
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildCardsArea() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 180,
+          child: PageView.builder(
+            controller: _customPageController,
+            itemCount: _customCards.length,
+            onPageChanged: (index) => setState(() => _customActiveIndex = index),
+            itemBuilder: (_, index) => GestureDetector(
+              onVerticalDragEnd: (details) {
+                if ((details.primaryVelocity ?? 0) > 450) {
+                  _deleteActiveCard();
+                }
+              },
+              child: _DhikrCard(
+                data: _customCards[index],
+                expanded: true,
+                onTap: () {},
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            _customCards.length,
+            (index) => AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              width: index == _customActiveIndex ? 16 : 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: index == _customActiveIndex
+                    ? const Color(0xFF8A6A4E)
+                    : const Color(0xFFD9D4C8),
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
