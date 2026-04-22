@@ -18,6 +18,8 @@ class Page5 extends StatelessWidget {
             child: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
+              surfaceTintColor: Colors.transparent,
+              scrolledUnderElevation: 0,
               leading: const Padding(
                 padding: EdgeInsets.only(left: 14),
                 child: CircleAvatar(
@@ -50,16 +52,23 @@ class Page5 extends StatelessWidget {
           valueListenable: EmergencyReportStore.reports,
           builder: (context, reports, _) {
             if (reports.isEmpty) {
-              return const Center(
-                child: Text(
-                  'لا يوجد بلاغات حالياً',
-                  style: TextStyle(fontFamily: 'Amiri', fontSize: 24, color: Color(0xFF6B7280)),
+              return const Padding(
+                padding: EdgeInsets.only(top: kToolbarHeight),
+                child: Center(
+                  child: Text(
+                    'لا يوجد بلاغات حالياً',
+                    style: TextStyle(
+                      fontFamily: 'Amiri',
+                      fontSize: 24,
+                      color: Color(0xFF6B7280),
+                    ),
+                  ),
                 ),
               );
             }
 
             return ListView.separated(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, kToolbarHeight + 16, 16, 16),
               itemBuilder: (context, index) => _ReportCard(report: reports[index]),
               separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemCount: reports.length,
