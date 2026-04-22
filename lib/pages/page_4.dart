@@ -9,32 +9,41 @@ class Page4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(
-            left: 18,
-            right: 18,
-            bottom: MediaQuery.viewPaddingOf(context).bottom + 24,
+      backgroundColor: const Color(0xFFF8F6F0),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF8A6A4E), Color(0xFF6F513A), Color(0xFF523A29)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          child: const Column(
-            children: [
-              SizedBox(height: 8),
-              _TopRow(),
-              SizedBox(height: 30),
-              _PrayerHeader(),
-              SizedBox(height: 24),
-              _ActionRow(),
-              SizedBox(height: 26),
-              _QuranPreviewCard(),
-              SizedBox(height: 18),
-              _DhikrCard(),
-              SizedBox(height: 16),
-              _SliderDots(),
-              SizedBox(height: 22),
-              _AddDhikrButton(),
-              SizedBox(height: 12),
-            ],
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: 18,
+              right: 18,
+              bottom: MediaQuery.viewPaddingOf(context).bottom + 24,
+            ),
+            child: const Column(
+              children: [
+                SizedBox(height: 8),
+                _TopRow(),
+                SizedBox(height: 30),
+                _PrayerHeader(),
+                SizedBox(height: 24),
+                _ActionRow(),
+                SizedBox(height: 26),
+                _QuranPreviewCard(),
+                SizedBox(height: 18),
+                _DhikrCard(),
+                SizedBox(height: 16),
+                _SliderDots(),
+                SizedBox(height: 22),
+                _AddDhikrButton(),
+                SizedBox(height: 12),
+              ],
+            ),
           ),
         ),
       ),
