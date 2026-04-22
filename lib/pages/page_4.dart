@@ -49,9 +49,9 @@ class Page4 extends StatelessWidget {
                   SizedBox(height: 18),
                   _DhikrCard(),
                   SizedBox(height: 16),
-                  _SliderDots(),
+                  _Page4SliderDots(),
                   SizedBox(height: 22),
-                  _AddDhikrButton(),
+                  _Page4AddDhikrButton(),
                   SizedBox(height: 12),
                 ],
               ),
@@ -386,28 +386,28 @@ class _DhikrCard extends StatelessWidget {
   }
 }
 
-class _SliderDots extends StatelessWidget {
-  const _SliderDots();
+class _Page4SliderDots extends StatelessWidget {
+  const _Page4SliderDots();
 
   @override
   Widget build(BuildContext context) {
     return const Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _Dot(isActive: false),
+        _Page4Dot(isActive: false),
         SizedBox(width: 8),
-        _Dot(isActive: false),
+        _Page4Dot(isActive: false),
         SizedBox(width: 8),
-        _Dot(isActive: false),
+        _Page4Dot(isActive: false),
         SizedBox(width: 8),
-        _Dot(isActive: true),
+        _Page4Dot(isActive: true),
       ],
     );
   }
 }
 
-class _Dot extends StatelessWidget {
-  const _Dot({required this.isActive});
+class _Page4Dot extends StatelessWidget {
+  const _Page4Dot({required this.isActive});
 
   final bool isActive;
 
@@ -425,8 +425,8 @@ class _Dot extends StatelessWidget {
   }
 }
 
-class _AddDhikrButton extends StatelessWidget {
-  const _AddDhikrButton();
+class _Page4AddDhikrButton extends StatelessWidget {
+  const _Page4AddDhikrButton();
 
   @override
   Widget build(BuildContext context) {
@@ -480,71 +480,6 @@ class _GlassCard extends StatelessWidget {
             border: Border.all(color: const Color(0x99FFFFFF)),
           ),
           child: child,
-        ),
-      ),
-    );
-  }
-}
-
-class _SliderDots extends StatelessWidget {
-  const _SliderDots();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _Dot(isActive: false),
-        SizedBox(width: 8),
-        _Dot(isActive: false),
-        SizedBox(width: 8),
-        _Dot(isActive: false),
-        SizedBox(width: 8),
-        _Dot(isActive: true),
-      ],
-    );
-  }
-}
-
-class _Dot extends StatelessWidget {
-  const _Dot({required this.isActive});
-
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      width: isActive ? 22 : 10,
-      height: 10,
-      decoration: BoxDecoration(
-        color: isActive ? const Color(0xFF2D251E) : const Color(0xFFF2EFE9),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
-  }
-}
-
-class _AddDhikrButton extends StatelessWidget {
-  const _AddDhikrButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 62,
-      decoration: BoxDecoration(
-        color: const Color(0xFFF1EEE8),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: const Center(
-        child: Text(
-          'اضف أذكارك',
-          style: TextStyle(
-            color: Color(0xFF332A22),
-            fontSize: 34,
-            fontWeight: FontWeight.w500,
-          ),
         ),
       ),
     );
