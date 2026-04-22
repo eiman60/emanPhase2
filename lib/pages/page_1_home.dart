@@ -4,6 +4,9 @@ import 'package:intl/intl.dart' as intl;
 import '../app_icons.dart';
 import 'emergency_report_page.dart';
 
+const double _homeSectionHeight = 280;
+const double _homeSectionCornerRadius = 14;
+
 class Page1Home extends StatelessWidget {
   const Page1Home({super.key});
 
@@ -244,7 +247,7 @@ class _ActionCircle extends StatelessWidget {
         const SizedBox(height: 6),
         Text(label,
             style: const TextStyle(
-                color: Colors.white, fontFamily: 'IBM Plex Sans Arabic', fontSize: 16)),
+                color: Colors.white, fontFamily: 'Almarai', fontSize: 16)),
       ],
     );
   }
@@ -268,19 +271,19 @@ class _AlertCircle extends StatelessWidget {
         title: const Text(
           'الطوارئ',
           textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: 'IBM Plex Sans Arabic', fontWeight: FontWeight.w700),
+          style: TextStyle(fontFamily: 'Almarai', fontWeight: FontWeight.w700),
         ),
         content: const Text(
           'إذا كنت بحاجة إلى المساعدة الفورية، يمكنك إرسال بلاغ طارئ الآن.',
           textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: 'IBM Plex Sans Arabic', height: 1.5),
+          style: TextStyle(fontFamily: 'Almarai', height: 1.5),
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
             child: const Text('إغلاق',
-                style: TextStyle(fontFamily: 'IBM Plex Sans Arabic', fontSize: 16)),
+                style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
           ),
           FilledButton(
             onPressed: () {
@@ -290,7 +293,7 @@ class _AlertCircle extends StatelessWidget {
             style: FilledButton.styleFrom(
                 backgroundColor: const Color(0xFFEB4548)),
             child: const Text('الإبلاغ عن حالة طارئة',
-                style: TextStyle(fontFamily: 'IBM Plex Sans Arabic', fontSize: 16)),
+                style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
           ),
         ],
       ),
@@ -328,7 +331,7 @@ class _AlertCircle extends StatelessWidget {
         const SizedBox(height: 6),
         const Text('الطوارئ',
             style: TextStyle(
-                color: Colors.white, fontFamily: 'IBM Plex Sans Arabic', fontSize: 16)),
+                color: Colors.white, fontFamily: 'Almarai', fontSize: 16)),
       ],
     );
   }
@@ -340,11 +343,11 @@ class _QuranCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 280,
+      height: _homeSectionHeight,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
         boxShadow: const [
           BoxShadow(
               color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2))
@@ -396,7 +399,7 @@ class _QuranCard extends StatelessWidget {
             width: 176,
             height: 38,
             decoration: BoxDecoration(
-                color: const Color(0xFFF8F9FA),
+                color: const Color(0xFFF8F6F0),
                 borderRadius: BorderRadius.circular(20)),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -406,7 +409,7 @@ class _QuranCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     color: Color(0xFF1F2938),
-                    fontFamily: 'IBM Plex Sans Arabic',
+                    fontFamily: 'Almarai',
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -469,18 +472,19 @@ class _DhikrSectionState extends State<_DhikrSection> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
+        height: _homeSectionHeight,
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
         decoration: BoxDecoration(
           color: const Color(0xFFF8F6F0),
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
         ),
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: Column(
             children: [
               SizedBox(
-                height: 296,
+                height: 228,
                 child: PageView.builder(
                   controller: _pageController,
                   itemCount: _dhikrCards.length,
@@ -666,12 +670,28 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
       children: [
         _customCards.isNotEmpty
             ? _buildCardsArea()
-            : const SizedBox.shrink(),
+            : Container(
+                height: _homeSectionHeight,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF8F6F0),
+                  borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'ابدأ بإضافة أذكارك المخصصة',
+                  style: TextStyle(
+                    color: Color(0xFF8A6A4E),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+        const SizedBox(height: 12),
         Center(
           child: FilledButton(
             onPressed: _showCreateDialog,
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF8A6A4E),
+              backgroundColor: const Color(0xFFF3B33B),
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
             ),
             child: const Text(
@@ -685,49 +705,57 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
   }
 
   Widget _buildCardsArea() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 296,
-          child: PageView.builder(
-            controller: _customPageController,
-            itemCount: _customCards.length,
-            onPageChanged: (index) => setState(() => _customActiveIndex = index),
-            itemBuilder: (_, index) => GestureDetector(
-              onVerticalDragEnd: (details) {
-                if ((details.primaryVelocity ?? 0) > 450) {
-                  _deleteActiveCard();
-                }
-              },
-              child: _DhikrCard(
-                data: _customCards[index],
-                expanded: true,
-                onTap: () {},
+    return Container(
+      height: _homeSectionHeight,
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F6F0),
+        borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 224,
+            child: PageView.builder(
+              controller: _customPageController,
+              itemCount: _customCards.length,
+              onPageChanged: (index) => setState(() => _customActiveIndex = index),
+              itemBuilder: (_, index) => GestureDetector(
+                onVerticalDragEnd: (details) {
+                  if ((details.primaryVelocity ?? 0) > 450) {
+                    _deleteActiveCard();
+                  }
+                },
+                child: _DhikrCard(
+                  data: _customCards[index],
+                  expanded: true,
+                  onTap: () {},
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-            _customCards.length,
-            (index) => AnimatedContainer(
-              duration: const Duration(milliseconds: 220),
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              width: index == _customActiveIndex ? 16 : 8,
-              height: 8,
-              decoration: BoxDecoration(
-                color: index == _customActiveIndex
-                    ? const Color(0xFF8A6A4E)
-                    : const Color(0xFFD9D4C8),
-                borderRadius: BorderRadius.circular(20),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              _customCards.length,
+              (index) => AnimatedContainer(
+                duration: const Duration(milliseconds: 220),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: index == _customActiveIndex ? 16 : 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: index == _customActiveIndex
+                      ? const Color(0xFF8A6A4E)
+                      : const Color(0xFFD9D4C8),
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 12),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -799,7 +827,7 @@ class _DhikrCard extends StatelessWidget {
           style: const TextStyle(
             color: Color(0xFFF8F6F0),
             fontSize: 24,
-            fontFamily: 'IBM Plex Sans Arabic',
+            fontFamily: 'Almarai',
             fontWeight: FontWeight.w700,
             height: 1.2,
           ),
@@ -814,7 +842,7 @@ class _DhikrCard extends StatelessWidget {
         color: Color(0xFFF8F6F0),
         fontSize: 20,
         height: 1.65,
-        fontFamily: 'IBM Plex Sans Arabic',
+        fontFamily: 'Almarai',
       ),
     );
 
