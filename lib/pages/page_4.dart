@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 class Page4 extends StatefulWidget {
@@ -118,6 +120,36 @@ class _SoftGlow extends StatelessWidget {
           ],
           stops: const [0.0, 0.55, 1.0],
         ),
+      ),
+    );
+  }
+}
+
+class _SoftOrb extends StatelessWidget {
+  const _SoftOrb({
+    required this.diameter,
+    required this.opacity,
+    required this.blurSigma,
+  });
+
+  final double diameter;
+  final double opacity;
+  final double blurSigma;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: diameter,
+      height: diameter,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFF8D768).withValues(alpha: opacity),
+            blurRadius: blurSigma,
+            spreadRadius: 4,
+          ),
+        ],
       ),
     );
   }
