@@ -17,7 +17,7 @@ class _Page4State extends State<Page4> with SingleTickerProviderStateMixin {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 10),
+      duration: const Duration(seconds: 8),
     )..repeat(reverse: true);
   }
 
@@ -30,43 +30,79 @@ class _Page4State extends State<Page4> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        final t = Curves.easeInOut.transform(_controller.value);
-        return Stack(
-          fit: StackFit.expand,
-          children: [
-            const DecoratedBox(
-              decoration: BoxDecoration(color: Color(0xFFF4F5F7)),
-            ),
-            Positioned(
-              left: -130 + (t * 28),
-              bottom: 90 + (t * 28),
-              child: _SoftOrb(
-                diameter: 280,
-                opacity: 0.7,
-                blurSigma: 58,
+      animation: CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+      builder: (context, _) {
+        final t = _controller.value;
+        return ClipRect(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              const ColoredBox(color: Color(0xFFF4F5F7)),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Transform.translate(
+                  offset: Offset(22 + (t * 20), -85 - (t * 28)),
+                  child: const _SoftGlow(
+                    size: 260,
+                    color: Color(0xFFF8D768),
+                    opacity: 0.35,
+                  ),
+                ),
               ),
-            ),
-            Positioned(
-              left: -18 + ((1 - t) * 12),
-              bottom: 165 + (math.sin(t * math.pi) * 18),
-              child: _SoftOrb(
-                diameter: 170,
-                opacity: 0.5,
-                blurSigma: 36,
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Transform.translate(
+                  offset: Offset(56 + ((1 - t) * 14), -150 - (t * 16)),
+                  child: const _SoftGlow(
+                    size: 170,
+                    color: Color(0xFFF8D768),
+                    opacity: 0.22,
+                  ),
+                ),
               ),
-            ),
-            Center(child: child),
-          ],
+              const Center(
+                child: Text(
+                  'Page 4',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1F2937),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
-      child: const Text(
-        'Page 4',
-        style: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.w700,
-          color: Color(0xFF1F2937),
+    );
+  }
+}
+
+class _SoftGlow extends StatelessWidget {
+  const _SoftGlow({
+    required this.size,
+    required this.color,
+    required this.opacity,
+  });
+
+  final double size;
+  final Color color;
+  final double opacity;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient(
+          colors: [
+            color.withOpacity(opacity),
+            color.withOpacity(opacity * 0.45),
+            color.withOpacity(0),
+          ],
+          stops: const [0.0, 0.55, 1.0],
         ),
       ),
     );
