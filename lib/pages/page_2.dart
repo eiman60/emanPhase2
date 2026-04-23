@@ -334,7 +334,20 @@ class _CategoriesRowState extends State<_CategoriesRow> {
   int _selectedIndex = 0;
 
   static const List<_ExploreCategoryItem> _categories = [
-    _ExploreCategoryItem(label: 'الصحة', icon: Icons.favorite_border),
+    _ExploreCategoryItem(
+      label: 'الصحة',
+      icon: Icons.favorite_border,
+      cards: [
+        _CategoryCardData(
+          imageAssetPath: 'assets/icons/image_7.png',
+          title: 'مستشفى الطوارئ',
+        ),
+        _CategoryCardData(
+          imageAssetPath: 'assets/icons/image_8.png',
+          title: 'المستشفى السعودي الألماني',
+        ),
+      ],
+    ),
     _ExploreCategoryItem(
       label: 'العائله',
       icon: Icons.family_restroom_outlined,
@@ -414,10 +427,14 @@ class _CategoriesRowState extends State<_CategoriesRow> {
           height: 240,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            itemCount: 3,
+            itemCount:
+                selectedCategory.cards?.length ?? _CategoryCardData.fallback.length,
             separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (_, __) => _CategoryImageCard(
+            itemBuilder: (_, index) => _CategoryImageCard(
               categoryLabel: selectedCategory.label,
+              cardData:
+                  selectedCategory.cards?[index] ??
+                  _CategoryCardData.fallback[index],
             ),
           ),
         ),
@@ -427,16 +444,47 @@ class _CategoriesRowState extends State<_CategoriesRow> {
 }
 
 class _ExploreCategoryItem {
-  const _ExploreCategoryItem({required this.label, required this.icon});
+  const _ExploreCategoryItem({
+    required this.label,
+    required this.icon,
+    this.cards,
+  });
 
   final String label;
   final IconData icon;
+  final List<_CategoryCardData>? cards;
+}
+
+class _CategoryCardData {
+  const _CategoryCardData({required this.imageAssetPath, required this.title});
+
+  final String imageAssetPath;
+  final String title;
+
+  static const List<_CategoryCardData> fallback = [
+    _CategoryCardData(
+      imageAssetPath: 'assets/icons/image_4.png',
+      title: 'مكان الصورة',
+    ),
+    _CategoryCardData(
+      imageAssetPath: 'assets/icons/image_5.png',
+      title: 'مكان الصورة',
+    ),
+    _CategoryCardData(
+      imageAssetPath: 'assets/icons/image_6.png',
+      title: 'مكان الصورة',
+    ),
+  ];
 }
 
 class _CategoryImageCard extends StatelessWidget {
-  const _CategoryImageCard({required this.categoryLabel});
+  const _CategoryImageCard({
+    required this.categoryLabel,
+    required this.cardData,
+  });
 
   final String categoryLabel;
+  final _CategoryCardData cardData;
 
   @override
   Widget build(BuildContext context) {
@@ -450,34 +498,39 @@ class _CategoryImageCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Color(0xFFCCCCCC),
-                borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
-              ),
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.topLeft,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF5F5F5F),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  categoryLabel,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.asset(cardData.imageAssetPath, fit: BoxFit.cover),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF5F5F5F),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        categoryLabel,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(10, 9, 10, 12),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 9, 10, 12),
             child: Text(
-              'مكان الصورة',
+              cardData.title,
               style: TextStyle(
                 color: Color(0xFF202020),
                 fontSize: 15,
