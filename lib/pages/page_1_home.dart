@@ -80,7 +80,6 @@ class Page1Home extends StatelessWidget {
                   ),
                   child: const Column(
                     children: [
-                      _QuranCard(),
                       _DhikrSectionsContainer(),
                       SizedBox(height: 24),
                     ],
@@ -538,6 +537,8 @@ class _DhikrSectionsContainer extends StatelessWidget {
       ),
       child: const Column(
         children: [
+          _QuranCard(),
+          SizedBox(height: 16),
           _DhikrSection(),
           SizedBox(height: 16),
           _CustomDhikrSection(),
@@ -698,11 +699,12 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
                   ),
                 ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 6),
         FilledButton(
           onPressed: _showCreateDialog,
           style: FilledButton.styleFrom(
-            backgroundColor: const Color(0xFF8A6A4E),
+            backgroundColor: const Color(0xFFF3B33B),
+            foregroundColor: const Color(0xFF3E2723),
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
           ),
           child: const Text(
