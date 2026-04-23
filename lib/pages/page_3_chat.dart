@@ -313,7 +313,7 @@ class _Page3ChatState extends State<Page3Chat> {
       margin: const EdgeInsets.symmetric(horizontal: 12),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: const Color(0xFFE9E7E4),
+        color: const Color(0xFFF4F5F7),
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
@@ -328,7 +328,16 @@ class _Page3ChatState extends State<Page3Chat> {
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: 'اسأل عن مناسك الحج...',
+                hintStyle: TextStyle(color: Color(0xFF8A8D91)),
               ),
+            ),
+          ),
+          IconButton(
+            onPressed: _isSending ? null : () {},
+            icon: const Icon(
+              Icons.mic_none_rounded,
+              color: Color(0xFF8A8D91),
+              size: 21,
             ),
           ),
           IconButton(
@@ -340,7 +349,7 @@ class _Page3ChatState extends State<Page3Chat> {
                     }
                     _sendMessage();
                   },
-            icon: const Icon(Icons.send, color: Color(0xFF574B40), size: 20),
+            icon: const Icon(Icons.send, color: Color(0xFF8A8D91), size: 20),
           ),
         ],
       ),
