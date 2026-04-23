@@ -311,11 +311,13 @@ class _TimelineRow extends StatelessWidget {
             ],
           ),
         ),
-        Icon(
-          isCurrent ? Icons.my_location : Icons.check_circle_outline,
-          color: isCurrent ? const Color(0xFFF2BE2E) : const Color(0xFF8D8D8D),
-          size: 20,
-        ),
+        isCurrent
+            ? const Icon(
+                Icons.my_location,
+                color: Color(0xFFF2BE2E),
+                size: 20,
+              )
+            : const SizedBox(width: 20, height: 20),
       ],
     );
   }
@@ -334,11 +336,13 @@ class _CategoriesRowState extends State<_CategoriesRow> {
   static const List<_ExploreCategoryItem> _categories = [
     _ExploreCategoryItem(label: 'الصحة', icon: Icons.favorite_border),
     _ExploreCategoryItem(
-      label: 'العائلة',
+      label: 'العائله',
       icon: Icons.family_restroom_outlined,
     ),
-    _ExploreCategoryItem(label: 'المغامرة', icon: Icons.terrain_outlined),
-    _ExploreCategoryItem(label: 'الاسترخاء', icon: Icons.coffee_outlined),
+    _ExploreCategoryItem(label: 'انشطة', icon: Icons.local_activity_outlined),
+    _ExploreCategoryItem(label: 'المتاحف', icon: Icons.museum_outlined),
+    _ExploreCategoryItem(label: 'مأكولات', icon: Icons.restaurant_outlined),
+    _ExploreCategoryItem(label: 'التسوق', icon: Icons.shopping_bag_outlined),
   ];
 
   @override
@@ -374,7 +378,7 @@ class _CategoriesRowState extends State<_CategoriesRow> {
                         height: 56,
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? const Color(0xFF261613)
+                              ? const Color(0xFF3E2723)
                               : Colors.white,
                           borderRadius: BorderRadius.circular(13),
                           border: Border.all(
