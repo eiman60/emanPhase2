@@ -683,28 +683,18 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 340,
-          child: _customCards.isNotEmpty
-              ? _buildCardsArea()
-              : const Center(
-                  child: Text(
-                    'ابدأ بإضافة أذكارك المخصصة',
-                    style: TextStyle(
-                      color: Color(0xFF8A6A4E),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Almarai',
-                    ),
-                  ),
-                ),
-        ),
-        const SizedBox(height: 6),
+        if (_customCards.isNotEmpty) ...[
+          SizedBox(
+            height: 340,
+            child: _buildCardsArea(),
+          ),
+          const SizedBox(height: 6),
+        ],
         FilledButton(
           onPressed: _showCreateDialog,
           style: FilledButton.styleFrom(
             backgroundColor: const Color(0xFFF3B33B),
-            foregroundColor: const Color(0xFF3E2723),
+            foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
           ),
           child: const Text(
