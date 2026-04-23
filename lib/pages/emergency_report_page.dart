@@ -109,7 +109,7 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F6F0),
+      backgroundColor: const Color(0xFFF4F5F7),
       appBar: AppBar(
         title: const Text(
           'الإبلاغ عن طارئ',
@@ -312,8 +312,6 @@ class _EmergencyReportOption extends StatelessWidget {
                 ],
               ),
             ),
-            if (selected)
-              const Icon(Icons.check_circle, color: Color(0xFFEB4548)),
           ],
         ),
       ),
