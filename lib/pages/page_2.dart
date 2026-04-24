@@ -339,12 +339,12 @@ class _CategoriesRowState extends State<_CategoriesRow> {
       icon: Icons.favorite_border,
       cards: [
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_7.png',
+          imageAssetPath: 'assets/icons/healthy_1.png',
           title: 'مستشفى الطوارئ',
           subtitle: 'خدمات إسعافية على مدار الساعة',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_8.png',
+          imageAssetPath: 'assets/icons/healthy_2.png',
           title: 'المستشفى السعودي الألماني',
           subtitle: 'رعاية طبية وتخصصات متعددة',
         ),
@@ -359,19 +359,19 @@ class _CategoriesRowState extends State<_CategoriesRow> {
       icon: Icons.local_activity_outlined,
       cards: [
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_4.png',
-          title: 'active_1',
-          subtitle: 'نشاط ترفيهي للحجاج',
+          imageAssetPath: 'assets/icons/active_1.png',
+          title: 'غار ثور الثقافي',
+          subtitle: 'مكة المكرمة',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_5.png',
-          title: 'active_2',
-          subtitle: 'تجربة تفاعلية قريبة',
+          imageAssetPath: 'assets/icons/active_2.png',
+          title: 'حديقة الملك فهد',
+          subtitle: 'المدينة المنورة',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_6.png',
-          title: 'active_3',
-          subtitle: 'فعالية مناسبة للعائلة',
+          imageAssetPath: 'assets/icons/active_3.png',
+          title: 'حي حراء الثقافي',
+          subtitle: 'مكة المكرمة',
         ),
       ],
     ),
@@ -380,19 +380,19 @@ class _CategoriesRowState extends State<_CategoriesRow> {
       icon: Icons.museum_outlined,
       cards: [
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_1.png',
-          title: 'mus_1',
-          subtitle: 'متحف بتاريخ إسلامي',
+          imageAssetPath: 'assets/icons/mus_1.png',
+          title: 'متحف السيرة النبوية',
+          subtitle: 'مكة المكرمة',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_10.png',
-          title: 'mus_2',
-          subtitle: 'معروضات من التراث المحلي',
+          imageAssetPath: 'assets/icons/mus_2.png',
+          title: 'معرض الوحي',
+          subtitle: 'مكة المكرمة',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_16.png',
-          title: 'mus_3',
-          subtitle: 'جولة معرفية مميزة',
+          imageAssetPath: 'assets/icons/mus_3.png',
+          title: 'متحف برج الساعة',
+          subtitle: 'مكة المكرمة',
         ),
       ],
     ),
