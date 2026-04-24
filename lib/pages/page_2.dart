@@ -341,10 +341,12 @@ class _CategoriesRowState extends State<_CategoriesRow> {
         _CategoryCardData(
           imageAssetPath: 'assets/icons/image_7.png',
           title: 'مستشفى الطوارئ',
+          subtitle: 'خدمات إسعافية على مدار الساعة',
         ),
         _CategoryCardData(
           imageAssetPath: 'assets/icons/image_8.png',
           title: 'المستشفى السعودي الألماني',
+          subtitle: 'رعاية طبية وتخصصات متعددة',
         ),
       ],
     ),
@@ -352,8 +354,48 @@ class _CategoriesRowState extends State<_CategoriesRow> {
       label: 'العائله',
       icon: Icons.family_restroom_outlined,
     ),
-    _ExploreCategoryItem(label: 'انشطة', icon: Icons.local_activity_outlined),
-    _ExploreCategoryItem(label: 'المتاحف', icon: Icons.museum_outlined),
+    _ExploreCategoryItem(
+      label: 'انشطة',
+      icon: Icons.local_activity_outlined,
+      cards: [
+        _CategoryCardData(
+          imageAssetPath: 'assets/icons/image_4.png',
+          title: 'active_1',
+          subtitle: 'نشاط ترفيهي للحجاج',
+        ),
+        _CategoryCardData(
+          imageAssetPath: 'assets/icons/image_5.png',
+          title: 'active_2',
+          subtitle: 'تجربة تفاعلية قريبة',
+        ),
+        _CategoryCardData(
+          imageAssetPath: 'assets/icons/image_6.png',
+          title: 'active_3',
+          subtitle: 'فعالية مناسبة للعائلة',
+        ),
+      ],
+    ),
+    _ExploreCategoryItem(
+      label: 'المتاحف',
+      icon: Icons.museum_outlined,
+      cards: [
+        _CategoryCardData(
+          imageAssetPath: 'assets/icons/image_1.png',
+          title: 'mus_1',
+          subtitle: 'متحف بتاريخ إسلامي',
+        ),
+        _CategoryCardData(
+          imageAssetPath: 'assets/icons/image_10.png',
+          title: 'mus_2',
+          subtitle: 'معروضات من التراث المحلي',
+        ),
+        _CategoryCardData(
+          imageAssetPath: 'assets/icons/image_16.png',
+          title: 'mus_3',
+          subtitle: 'جولة معرفية مميزة',
+        ),
+      ],
+    ),
     _ExploreCategoryItem(label: 'مأكولات', icon: Icons.restaurant_outlined),
     _ExploreCategoryItem(label: 'التسوق', icon: Icons.shopping_bag_outlined),
   ];
@@ -456,23 +498,31 @@ class _ExploreCategoryItem {
 }
 
 class _CategoryCardData {
-  const _CategoryCardData({required this.imageAssetPath, required this.title});
+  const _CategoryCardData({
+    required this.imageAssetPath,
+    required this.title,
+    required this.subtitle,
+  });
 
   final String imageAssetPath;
   final String title;
+  final String subtitle;
 
   static const List<_CategoryCardData> fallback = [
     _CategoryCardData(
       imageAssetPath: 'assets/icons/image_4.png',
       title: 'مكان الصورة',
+      subtitle: 'وصف موجز للمكان',
     ),
     _CategoryCardData(
       imageAssetPath: 'assets/icons/image_5.png',
       title: 'مكان الصورة',
+      subtitle: 'وصف موجز للمكان',
     ),
     _CategoryCardData(
       imageAssetPath: 'assets/icons/image_6.png',
       title: 'مكان الصورة',
+      subtitle: 'وصف موجز للمكان',
     ),
   ];
 }
@@ -529,13 +579,27 @@ class _CategoryImageCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 9, 10, 12),
-            child: Text(
-              cardData.title,
-              style: TextStyle(
-                color: Color(0xFF202020),
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  cardData.title,
+                  style: const TextStyle(
+                    color: Color(0xFF202020),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  cardData.subtitle,
+                  style: const TextStyle(
+                    color: Color(0xFF656565),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
