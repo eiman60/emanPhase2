@@ -339,38 +339,34 @@ class _CategoriesRowState extends State<_CategoriesRow> {
       icon: Icons.favorite_border,
       cards: [
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_7.png',
+          imageAssetPath: 'assets/icons/healthy_1.png',
           title: 'مستشفى الطوارئ',
           subtitle: 'خدمات إسعافية على مدار الساعة',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_8.png',
+          imageAssetPath: 'assets/icons/healthy_2.png',
           title: 'المستشفى السعودي الألماني',
           subtitle: 'رعاية طبية وتخصصات متعددة',
         ),
       ],
     ),
     _ExploreCategoryItem(
-      label: 'العائله',
-      icon: Icons.family_restroom_outlined,
-    ),
-    _ExploreCategoryItem(
       label: 'انشطة',
       icon: Icons.local_activity_outlined,
       cards: [
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_4.png',
-          title: 'active_1',
-          subtitle: 'نشاط ترفيهي للحجاج',
+          imageAssetPath: 'assets/icons/active_1.png',
+          title: 'غار ثور الثقافي',
+          subtitle: 'نشاط ترفيهي',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_5.png',
-          title: 'active_2',
-          subtitle: 'تجربة تفاعلية قريبة',
+          imageAssetPath: 'assets/icons/active_2.png',
+          title: 'حديقه الملك فهد',
+          subtitle: 'نزهة و تسوق',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_6.png',
-          title: 'active_3',
+          imageAssetPath: 'assets/icons/active_3.png',
+          title: 'حي حراء الثقافي',
           subtitle: 'فعالية مناسبة للعائلة',
         ),
       ],
@@ -380,18 +376,18 @@ class _CategoriesRowState extends State<_CategoriesRow> {
       icon: Icons.museum_outlined,
       cards: [
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_1.png',
-          title: 'mus_1',
+          imageAssetPath: 'assets/icons/mus_1.png',
+          title: 'معرض السيرة النبوية',
           subtitle: 'متحف بتاريخ إسلامي',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_10.png',
-          title: 'mus_2',
+          imageAssetPath: 'assets/icons/mus_2.png',
+          title: 'معرض الوحي',
           subtitle: 'معروضات من التراث المحلي',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_16.png',
-          title: 'mus_3',
+          imageAssetPath: 'assets/icons/mus_3.png',
+          title: 'متحف برج الساعة',
           subtitle: 'جولة معرفية مميزة',
         ),
       ],
@@ -401,19 +397,19 @@ class _CategoriesRowState extends State<_CategoriesRow> {
       icon: Icons.restaurant_outlined,
       cards: [
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_4.png',
-          title: 'food_1',
+          imageAssetPath: 'assets/icons/food_1.png',
+          title: 'مطعم سولت',
           subtitle: 'وجبات متنوعة بجودة عالية',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_5.png',
-          title: 'food_2',
-          subtitle: 'خيارات محلية وعالمية',
+          imageAssetPath: 'assets/icons/food_2.png',
+          title: 'ارتشي',
+          subtitle: 'قهوة و حلويات',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_6.png',
-          title: 'food_3',
-          subtitle: 'قوائم مناسبة لجميع الأذواق',
+          imageAssetPath: 'assets/icons/food_3.png',
+          title: 'خطوة جمل',
+          subtitle: 'قهوة متنوعة ',
         ),
       ],
     ),
@@ -422,18 +418,18 @@ class _CategoriesRowState extends State<_CategoriesRow> {
       icon: Icons.shopping_bag_outlined,
       cards: [
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_1.png',
-          title: 'shop_1',
-          subtitle: 'متجر للهدايا والمستلزمات',
+          imageAssetPath: 'assets/icons/shop_1.png',
+          title: 'بن داود',
+          subtitle: 'متجر تسوق اطعمة و هدايا',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_10.png',
-          title: 'shop_2',
+          imageAssetPath: 'assets/icons/shop_2.png',
+          title: 'ابراج هايبر ماركن',
           subtitle: 'عروض يومية وأسعار مناسبة',
         ),
         _CategoryCardData(
-          imageAssetPath: 'assets/icons/image_16.png',
-          title: 'shop_3',
+          imageAssetPath: 'assets/icons/shop_3.png',
+          title: 'بنده',
           subtitle: 'منتجات متنوعة بالقرب منك',
         ),
       ],
@@ -794,20 +790,20 @@ class _TrendingList extends StatelessWidget {
 
   static const List<_TrendingCardData> _trendCards = [
     _TrendingCardData(
-      imageAssetPath: 'assets/icons/image_7.png',
-      title: 'trend_1',
+      imageAssetPath: 'assets/icons/active_1.png',
+      title: 'غار ثور الثقافي',
       subtitle: '4.9 (120 تقييمًا)',
       tag: 'الرائج الآن',
     ),
     _TrendingCardData(
-      imageAssetPath: 'assets/icons/image_8.png',
-      title: 'trend_2',
+      imageAssetPath: 'assets/icons/active_3.png',
+      title: 'حي حراء الثقافي',
       subtitle: '4.8 (96 تقييمًا)',
       tag: 'الرائج الآن',
     ),
     _TrendingCardData(
-      imageAssetPath: 'assets/icons/image_4.png',
-      title: 'trend_3',
+      imageAssetPath: 'assets/icons/food_1.png',
+      title: 'مطعم سولت',
       subtitle: '4.7 (88 تقييمًا)',
       tag: 'الرائج الآن',
     ),
