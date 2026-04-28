@@ -164,7 +164,7 @@ class _PrayerHeader extends StatelessWidget {
               dateText,
               style: const TextStyle(
                 color: Color(0xFF8C8175),
-                fontSize: 18,
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -173,7 +173,7 @@ class _PrayerHeader extends StatelessWidget {
               timeText,
               style: const TextStyle(
                 color: Color(0xFF2F271F),
-                fontSize: 66,
+                fontSize: 12,
                 height: 1,
                 fontWeight: FontWeight.w500,
               ),
@@ -191,7 +191,7 @@ class _PrayerHeader extends StatelessWidget {
                     'الوقت الحالي',
                     style: TextStyle(
                       color: Color(0xFF7C6F60),
-                      fontSize: 18,
+                      fontSize: 12,
                     ),
                   ),
                 ],
@@ -250,7 +250,7 @@ class _ActionItem extends StatelessWidget {
           label,
           style: const TextStyle(
             color: Color(0xFF3D342B),
-            fontSize: 19,
+            fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -285,7 +285,7 @@ class _AlertItem extends StatelessWidget {
           'الطوارئ',
           style: TextStyle(
             color: Color(0xFF3D342B),
-            fontSize: 19,
+            fontSize: 12,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -311,7 +311,7 @@ class _QuranPreviewCard extends StatelessWidget {
             'بِسْمِ ٱللّٰهِ ٱلرَّحْمٰنِ ٱلرَّحِيْمِ',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 38,
+              fontSize: 12,
               color: Color(0xFF2D251E),
               fontWeight: FontWeight.w700,
               height: 1.25,
@@ -322,7 +322,7 @@ class _QuranPreviewCard extends StatelessWidget {
             'ٱلْحَمْدُ لِلّٰهِ رَبِّ ٱلْعَٰلَمِينَ ۝ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ۝ مَٰلِكِ يَوْمِ ٱلدِّينِ ۝ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 31,
+              fontSize: 12,
               color: Color(0xFF2F271F),
               height: 1.65,
             ),
@@ -343,7 +343,7 @@ class _QuranPreviewCard extends StatelessWidget {
                     'ابدا تلاوتك',
                     style: TextStyle(
                       color: Color(0xFF3A3128),
-                      fontSize: 22,
+                      fontSize: 12,
                     ),
                   ),
                 ],
@@ -371,7 +371,7 @@ class _DhikrCard extends StatelessWidget {
           Text(
             'أذكار المساء',
             style: TextStyle(
-              fontSize: 30,
+              fontSize: 12,
               fontWeight: FontWeight.w700,
               color: Color(0xFF2D251E),
             ),
@@ -381,7 +381,7 @@ class _DhikrCard extends StatelessWidget {
             'اللهم بك أمسينا وبك نحيا وبك نموت وإليك المصير. اللهم إني أسألك خير هذه الليلة وخير ما بعدها.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 25,
+              fontSize: 12,
               height: 1.65,
               color: Color(0xFF2F271F),
             ),
@@ -444,7 +444,7 @@ class _Page4AddDhikrButton extends StatelessWidget {
           'اضف أذكارك',
           style: TextStyle(
             color: Color(0xFF332A22),
-            fontSize: 34,
+            fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
         ),
