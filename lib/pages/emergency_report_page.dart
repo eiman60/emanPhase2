@@ -123,61 +123,75 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'الموقع',
-              textAlign: TextAlign.right,
-              style: TextStyle(fontFamily: 'Amiri', fontSize: 20, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 10),
-            _buildMapPreview(),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _locationController,
-              textAlign: TextAlign.right,
-              decoration: InputDecoration(
-                hintText: 'سيتم تعبئة الموقع تلقائياً',
-                hintStyle: const TextStyle(fontFamily: 'Amiri'),
-                prefixIcon: const Icon(Icons.location_on_outlined),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-                ),
+            Expanded(
+              child: ListView(
+                children: [
+                  const Text(
+                    'الموقع',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontFamily: 'Amiri',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildMapPreview(),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _locationController,
+                    textAlign: TextAlign.right,
+                    decoration: InputDecoration(
+                      hintText: 'سيتم تعبئة الموقع تلقائياً',
+                      hintStyle: const TextStyle(fontFamily: 'Amiri'),
+                      prefixIcon: const Icon(Icons.location_on_outlined),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  const Text(
+                    'اختر نوع البلاغ الطارئ',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontFamily: 'Amiri',
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: 16),
+                  ..._reportTypes.entries.map((entry) {
+                    final value = entry.value;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: _EmergencyReportOption(
+                        icon: value.icon,
+                        title: value.title,
+                        subtitle: value.subtitle,
+                        selected: _selectedType == entry.key,
+                        onTap: () => setState(() => _selectedType = entry.key),
+                      ),
+                    );
+                  }),
+                  const SizedBox(height: 12),
+                ],
               ),
             ),
-            const SizedBox(height: 18),
-            const Text(
-              'اختر نوع البلاغ الطارئ',
-              textAlign: TextAlign.right,
-              style: TextStyle(fontFamily: 'Amiri', fontSize: 22, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 16),
-            ..._reportTypes.entries.map((entry) {
-              final value = entry.value;
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: _EmergencyReportOption(
-                  icon: value.icon,
-                  title: value.title,
-                  subtitle: value.subtitle,
-                  selected: _selectedType == entry.key,
-                  onTap: () => setState(() => _selectedType = entry.key),
-                ),
-              );
-            }),
-            const Spacer(),
+            const SizedBox(height: 10),
             FilledButton(
               onPressed: _submitReport,
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 backgroundColor: const Color(0xFFEB4548),
               ),
-              child: const Text('إرسال البلاغ', style: TextStyle(fontFamily: 'Amiri', fontSize: 18)),
+              child: const Text('إرسال البلاغ',
+                  style: TextStyle(fontFamily: 'Amiri', fontSize: 18)),
             ),
           ],
         ),
