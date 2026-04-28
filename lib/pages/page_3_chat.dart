@@ -198,7 +198,11 @@ class _Page3ChatState extends State<Page3Chat> {
 
   @override
   Widget build(BuildContext context) {
-    final viewInsetsBottom = MediaQuery.viewInsetsOf(context).bottom;
+    final rawInsetsBottom = MediaQuery.viewInsetsOf(context).bottom;
+    final viewportHeight = MediaQuery.sizeOf(context).height;
+    final viewInsetsBottom = rawInsetsBottom.isFinite
+        ? rawInsetsBottom.clamp(0.0, viewportHeight * 0.5)
+        : 0.0;
     final viewPaddingBottom = MediaQuery.viewPaddingOf(context).bottom;
 
     return Scaffold(
