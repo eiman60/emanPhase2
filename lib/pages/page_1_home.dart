@@ -99,16 +99,16 @@ class _HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final topInset = MediaQuery.viewPaddingOf(context).top;
+
     return Container(
-      // width: double.maxFinite,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
-      child: const Column(
+      child: Column(
         children: [
-          //  HomeTopBar(),
-          SizedBox(height: 100),
-          _PrayerFocus(),
-          SizedBox(height: 18),
-          _FeatureActions(),
+          SizedBox(height: topInset + kToolbarHeight),
+          const _PrayerFocus(),
+          const SizedBox(height: 18),
+          const _FeatureActions(),
         ],
       ),
     );
@@ -199,14 +199,17 @@ class _FeatureActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Wrap(
+      alignment: WrapAlignment.spaceEvenly,
+      runAlignment: WrapAlignment.center,
+      spacing: 16,
+      runSpacing: 14,
       children: [
-        _ActionCircle(
+        const _ActionCircle(
             iconPath: AppIcons.rawdah, label: 'الروضة', selected: true),
-        _ActionCircle(iconPath: AppIcons.hajj, label: 'الحج'),
-        _ActionCircle(iconPath: AppIcons.umrah, label: 'العمره'),
-        _AlertCircle(),
+        const _ActionCircle(iconPath: AppIcons.hajj, label: 'الحج'),
+        const _ActionCircle(iconPath: AppIcons.umrah, label: 'العمره'),
+        const _AlertCircle(),
       ],
     );
   }
@@ -263,37 +266,46 @@ class _AlertCircle extends StatelessWidget {
   void _showEmergencyDialog(BuildContext context) {
     showDialog<void>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        backgroundColor: const Color(0xFFFFFFFF),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(
-          'الطوارئ',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: 'Almarai', fontWeight: FontWeight.w700),
-        ),
-        content: const Text(
-          'إذا كنت بحاجة إلى المساعدة الفورية، يمكنك إرسال بلاغ طارئ الآن.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: 'Almarai', height: 1.5),
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('إغلاق',
-                style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
+      builder: (dialogContext) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          backgroundColor: const Color(0xFFFFFFFF),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Center(
+            child: Text(
+              'الطوارئ',
+              textAlign: TextAlign.center,
+              style:
+                  TextStyle(fontFamily: 'Almarai', fontWeight: FontWeight.w700),
+            ),
           ),
-          FilledButton(
-            onPressed: () {
-              Navigator.of(dialogContext).pop();
-              _openEmergencyReportPage(context);
-            },
-            style: FilledButton.styleFrom(
-                backgroundColor: const Color(0xFFEB4548)),
-            child: const Text('الإبلاغ عن حالة طارئة',
-                style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
+          content: const Text(
+            'إذا كنت بحاجة إلى المساعدة الفورية، يمكنك إرسال بلاغ طارئ الآن.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: 'Almarai', height: 1.5),
           ),
-        ],
+          actionsOverflowDirection: VerticalDirection.down,
+          actionsOverflowButtonSpacing: 8,
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('إغلاق',
+                  style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                _openEmergencyReportPage(context);
+              },
+              style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFFEB4548)),
+              child: const Text('الإبلاغ عن حالة طارئة',
+                  style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
+            ),
+          ],
+        ),
       ),
     );
   }
