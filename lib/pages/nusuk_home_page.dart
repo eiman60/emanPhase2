@@ -89,9 +89,14 @@ class _NusukHomePageState extends State<NusukHomePage> {
                 ),
                 BottomNavigationBarItem(
                   label: "more",
-                  icon: Image.asset(
-                    "assets/icons/image_2.png",
-                    height: 20,
+                  icon: const Icon(
+                    Icons.emergency_outlined,
+                    size: 20,
+                  ),
+                  activeIcon: const Icon(
+                    Icons.emergency,
+                    size: 20,
+                    color: Color(0xFFF3B33B),
                   ),
                 ),
               ],
