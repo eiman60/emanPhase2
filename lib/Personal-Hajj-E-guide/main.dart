@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Colors.green[800],
             flexibleSpace: FlexibleSpaceBar(
               title: const Text("دليل الحاج الذكي",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
               background: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -186,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Expanded(
                                 child: Text("الموقع: $currentZone",
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: zoneColor,
                                         overflow: TextOverflow.ellipsis)),
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.all(20),
                           child: Text(currentInstruction,
                               style: const TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 12,
                                   height: 1.6,
                                   color: Colors.black87,
                                   fontWeight: FontWeight.w500)),
@@ -278,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16)),
+                                      fontSize: 12)),
                             ],
                           ),
                         ),

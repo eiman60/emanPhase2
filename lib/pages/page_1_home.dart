@@ -160,13 +160,13 @@ class _PrayerFocus extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(dateText,
-                style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                style: const TextStyle(color: Colors.white70, fontSize: 12)),
             const SizedBox(height: 4),
             Text(
               timeText,
               style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 47,
+                  fontSize: 12,
                   fontWeight: FontWeight.w300),
             ),
             const SizedBox(height: 14),
@@ -248,7 +248,7 @@ class _ActionCircle extends StatelessWidget {
         const SizedBox(height: 6),
         Text(label,
             style: const TextStyle(
-                color: Colors.white, fontFamily: 'Almarai', fontSize: 16)),
+                color: Colors.white, fontFamily: 'Almarai', fontSize: 12)),
       ],
     );
   }
@@ -280,31 +280,43 @@ class _AlertCircle extends StatelessWidget {
                   TextStyle(fontFamily: 'Almarai', fontWeight: FontWeight.w700),
             ),
           ),
-          content: const Text(
-            'إذا كنت بحاجة إلى المساعدة الفورية، يمكنك إرسال بلاغ طارئ الآن.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Almarai', height: 1.5),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'إذا كنت بحاجة إلى المساعدة الفورية، يمكنك إرسال بلاغ طارئ الآن.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: 'Almarai', height: 1.5),
+              ),
+              const SizedBox(height: 14),
+              Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 10,
+                  runSpacing: 8,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(dialogContext).pop(),
+                      child: const Text('إغلاق',
+                          style:
+                              TextStyle(fontFamily: 'Almarai', fontSize: 12)),
+                    ),
+                    FilledButton(
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop();
+                        _openEmergencyReportPage(context);
+                      },
+                      style: FilledButton.styleFrom(
+                          backgroundColor: const Color(0xFFEB4548)),
+                      child: const Text('الإبلاغ عن حالة طارئة',
+                          style:
+                              TextStyle(fontFamily: 'Almarai', fontSize: 12)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          actionsOverflowDirection: VerticalDirection.down,
-          actionsOverflowButtonSpacing: 8,
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('إغلاق',
-                  style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
-            ),
-            FilledButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-                _openEmergencyReportPage(context);
-              },
-              style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFFEB4548)),
-              child: const Text('الإبلاغ عن حالة طارئة',
-                  style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
-            ),
-          ],
         ),
       ),
     );
@@ -333,7 +345,11 @@ class _AlertCircle extends StatelessWidget {
               child: const CircleAvatar(
                 radius: 28,
                 backgroundColor: Color(0xFFEB4548),
-                child: AssetIconView(assetPath: AppIcons.alert, size: 20),
+                child: Icon(
+                  Icons.emergency_rounded,
+                  size: 22,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -341,7 +357,7 @@ class _AlertCircle extends StatelessWidget {
         const SizedBox(height: 6),
         const Text('الطوارئ',
             style: TextStyle(
-                color: Colors.white, fontFamily: 'Almarai', fontSize: 16)),
+                color: Colors.white, fontFamily: 'Almarai', fontSize: 12)),
       ],
     );
   }
@@ -418,7 +434,7 @@ class _QuranCard extends StatelessWidget {
                 Text(
                   'ابدا تلاوتك',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 12,
                     color: Color(0xFF1F2938),
                     fontFamily: 'Almarai',
                     fontWeight: FontWeight.w700,
@@ -571,17 +587,23 @@ class _CustomDhikrSection extends StatefulWidget {
 class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
   final List<_DhikrCardData> _customCards = [];
   late final PageController _customPageController;
+  late final TextEditingController _dhikrTitleController;
+  late final TextEditingController _dhikrContentController;
   int _customActiveIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _customPageController = PageController();
+    _dhikrTitleController = TextEditingController();
+    _dhikrContentController = TextEditingController();
   }
 
   @override
   void dispose() {
     _customPageController.dispose();
+    _dhikrTitleController.dispose();
+    _dhikrContentController.dispose();
     super.dispose();
   }
 
@@ -599,98 +621,90 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
       }
     });
 
-    if (_customCards.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        _customPageController.jumpToPage(_customActiveIndex);
-      });
-    }
   }
 
   Future<void> _showCreateDialog() async {
-    final titleController = TextEditingController();
-    final contentController = TextEditingController();
+    _dhikrTitleController.clear();
+    _dhikrContentController.clear();
 
-    await showDialog<void>(
+    final createdCard = await showDialog<_DhikrCardData>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        backgroundColor: Colors.white,
-        title: const Text(
-          'إضافة ذكر جديد',
-          style:
-              TextStyle(color: Color(0xFF8A6A4E), fontWeight: FontWeight.w700),
-        ),
-        content: Directionality(
-          textDirection: TextDirection.rtl,
-          child: SizedBox(
-            width: 360,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: titleController,
-                  decoration: const InputDecoration(
-                    labelText: 'العنوان',
-                    hintText: 'مثال: ذكر بعد الصلاة',
+      builder: (dialogContext) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Text(
+            'إضافة ذكر جديد',
+            style:
+                TextStyle(color: Color(0xFF8A6A4E), fontWeight: FontWeight.w700),
+          ),
+          content: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 360),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: _dhikrTitleController,
+                    decoration: const InputDecoration(
+                      labelText: 'العنوان',
+                      hintText: 'مثال: ذكر بعد الصلاة',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: contentController,
-                  minLines: 3,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    labelText: 'المحتوى',
-                    hintText: 'اكتب الذكر هنا...',
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _dhikrContentController,
+                    minLines: 3,
+                    maxLines: 5,
+                    decoration: const InputDecoration(
+                      labelText: 'المحتوى',
+                      hintText: 'اكتب الذكر هنا...',
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('إلغاء'),
-          ),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF8A6A4E),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('إلغاء'),
             ),
-            onPressed: () {
-              final title = titleController.text.trim();
-              final content = contentController.text.trim();
-              if (title.isEmpty || content.isEmpty) {
-                return;
-              }
-              setState(() {
-                _customCards.add(
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFF8A6A4E),
+              ),
+              onPressed: () {
+                final title = _dhikrTitleController.text.trim();
+                final content = _dhikrContentController.text.trim();
+                if (title.isEmpty || content.isEmpty) {
+                  return;
+                }
+                Navigator.of(dialogContext).pop(
                   _DhikrCardData(
                     title: title,
                     color: const Color(0xFFF3B33B),
                     content: content,
                   ),
                 );
-                _customActiveIndex = _customCards.length - 1;
-              });
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (!mounted || _customCards.isEmpty) return;
-                _customPageController.animateToPage(
-                  _customActiveIndex,
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeOutCubic,
-                );
-              });
-              Navigator.of(dialogContext).pop();
-            },
-            child: const Text('حفظ'),
-          ),
-        ],
+              },
+              child: const Text('حفظ'),
+            ),
+          ],
+        ),
       ),
     );
 
-    titleController.dispose();
-    contentController.dispose();
+    if (!mounted || createdCard == null) {
+      return;
+    }
+
+    setState(() {
+      _customCards.add(createdCard);
+      if (_customCards.length == 1) {
+        _customActiveIndex = 0;
+      }
+    });
   }
 
   @override
@@ -715,7 +729,7 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
             'اضف اذكارك',
             style: TextStyle(
               fontFamily: 'Almarai',
-              fontSize: 18,
+              fontSize: 12,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -833,21 +847,19 @@ class _DhikrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardHeader = Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          data.title,
-          style: const TextStyle(
-            color: Color(0xFFF8F6F0),
-            fontSize: 24,
-            fontFamily: 'Almarai',
-            fontWeight: FontWeight.w700,
-            height: 1.2,
-          ),
+    final cardHeader = Align(
+      alignment: Alignment.topRight,
+      child: Text(
+        data.title,
+        textAlign: TextAlign.right,
+        style: const TextStyle(
+          color: Color(0xFFF8F6F0),
+          fontSize: 13,
+          fontFamily: 'Almarai',
+          fontWeight: FontWeight.w700,
+          height: 1.2,
         ),
-      ],
+      ),
     );
 
     final cardContent = Text(
@@ -855,7 +867,7 @@ class _DhikrCard extends StatelessWidget {
       textAlign: TextAlign.right,
       style: const TextStyle(
         color: Color(0xFFF8F6F0),
-        fontSize: 20,
+        fontSize: 11,
         height: 1.65,
         fontFamily: 'Almarai',
       ),
@@ -883,7 +895,7 @@ class _DhikrCard extends StatelessWidget {
         ),
         child: expanded
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   cardHeader,
                   const SizedBox(height: 16),
