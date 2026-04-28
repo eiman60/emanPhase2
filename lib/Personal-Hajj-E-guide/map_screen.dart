@@ -192,7 +192,7 @@ class _MapScreenState extends State<MapScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(_statusMessage, 
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                   ),
                 ],
               ),
