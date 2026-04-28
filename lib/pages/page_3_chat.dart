@@ -216,7 +216,7 @@ class _Page3ChatState extends State<Page3Chat> {
               child: const Text(
                 'خدمة AI غير متصلة حالياً. تأكد من تشغيل خادم FastAPI على المنفذ 8000 '
                 'واضبط AI_API_BASE_URL إذا كان الخادم على جهاز آخر.',
-                style: TextStyle(color: Color(0xFF7A3E00), fontSize: 12.5),
+                style: TextStyle(color: Color(0xFF7A3E00), fontSize: 12),
               ),
             ),
           Expanded(
@@ -268,7 +268,7 @@ class _Page3ChatState extends State<Page3Chat> {
             const Text(
               'مساعدك الشخصي',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 12,
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.2,
@@ -295,7 +295,7 @@ class _Page3ChatState extends State<Page3Chat> {
                       ? 'AI Connected'
                       : 'AI Offline',
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 12,
                     color: Color(0xFFF0EDE7),
                     fontWeight: FontWeight.w500,
                   ),
@@ -392,7 +392,7 @@ class _ChatBubble extends StatelessWidget {
               ),
               child: Text(
                 message.text,
-                style: TextStyle(color: textColor, fontSize: 14, height: 1.4),
+                style: TextStyle(color: textColor, fontSize: 12, height: 1.4),
               ),
             ),
           ),

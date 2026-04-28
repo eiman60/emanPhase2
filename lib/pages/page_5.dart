@@ -40,7 +40,7 @@ class Page5 extends StatelessWidget {
               title: const Text(
                 'بلاغات الطوارئ',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF171717),
                 ),
@@ -58,8 +58,8 @@ class Page5 extends StatelessWidget {
                   child: Text(
                     'لا يوجد بلاغات حالياً',
                     style: TextStyle(
-                      fontFamily: 'Amiri',
-                      fontSize: 24,
+                      fontFamily: 'Almarai',
+                      fontSize: 12,
                       color: Color(0xFF6B7280),
                     ),
                   ),
@@ -105,7 +105,7 @@ class _ReportCard extends StatelessWidget {
                 child: Text(
                   report.typeLabel,
                   textAlign: TextAlign.right,
-                  style: const TextStyle(fontFamily: 'Amiri', fontSize: 21, fontWeight: FontWeight.w700),
+                  style: const TextStyle(fontFamily: 'Almarai', fontSize: 12, fontWeight: FontWeight.w700),
                 ),
               ),
               Icon(
@@ -118,7 +118,7 @@ class _ReportCard extends StatelessWidget {
           Text(
             report.locationLabel,
             textAlign: TextAlign.right,
-            style: const TextStyle(fontFamily: 'Amiri', color: Color(0xFF4B5563)),
+            style: const TextStyle(fontFamily: 'Almarai', color: Color(0xFF4B5563)),
           ),
           const SizedBox(height: 4),
           Text(
@@ -140,7 +140,7 @@ class _ReportCard extends StatelessWidget {
                 ),
                 child: Text(
                   report.taken ? 'إلغاء الاستلام' : 'استلام البلاغ',
-                  style: const TextStyle(fontFamily: 'Amiri'),
+                  style: const TextStyle(fontFamily: 'Almarai'),
                 ),
               ),
             ],

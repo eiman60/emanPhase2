@@ -160,13 +160,13 @@ class _PrayerFocus extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(dateText,
-                style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                style: const TextStyle(color: Colors.white70, fontSize: 12)),
             const SizedBox(height: 4),
             Text(
               timeText,
               style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 47,
+                  fontSize: 12,
                   fontWeight: FontWeight.w300),
             ),
             const SizedBox(height: 14),
@@ -248,7 +248,7 @@ class _ActionCircle extends StatelessWidget {
         const SizedBox(height: 6),
         Text(label,
             style: const TextStyle(
-                color: Colors.white, fontFamily: 'Almarai', fontSize: 16)),
+                color: Colors.white, fontFamily: 'Almarai', fontSize: 12)),
       ],
     );
   }
@@ -292,7 +292,7 @@ class _AlertCircle extends StatelessWidget {
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
               child: const Text('إغلاق',
-                  style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
+                  style: TextStyle(fontFamily: 'Almarai', fontSize: 12)),
             ),
             FilledButton(
               onPressed: () {
@@ -302,7 +302,7 @@ class _AlertCircle extends StatelessWidget {
               style: FilledButton.styleFrom(
                   backgroundColor: const Color(0xFFEB4548)),
               child: const Text('الإبلاغ عن حالة طارئة',
-                  style: TextStyle(fontFamily: 'Almarai', fontSize: 16)),
+                  style: TextStyle(fontFamily: 'Almarai', fontSize: 12)),
             ),
           ],
         ),
@@ -341,7 +341,7 @@ class _AlertCircle extends StatelessWidget {
         const SizedBox(height: 6),
         const Text('الطوارئ',
             style: TextStyle(
-                color: Colors.white, fontFamily: 'Almarai', fontSize: 16)),
+                color: Colors.white, fontFamily: 'Almarai', fontSize: 12)),
       ],
     );
   }
@@ -418,7 +418,7 @@ class _QuranCard extends StatelessWidget {
                 Text(
                   'ابدا تلاوتك',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 12,
                     color: Color(0xFF1F2938),
                     fontFamily: 'Almarai',
                     fontWeight: FontWeight.w700,
@@ -715,7 +715,7 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
             'اضف اذكارك',
             style: TextStyle(
               fontFamily: 'Almarai',
-              fontSize: 18,
+              fontSize: 12,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -841,7 +841,7 @@ class _DhikrCard extends StatelessWidget {
           data.title,
           style: const TextStyle(
             color: Color(0xFFF8F6F0),
-            fontSize: 24,
+            fontSize: 12,
             fontFamily: 'Almarai',
             fontWeight: FontWeight.w700,
             height: 1.2,
@@ -855,7 +855,7 @@ class _DhikrCard extends StatelessWidget {
       textAlign: TextAlign.right,
       style: const TextStyle(
         color: Color(0xFFF8F6F0),
-        fontSize: 20,
+        fontSize: 12,
         height: 1.65,
         fontFamily: 'Almarai',
       ),

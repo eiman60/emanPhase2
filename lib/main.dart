@@ -45,9 +45,7 @@ class NusukApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: GoogleFonts.almarai().fontFamily,
-        textTheme: GoogleFonts.almaraiTextTheme(
-          ThemeData.light().textTheme,
-        ),
+        textTheme: _compactAlmaraiTextTheme(),
       ),
       locale: const Locale('ar'),
       supportedLocales: const [
@@ -67,4 +65,25 @@ class NusukApp extends StatelessWidget {
       },
     );
   }
+}
+
+TextTheme _compactAlmaraiTextTheme() {
+  final base = GoogleFonts.almaraiTextTheme(ThemeData.light().textTheme);
+  return base.copyWith(
+    displayLarge: base.displayLarge?.copyWith(fontSize: 12),
+    displayMedium: base.displayMedium?.copyWith(fontSize: 12),
+    displaySmall: base.displaySmall?.copyWith(fontSize: 12),
+    headlineLarge: base.headlineLarge?.copyWith(fontSize: 12),
+    headlineMedium: base.headlineMedium?.copyWith(fontSize: 12),
+    headlineSmall: base.headlineSmall?.copyWith(fontSize: 12),
+    titleLarge: base.titleLarge?.copyWith(fontSize: 12),
+    titleMedium: base.titleMedium?.copyWith(fontSize: 12),
+    titleSmall: base.titleSmall?.copyWith(fontSize: 11),
+    bodyLarge: base.bodyLarge?.copyWith(fontSize: 12),
+    bodyMedium: base.bodyMedium?.copyWith(fontSize: 11),
+    bodySmall: base.bodySmall?.copyWith(fontSize: 10),
+    labelLarge: base.labelLarge?.copyWith(fontSize: 11),
+    labelMedium: base.labelMedium?.copyWith(fontSize: 10),
+    labelSmall: base.labelSmall?.copyWith(fontSize: 10),
+  );
 }
