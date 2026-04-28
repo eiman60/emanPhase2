@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../Personal-Hajj-E-guide/map_screen.dart';
 import '../Personal-Hajj-E-guide/location_service.dart';
 
-
 class Page2 extends StatelessWidget {
   const Page2({super.key});
 
@@ -231,7 +230,9 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
             children: [
               Expanded(
                 child: Text(
-                  _isLoading ? 'جاري تحديث حالتك...' : 'موقعك الحالي: $_currentZone',
+                  _isLoading
+                      ? 'جاري تحديث حالتك...'
+                      : 'موقعك الحالي: $_currentZone',
                   style: const TextStyle(
                     color: Color(0xFF666666),
                     fontSize: 12,
@@ -241,7 +242,8 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
               ),
               IconButton(
                 onPressed: _loadCurrentZone,
-                icon: const Icon(Icons.refresh, size: 20, color: Color(0xFF545454)),
+                icon: const Icon(Icons.refresh,
+                    size: 20, color: Color(0xFF545454)),
                 tooltip: 'تحديث الموقع',
               ),
             ],
@@ -303,7 +305,9 @@ class _TimelineRow extends StatelessWidget {
               Text(
                 isCurrent ? 'المحطة الحالية' : 'قيد المتابعة',
                 style: TextStyle(
-                  color: isCurrent ? const Color(0xFF1D1D1D) : const Color(0xFF7A7A7A),
+                  color: isCurrent
+                      ? const Color(0xFF1D1D1D)
+                      : const Color(0xFF7A7A7A),
                   fontSize: 16,
                   fontWeight: isCurrent ? FontWeight.w700 : FontWeight.w600,
                 ),
@@ -505,13 +509,12 @@ class _CategoriesRowState extends State<_CategoriesRow> {
           height: 240,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            itemCount:
-                selectedCategory.cards?.length ?? _CategoryCardData.fallback.length,
+            itemCount: selectedCategory.cards?.length ??
+                _CategoryCardData.fallback.length,
             separatorBuilder: (_, __) => const SizedBox(width: 12),
             itemBuilder: (_, index) => _CategoryImageCard(
               categoryLabel: selectedCategory.label,
-              cardData:
-                  selectedCategory.cards?[index] ??
+              cardData: selectedCategory.cards?[index] ??
                   _CategoryCardData.fallback[index],
             ),
           ),
@@ -585,7 +588,8 @@ class _CategoryImageCard extends StatelessWidget {
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(14)),
               child: Stack(
                 fit: StackFit.expand,
                 children: [
@@ -594,7 +598,8 @@ class _CategoryImageCard extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     child: Container(
                       margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: const Color(0xFF5F5F5F),
                         borderRadius: BorderRadius.circular(6),
@@ -841,7 +846,8 @@ class _TrendingCard extends StatelessWidget {
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(14)),
               child: Stack(
                 fit: StackFit.expand,
                 children: [

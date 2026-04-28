@@ -180,8 +180,7 @@ class _PrayerFocus extends StatelessWidget {
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.access_time,
-                      color: Color(0xFFFCC83D), size: 16),
+                  Icon(Icons.access_time, color: Color(0xFFFCC83D), size: 16),
                   SizedBox(width: 6),
                   Text('الوقت الحالي',
                       style: TextStyle(color: Colors.white, fontSize: 11)),
@@ -367,7 +366,8 @@ class _QuranCard extends StatelessWidget {
                       errorBuilder: (_, __, ___) => const Center(
                         child: Text(
                           'Add assets/icons/fatiha_bitmap.png',
-                          style: TextStyle(color: Color(0xFF6B7280), fontSize: 12),
+                          style:
+                              TextStyle(color: Color(0xFF6B7280), fontSize: 12),
                         ),
                       ),
                     ),
@@ -532,7 +532,8 @@ class _DhikrSectionsContainer extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
         boxShadow: const [
-          BoxShadow(color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2)),
+          BoxShadow(
+              color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2)),
         ],
       ),
       child: const Column(
@@ -604,7 +605,8 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
         backgroundColor: Colors.white,
         title: const Text(
           'إضافة ذكر جديد',
-          style: TextStyle(color: Color(0xFF8A6A4E), fontWeight: FontWeight.w700),
+          style:
+              TextStyle(color: Color(0xFF8A6A4E), fontWeight: FontWeight.w700),
         ),
         content: Directionality(
           textDirection: TextDirection.rtl,
@@ -718,7 +720,8 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
           child: PageView.builder(
             controller: _customPageController,
             itemCount: _customCards.length,
-            onPageChanged: (index) => setState(() => _customActiveIndex = index),
+            onPageChanged: (index) =>
+                setState(() => _customActiveIndex = index),
             itemBuilder: (_, index) => Padding(
               padding: _dhikrCardItemPadding,
               child: GestureDetector(
