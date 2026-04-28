@@ -280,31 +280,43 @@ class _AlertCircle extends StatelessWidget {
                   TextStyle(fontFamily: 'Almarai', fontWeight: FontWeight.w700),
             ),
           ),
-          content: const Text(
-            'إذا كنت بحاجة إلى المساعدة الفورية، يمكنك إرسال بلاغ طارئ الآن.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Almarai', height: 1.5),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'إذا كنت بحاجة إلى المساعدة الفورية، يمكنك إرسال بلاغ طارئ الآن.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: 'Almarai', height: 1.5),
+              ),
+              const SizedBox(height: 14),
+              Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 10,
+                  runSpacing: 8,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(dialogContext).pop(),
+                      child: const Text('إغلاق',
+                          style:
+                              TextStyle(fontFamily: 'Almarai', fontSize: 12)),
+                    ),
+                    FilledButton(
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop();
+                        _openEmergencyReportPage(context);
+                      },
+                      style: FilledButton.styleFrom(
+                          backgroundColor: const Color(0xFFEB4548)),
+                      child: const Text('الإبلاغ عن حالة طارئة',
+                          style:
+                              TextStyle(fontFamily: 'Almarai', fontSize: 12)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          actionsOverflowDirection: VerticalDirection.down,
-          actionsOverflowButtonSpacing: 8,
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('إغلاق',
-                  style: TextStyle(fontFamily: 'Almarai', fontSize: 12)),
-            ),
-            FilledButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-                _openEmergencyReportPage(context);
-              },
-              style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFFEB4548)),
-              child: const Text('الإبلاغ عن حالة طارئة',
-                  style: TextStyle(fontFamily: 'Almarai', fontSize: 12)),
-            ),
-          ],
         ),
       ),
     );
@@ -333,7 +345,11 @@ class _AlertCircle extends StatelessWidget {
               child: const CircleAvatar(
                 radius: 28,
                 backgroundColor: Color(0xFFEB4548),
-                child: AssetIconView(assetPath: AppIcons.alert, size: 20),
+                child: Icon(
+                  Icons.emergency_rounded,
+                  size: 22,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
