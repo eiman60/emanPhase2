@@ -42,7 +42,7 @@ class Page2 extends StatelessWidget {
               title: const Text(
                 'استكشاف',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF171717),
                 ),
@@ -102,7 +102,7 @@ class _SearchBar extends StatelessWidget {
           SizedBox(width: 8),
           Text(
             'ابحث...',
-            style: TextStyle(color: Color(0xFF9DA0A4), fontSize: 16),
+            style: TextStyle(color: Color(0xFF9DA0A4), fontSize: 12),
           ),
         ],
       ),
@@ -124,7 +124,7 @@ class _SectionTitle extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            fontSize: 18,
+            fontSize: 12,
             fontWeight: FontWeight.w600,
             color: Color(0xFF191919),
           ),
@@ -134,7 +134,7 @@ class _SectionTitle extends StatelessWidget {
           Text(
             actionText!,
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: 12,
               color: Color(0xFF545454),
               fontWeight: FontWeight.w500,
             ),
@@ -299,7 +299,7 @@ class _TimelineRow extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(color: Color(0xFF868686), fontSize: 13),
+                style: const TextStyle(color: Color(0xFF868686), fontSize: 12),
               ),
               const SizedBox(height: 2),
               Text(
@@ -308,7 +308,7 @@ class _TimelineRow extends StatelessWidget {
                   color: isCurrent
                       ? const Color(0xFF1D1D1D)
                       : const Color(0xFF7A7A7A),
-                  fontSize: 16,
+                  fontSize: 12,
                   fontWeight: isCurrent ? FontWeight.w700 : FontWeight.w600,
                 ),
               ),
@@ -492,7 +492,7 @@ class _CategoriesRowState extends State<_CategoriesRow> {
                       Text(
                         category.label,
                         style: const TextStyle(
-                          fontSize: 13,
+                          fontSize: 12,
                           color: Color(0xFF252525),
                           fontWeight: FontWeight.w500,
                         ),
@@ -627,7 +627,7 @@ class _CategoryImageCard extends StatelessWidget {
                   cardData.title,
                   style: const TextStyle(
                     color: Color(0xFF202020),
-                    fontSize: 15,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -680,7 +680,7 @@ class _LocationsRow extends StatelessWidget {
           child: const Text(
             'أنت الآن في: مكة المكرمة',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 12,
               color: Color(0xFF353535),
               fontWeight: FontWeight.w600,
             ),
@@ -702,7 +702,7 @@ class _LocationsRow extends StatelessWidget {
                   style: TextStyle(
                     color: Color(0xFF2E2303),
                     fontWeight: FontWeight.w700,
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 ),
               ),
@@ -729,7 +729,7 @@ class _LocationsRow extends StatelessWidget {
                     style: TextStyle(
                       color: Color(0xFF373737),
                       fontWeight: FontWeight.w700,
-                      fontSize: 14,
+                      fontSize: 12,
                     ),
                   ),
                 ),
@@ -774,7 +774,7 @@ class _LocationsRow extends StatelessWidget {
                     Text(
                       location.$1,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 12,
                         color: Color(0xFF202020),
                         fontWeight: FontWeight.w700,
                       ),
@@ -887,7 +887,7 @@ class _TrendingCard extends StatelessWidget {
                   cardData.title,
                   style: const TextStyle(
                     color: Color(0xFF202020),
-                    fontSize: 17,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -904,7 +904,7 @@ class _TrendingCard extends StatelessWidget {
                       cardData.subtitle,
                       style: const TextStyle(
                         color: Color(0xFF7D7D7D),
-                        fontSize: 13,
+                        fontSize: 12,
                       ),
                     ),
                   ],
