@@ -1,3 +1,36 @@
-PODFILE CHECKSUM: 98df3a8795cb12ce27cafaf86e97875283cf04f6
+PODS:
+  - Flutter (1.0.0)
+  - geolocator_apple (1.2.0):
+    - Flutter
+    - FlutterMacOS
+  - package_info_plus (0.4.5):
+    - Flutter
+  - sqflite_darwin (0.0.4):
+    - Flutter
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
+  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/darwin"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
+  sqflite_darwin:
+    :path: ".symlinks/plugins/sqflite_darwin/darwin"
+
+SPEC CHECKSUMS:
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  geolocator_apple: 66b711889fd333205763b83c9dcf0a57a28c7afd
+  package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
+  sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
+
+PODFILE CHECKSUM: a57ee97f3cac8e40a30e820fdb85ee277e617e69
 
 COCOAPODS: 1.16.2
