@@ -599,12 +599,6 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
       }
     });
 
-    if (_customCards.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted || !_customPageController.hasClients) return;
-        _customPageController.jumpToPage(_customActiveIndex);
-      });
-    }
   }
 
   Future<void> _showCreateDialog() async {
@@ -688,17 +682,9 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
 
     setState(() {
       _customCards.add(createdCard);
-      _customActiveIndex = _customCards.length - 1;
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || _customCards.isEmpty || !_customPageController.hasClients) {
-        return;
+      if (_customCards.length == 1) {
+        _customActiveIndex = 0;
       }
-      _customPageController.animateToPage(
-        _customActiveIndex,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeOutCubic,
-      );
     });
   }
 
