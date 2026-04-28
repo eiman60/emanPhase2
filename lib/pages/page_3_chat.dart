@@ -198,49 +198,59 @@ class _Page3ChatState extends State<Page3Chat> {
 
   @override
   Widget build(BuildContext context) {
+    final viewInsetsBottom = MediaQuery.viewInsetsOf(context).bottom;
+    final viewPaddingBottom = MediaQuery.viewPaddingOf(context).bottom;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF4F5F7),
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          if (!_isBackendReachable && !_isCheckingHealth)
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.fromLTRB(12, 12, 12, 4),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFF2E6),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFF2C39B)),
+      body: SafeArea(
+        child: AnimatedPadding(
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.only(bottom: viewInsetsBottom),
+          child: Column(
+            children: [
+              if (!_isBackendReachable && !_isCheckingHealth)
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF2E6),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFFF2C39B)),
+                  ),
+                  child: const Text(
+                    'خدمة AI غير متصلة حالياً. تأكد من تشغيل خادم FastAPI على المنفذ 8000 '
+                    'واضبط AI_API_BASE_URL إذا كان الخادم على جهاز آخر.',
+                    style: TextStyle(color: Color(0xFF7A3E00), fontSize: 12),
+                  ),
+                ),
+              Expanded(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.fromLTRB(12, 16, 12, 12),
+                  itemCount: _messages.length,
+                  itemBuilder: (context, index) {
+                    return _ChatBubble(message: _messages[index]);
+                  },
+                ),
               ),
-              child: const Text(
-                'خدمة AI غير متصلة حالياً. تأكد من تشغيل خادم FastAPI على المنفذ 8000 '
-                'واضبط AI_API_BASE_URL إذا كان الخادم على جهاز آخر.',
-                style: TextStyle(color: Color(0xFF7A3E00), fontSize: 12),
-              ),
-            ),
-          Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.fromLTRB(12, 16, 12, 12),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                return _ChatBubble(message: _messages[index]);
-              },
-            ),
+              if (_isSending)
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
+              _buildComposer(),
+              SizedBox(height: viewPaddingBottom > 0 ? viewPaddingBottom : 12),
+            ],
           ),
-          if (_isSending)
-            const Padding(
-              padding: EdgeInsets.only(bottom: 8),
-              child: SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              ),
-            ),
-          _buildComposer(),
-          const SizedBox(height: 88),
-        ],
+        ),
       ),
     );
   }
