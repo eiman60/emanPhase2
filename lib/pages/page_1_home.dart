@@ -831,21 +831,19 @@ class _DhikrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardHeader = Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          data.title,
-          style: const TextStyle(
-            color: Color(0xFFF8F6F0),
-            fontSize: 12,
-            fontFamily: 'Almarai',
-            fontWeight: FontWeight.w700,
-            height: 1.2,
-          ),
+    final cardHeader = Align(
+      alignment: Alignment.topRight,
+      child: Text(
+        data.title,
+        textAlign: TextAlign.right,
+        style: const TextStyle(
+          color: Color(0xFFF8F6F0),
+          fontSize: 13,
+          fontFamily: 'Almarai',
+          fontWeight: FontWeight.w700,
+          height: 1.2,
         ),
-      ],
+      ),
     );
 
     final cardContent = Text(
@@ -853,7 +851,7 @@ class _DhikrCard extends StatelessWidget {
       textAlign: TextAlign.right,
       style: const TextStyle(
         color: Color(0xFFF8F6F0),
-        fontSize: 12,
+        fontSize: 11,
         height: 1.65,
         fontFamily: 'Almarai',
       ),
@@ -881,7 +879,7 @@ class _DhikrCard extends StatelessWidget {
         ),
         child: expanded
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   cardHeader,
                   const SizedBox(height: 16),
