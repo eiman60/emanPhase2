@@ -571,17 +571,23 @@ class _CustomDhikrSection extends StatefulWidget {
 class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
   final List<_DhikrCardData> _customCards = [];
   late final PageController _customPageController;
+  late final TextEditingController _dhikrTitleController;
+  late final TextEditingController _dhikrContentController;
   int _customActiveIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _customPageController = PageController();
+    _dhikrTitleController = TextEditingController();
+    _dhikrContentController = TextEditingController();
   }
 
   @override
   void dispose() {
     _customPageController.dispose();
+    _dhikrTitleController.dispose();
+    _dhikrContentController.dispose();
     super.dispose();
   }
 
@@ -602,8 +608,8 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
   }
 
   Future<void> _showCreateDialog() async {
-    final titleController = TextEditingController();
-    final contentController = TextEditingController();
+    _dhikrTitleController.clear();
+    _dhikrContentController.clear();
 
     final createdCard = await showDialog<_DhikrCardData>(
       context: context,
@@ -623,7 +629,7 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextField(
-                    controller: titleController,
+                    controller: _dhikrTitleController,
                     decoration: const InputDecoration(
                       labelText: 'العنوان',
                       hintText: 'مثال: ذكر بعد الصلاة',
@@ -631,7 +637,7 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
                   ),
                   const SizedBox(height: 12),
                   TextField(
-                    controller: contentController,
+                    controller: _dhikrContentController,
                     minLines: 3,
                     maxLines: 5,
                     decoration: const InputDecoration(
@@ -653,8 +659,8 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
                 backgroundColor: const Color(0xFF8A6A4E),
               ),
               onPressed: () {
-                final title = titleController.text.trim();
-                final content = contentController.text.trim();
+                final title = _dhikrTitleController.text.trim();
+                final content = _dhikrContentController.text.trim();
                 if (title.isEmpty || content.isEmpty) {
                   return;
                 }
@@ -672,9 +678,6 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
         ),
       ),
     );
-
-    titleController.dispose();
-    contentController.dispose();
 
     if (!mounted || createdCard == null) {
       return;
