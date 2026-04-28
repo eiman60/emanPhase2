@@ -285,6 +285,8 @@ class _AlertCircle extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Almarai', height: 1.5),
           ),
+          actionsOverflowDirection: VerticalDirection.down,
+          actionsOverflowButtonSpacing: 8,
           actionsAlignment: MainAxisAlignment.center,
           actions: [
             TextButton(

@@ -56,14 +56,13 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
     try {
       final position = await _locationService.getCurrentLocation();
       final zone = await _locationService.checkUserZone();
+      if (!mounted) return;
+
       final current = ll.LatLng(position.latitude, position.longitude);
       _locationController.text = '$zone (${current.latitude.toStringAsFixed(6)}, ${current.longitude.toStringAsFixed(6)})';
-
-      if (mounted) {
-        setState(() {
-          _userLocation = current;
-        });
-      }
+      setState(() {
+        _userLocation = current;
+      });
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -77,6 +76,16 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
         setState(() => _isLoadingLocation = false);
       }
     }
+  }
+
+  void _setManualLocation(ll.LatLng point) {
+    if (!mounted) return;
+
+    setState(() {
+      _userLocation = point;
+      _locationController.text =
+          'موقع محدد يدوياً (${point.latitude.toStringAsFixed(6)}, ${point.longitude.toStringAsFixed(6)})';
+    });
   }
 
   void _submitReport() {
@@ -238,7 +247,7 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
           options: MapOptions(
             initialCenter: _userLocation!,
             initialZoom: 16,
-            interactionOptions: const InteractionOptions(flags: InteractiveFlag.none),
+            onTap: (_, point) => _setManualLocation(point),
           ),
           children: [
             TileLayer(
