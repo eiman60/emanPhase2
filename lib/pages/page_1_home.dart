@@ -601,7 +601,7 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
 
     if (_customCards.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
+        if (!mounted || !_customPageController.hasClients) return;
         _customPageController.jumpToPage(_customActiveIndex);
       });
     }
@@ -611,86 +611,95 @@ class _CustomDhikrSectionState extends State<_CustomDhikrSection> {
     final titleController = TextEditingController();
     final contentController = TextEditingController();
 
-    await showDialog<void>(
+    final createdCard = await showDialog<_DhikrCardData>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        backgroundColor: Colors.white,
-        title: const Text(
-          'إضافة ذكر جديد',
-          style:
-              TextStyle(color: Color(0xFF8A6A4E), fontWeight: FontWeight.w700),
-        ),
-        content: Directionality(
-          textDirection: TextDirection.rtl,
-          child: SizedBox(
-            width: 360,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: titleController,
-                  decoration: const InputDecoration(
-                    labelText: 'العنوان',
-                    hintText: 'مثال: ذكر بعد الصلاة',
+      builder: (dialogContext) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Text(
+            'إضافة ذكر جديد',
+            style:
+                TextStyle(color: Color(0xFF8A6A4E), fontWeight: FontWeight.w700),
+          ),
+          content: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 360),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: titleController,
+                    decoration: const InputDecoration(
+                      labelText: 'العنوان',
+                      hintText: 'مثال: ذكر بعد الصلاة',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: contentController,
-                  minLines: 3,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    labelText: 'المحتوى',
-                    hintText: 'اكتب الذكر هنا...',
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: contentController,
+                    minLines: 3,
+                    maxLines: 5,
+                    decoration: const InputDecoration(
+                      labelText: 'المحتوى',
+                      hintText: 'اكتب الذكر هنا...',
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('إلغاء'),
-          ),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF8A6A4E),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('إلغاء'),
             ),
-            onPressed: () {
-              final title = titleController.text.trim();
-              final content = contentController.text.trim();
-              if (title.isEmpty || content.isEmpty) {
-                return;
-              }
-              setState(() {
-                _customCards.add(
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFF8A6A4E),
+              ),
+              onPressed: () {
+                final title = titleController.text.trim();
+                final content = contentController.text.trim();
+                if (title.isEmpty || content.isEmpty) {
+                  return;
+                }
+                Navigator.of(dialogContext).pop(
                   _DhikrCardData(
                     title: title,
                     color: const Color(0xFFF3B33B),
                     content: content,
                   ),
                 );
-                _customActiveIndex = _customCards.length - 1;
-              });
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (!mounted || _customCards.isEmpty) return;
-                _customPageController.animateToPage(
-                  _customActiveIndex,
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeOutCubic,
-                );
-              });
-              Navigator.of(dialogContext).pop();
-            },
-            child: const Text('حفظ'),
-          ),
-        ],
+              },
+              child: const Text('حفظ'),
+            ),
+          ],
+        ),
       ),
     );
 
     titleController.dispose();
     contentController.dispose();
+
+    if (!mounted || createdCard == null) {
+      return;
+    }
+
+    setState(() {
+      _customCards.add(createdCard);
+      _customActiveIndex = _customCards.length - 1;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _customCards.isEmpty || !_customPageController.hasClients) {
+        return;
+      }
+      _customPageController.animateToPage(
+        _customActiveIndex,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutCubic,
+      );
+    });
   }
 
   @override
