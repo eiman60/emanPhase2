@@ -21,6 +21,30 @@ class _Page4State extends State<Page4> {
       _lastScannedValue = value;
       _lastScannedAt = DateTime.now();
     });
+
+    _showScannedInfoBottomSheet();
+  }
+
+  void _showScannedInfoBottomSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.78,
+          minChildSize: 0.55,
+          maxChildSize: 0.95,
+          expand: false,
+          builder: (context, scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              child: _ScannedInfoCard(scannedAt: _lastScannedAt),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -84,15 +108,12 @@ class _Page4State extends State<Page4> {
               child: Text(_isScannerActive ? 'ايقاف المسح ' : 'امسح الرمز'),
             ),
             const SizedBox(height: 14),
-            if (_lastScannedValue == null)
-              const Card(
-                child: Padding(
-                  padding: EdgeInsets.all(14),
-                  child: Text('لم يتم مسح باركود بعد.'),
-                ),
-              )
-            else
-              _ScannedInfoCard(scannedAt: _lastScannedAt),
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(14),
+                child: Text('امسح الرمز لعرض التفاصيل في نافذة سفلية.'),
+              ),
+            ),
           ],
         ),
       ),
