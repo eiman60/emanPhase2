@@ -34,7 +34,7 @@ class _Page4State extends State<Page4> {
           padding: const EdgeInsets.all(16),
           children: [
             const Text(
-              'Scan an existing barcode from paper, card, or another phone screen.\nThe app reads it and shows the information below.',
+              'Scan an existing barcode from paper, card, or another phone screen.',
               style: TextStyle(fontSize: 15, height: 1.4),
             ),
             const SizedBox(height: 16),
@@ -42,42 +42,147 @@ class _Page4State extends State<Page4> {
               borderRadius: BorderRadius.circular(12),
               child: SizedBox(
                 height: 280,
-                child: MobileScanner(
-                  onDetect: _onBarcodeDetected,
-                ),
+                child: MobileScanner(onDetect: _onBarcodeDetected),
               ),
             ),
-            const SizedBox(height: 12),
-            Card(
-              color: const Color(0xFFFFF8E7),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Scanned Information',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      _lastScannedValue ?? 'No barcode scanned yet.',
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                    if (_lastScannedAt != null) ...[
-                      const SizedBox(height: 6),
-                      Text(
-                        'Scanned at: ${_lastScannedAt!.toLocal()}',
-                        style: const TextStyle(fontSize: 12, color: Colors.black54),
-                      ),
-                    ],
-                  ],
+            const SizedBox(height: 14),
+            if (_lastScannedValue == null)
+              const Card(
+                child: Padding(
+                  padding: EdgeInsets.all(14),
+                  child: Text('لم يتم مسح باركود بعد.'),
                 ),
-              ),
-            ),
+              )
+            else
+              _ScannedInfoCard(scannedAt: _lastScannedAt),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _ScannedInfoCard extends StatelessWidget {
+  const _ScannedInfoCard({required this.scannedAt});
+
+  final DateTime? scannedAt;
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 82,
+                    height: 82,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFECEBFA),
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'م ع',
+                      style: TextStyle(fontSize: 34, color: Color(0xFF403B92)),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('محمد عبدالله العتيبي', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600)),
+                        SizedBox(height: 8),
+                        Text('جواز: SA-4821930 | سعودي', style: TextStyle(fontSize: 20, color: Colors.black87)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              if (scannedAt != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  'وقت المسح: ${scannedAt!.toLocal()}',
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 11, color: Colors.black54),
+                ),
+              ],
+              const Divider(height: 34),
+              const Text('البيانات الشخصية', style: TextStyle(fontSize: 22)),
+              const SizedBox(height: 12),
+              const _InfoGrid(),
+              const SizedBox(height: 14),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF8E5E9),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE8C8CF)),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text('بيانات الطوارئ', style: TextStyle(fontSize: 24, color: Color(0xFF7A323B))),
+                    SizedBox(height: 10),
+                    Text('فصيلة الدم', style: TextStyle(fontSize: 18, color: Color(0xFF7A323B))),
+                    Text('+A', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                    SizedBox(height: 10),
+                    Text('هاتف الطوارئ', style: TextStyle(fontSize: 18, color: Color(0xFF7A323B))),
+                    Text('0559876543', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
+                    SizedBox(height: 10),
+                    Text('أمراض / حساسية', style: TextStyle(fontSize: 18, color: Color(0xFF7A323B))),
+                    Text('ضغط الدم — يتناول دواء يوميًا', style: TextStyle(fontSize: 22)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _InfoGrid extends StatelessWidget {
+  const _InfoGrid();
+
+  @override
+  Widget build(BuildContext context) {
+    final itemStyle = BoxDecoration(
+      color: const Color(0xFFF1F0EA),
+      borderRadius: BorderRadius.circular(16),
+    );
+
+    Widget item(String title, String value) {
+      return Container(
+        decoration: itemStyle,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(title, style: const TextStyle(fontSize: 16, color: Colors.black54)),
+            const SizedBox(height: 8),
+            Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+          ],
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        Row(children: [Expanded(child: item('تاريخ الميلاد', '15/03/1965')), const SizedBox(width: 10), Expanded(child: item('الجنس', 'ذكر'))]),
+        const SizedBox(height: 10),
+        Row(children: [Expanded(child: item('رقم تصريح الحج', 'HJ-2025-00471')), const SizedBox(width: 10), Expanded(child: item('مقر الإقامة', 'فندق أجياد - مكة'))]),
+        const SizedBox(height: 10),
+        Row(children: [Expanded(child: item('قائد البعثة', 'أحمد الشمري')), const SizedBox(width: 10), Expanded(child: item('هاتف المشرف', '0501234567'))]),
+      ],
     );
   }
 }
