@@ -81,7 +81,7 @@ class _Page4State extends State<Page4> {
                 foregroundColor: Colors.black87,
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              child: Text(_isScannerActive ? 'إيقاف الكاميرا' : 'بدء الكاميرا'),
+              child: Text(_isScannerActive ? 'ايقاف المسح ' : 'امسح الرمز'),
             ),
             const SizedBox(height: 14),
             if (_lastScannedValue == null)
