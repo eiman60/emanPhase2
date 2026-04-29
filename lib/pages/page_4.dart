@@ -25,13 +25,31 @@ class _Page4State extends State<Page4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Barcode Scanner'),
-        backgroundColor: const Color(0xFFEACB6A),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 14),
+          child: CircleAvatar(
+            radius: 20,
+            backgroundColor: Color(0xFFF3B33B),
+            child: Icon(Icons.person_outline, size: 25, color: Colors.white),
+          ),
+        ),
+        actions: const [
+          Icon(Icons.wallet_outlined, size: 25, color: Color(0xFFEDEDED)),
+          SizedBox(width: 8),
+          Icon(Icons.notifications_outlined, size: 25, color: Color(0xFFEDEDED)),
+          SizedBox(width: 8),
+          Icon(Icons.more_vert, size: 25, color: Color(0xFFEDEDED)),
+          SizedBox(width: 15),
+        ],
+        centerTitle: true,
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.fromLTRB(16, kToolbarHeight + 24, 16, 16),
           children: [
             const Text(
               'Scan an existing barcode from paper, card, or another phone screen.',
