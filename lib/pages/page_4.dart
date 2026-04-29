@@ -39,6 +39,7 @@ class _Page4State extends State<Page4> {
           builder: (context, scrollController) {
             return SingleChildScrollView(
               controller: scrollController,
+              physics: const ClampingScrollPhysics(),
               child: _ScannedInfoCard(scannedAt: _lastScannedAt),
             );
           },
@@ -92,6 +93,7 @@ class _Page4State extends State<Page4> {
                         ),
                       ),
               ),
+              child: Text(_isScannerActive ? 'ايقاف المسح ' : 'امسح الرمز'),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
@@ -130,13 +132,28 @@ class _ScannedInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Container(
+        margin: const EdgeInsets.only(top: 8),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Center(
+                child: Container(
+                  width: 42,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.black26,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
               Row(
                 children: [
                   Container(
