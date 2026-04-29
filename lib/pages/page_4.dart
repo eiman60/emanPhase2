@@ -51,11 +51,6 @@ class _Page4State extends State<Page4> {
         child: ListView(
           padding: EdgeInsets.fromLTRB(16, kToolbarHeight + 24, 16, 16),
           children: [
-            const Text(
-              'Scan an existing barcode from paper, card, or another phone screen.',
-              style: TextStyle(fontSize: 15, height: 1.4),
-            ),
-            const SizedBox(height: 16),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: SizedBox(
