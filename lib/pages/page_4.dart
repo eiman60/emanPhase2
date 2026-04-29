@@ -26,29 +26,26 @@ class _Page4State extends State<Page4> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: Directionality(
-        textDirection: TextDirection.rtl,
-        child: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: const Padding(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: const Padding(
           padding: EdgeInsets.only(left: 14),
-          child: CircleAvatar(
-            radius: 20,
-            backgroundColor: Color(0xFFF3B33B),
-            child: Icon(Icons.person_outline, size: 25, color: Color(0xFF1F1F1F)),
-          ),
+          child: Icon(Icons.more_vert, size: 25, color: Color(0xFF1F1F1F)),
         ),
-          actions: const [
+        actions: const [
           Icon(Icons.wallet_outlined, size: 25, color: Color(0xFF1F1F1F)),
           SizedBox(width: 8),
           Icon(Icons.notifications_outlined, size: 25, color: Color(0xFF1F1F1F)),
           SizedBox(width: 8),
-          Icon(Icons.more_vert, size: 25, color: Color(0xFF1F1F1F)),
+          CircleAvatar(
+            radius: 20,
+            backgroundColor: Color(0xFFF3B33B),
+            child: Icon(Icons.person_outline, size: 25, color: Color(0xFF1F1F1F)),
+          ),
           SizedBox(width: 15),
         ],
-          centerTitle: true,
-        ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: ListView(
