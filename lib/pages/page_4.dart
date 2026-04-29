@@ -31,18 +31,18 @@ class _Page4State extends State<Page4> {
         elevation: 0,
         leading: const Padding(
           padding: EdgeInsets.only(left: 14),
-          child: Icon(Icons.more_vert, size: 25, color: Color(0xFF1F1F1F)),
-        ),
-        actions: const [
-          Icon(Icons.wallet_outlined, size: 25, color: Color(0xFF1F1F1F)),
-          SizedBox(width: 8),
-          Icon(Icons.notifications_outlined, size: 25, color: Color(0xFF1F1F1F)),
-          SizedBox(width: 8),
-          CircleAvatar(
+          child: CircleAvatar(
             radius: 20,
             backgroundColor: Color(0xFFF3B33B),
-            child: Icon(Icons.person_outline, size: 25, color: Color(0xFF1F1F1F)),
+            child: Icon(Icons.person_outline, size: 25, color: Colors.white),
           ),
+        ),
+        actions: const [
+          Icon(Icons.wallet_outlined, size: 25, color: Color(0xFFEDEDED)),
+          SizedBox(width: 8),
+          Icon(Icons.notifications_outlined, size: 25, color: Color(0xFFEDEDED)),
+          SizedBox(width: 8),
+          Icon(Icons.more_vert, size: 25, color: Color(0xFFEDEDED)),
           SizedBox(width: 15),
         ],
         centerTitle: true,
