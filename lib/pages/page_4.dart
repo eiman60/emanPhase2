@@ -195,8 +195,8 @@ class _ScannedInfoCard extends StatelessWidget {
                       style: TextStyle(fontSize: 12)),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
