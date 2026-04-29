@@ -98,6 +98,7 @@ class _Page4State extends State<Page4> {
 }
 
 class _ScannedInfoCard extends StatelessWidget {
+  static const _label10 = TextStyle(fontSize: 10, color: Color(0xFF7A323B));
   const _ScannedInfoCard({required this.scannedAt});
 
   final DateTime? scannedAt;
@@ -144,6 +145,57 @@ class _ScannedInfoCard extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            if (scannedAt != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                'وقت المسح: ${scannedAt!.toLocal()}',
+                textAlign: TextAlign.left,
+                style: const TextStyle(fontSize: 10, color: Colors.black54),
+              ),
+            ],
+            const Divider(height: 34),
+            const Text('البيانات الشخصية', style: TextStyle(fontSize: 12)),
+            const SizedBox(height: 12),
+            const _InfoGrid(),
+            const SizedBox(height: 14),
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8E5E9),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFE8C8CF)),
+              ),
+              padding: const EdgeInsets.all(16),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'بيانات الطوارئ',
+                    style: TextStyle(fontSize: 12, color: Color(0xFF7A323B)),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'فصيلة الدم',
+                    style: _label10,
+                  ),
+                  Text('+A',
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700)),
+                  SizedBox(height: 10),
+                  Text(
+                    'هاتف الطوارئ',
+                    style: _label10,
+                  ),
+                  Text('0559876543',
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                  SizedBox(height: 10),
+                  Text(
+                    'أمراض / حساسية',
+                    style: _label10,
+                  ),
+                  Text('ضغط الدم — يتناول دواء يوميًا',
+                      style: TextStyle(fontSize: 12)),
+                ],
+              ),
             ),
             if (scannedAt != null) ...[
               const SizedBox(height: 8),
