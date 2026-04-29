@@ -10,6 +10,7 @@ class Page4 extends StatefulWidget {
 
 class _Page4State extends State<Page4> {
   String? _lastScannedValue;
+  DateTime? _lastScannedAt;
 
   void _onBarcodeDetected(BarcodeCapture capture) {
     final value = capture.barcodes.firstOrNull?.rawValue;
@@ -200,8 +201,10 @@ class _ScannedInfoCard extends StatelessWidget {
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('بيانات الطوارئ',
-                      style: TextStyle(fontSize: 12, color: Color(0xFF7A323B))),
+                  Text(
+                    'بيانات الطوارئ',
+                    style: TextStyle(fontSize: 12, color: Color(0xFF7A323B)),
+                  ),
                   SizedBox(height: 10),
                   Text('فصيلة الدم', style: _label),
                   Text('+A',
@@ -216,38 +219,7 @@ class _ScannedInfoCard extends StatelessWidget {
                       style: TextStyle(fontSize: 12)),
                 ],
               ),
-              padding: const EdgeInsets.all(16),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'بيانات الطوارئ',
-                    style: TextStyle(fontSize: 12, color: Color(0xFF7A323B)),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'فصيلة الدم',
-                    style: TextStyle(fontSize: 10, color: Color(0xFF7A323B)),
-                  ),
-                  Text('+A',
-                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700)),
-                  SizedBox(height: 10),
-                  Text(
-                    'هاتف الطوارئ',
-                    style: TextStyle(fontSize: 10, color: Color(0xFF7A323B)),
-                  ),
-                  Text('0559876543',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-                  SizedBox(height: 10),
-                  Text(
-                    'أمراض / حساسية',
-                    style: TextStyle(fontSize: 10, color: Color(0xFF7A323B)),
-                  ),
-                  Text('ضغط الدم — يتناول دواء يوميًا',
-                      style: TextStyle(fontSize: 12)),
-                ],
-              ),
-            ],
+            ),
           ),
         ),
       ),
