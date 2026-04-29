@@ -93,6 +93,7 @@ class _Page4State extends State<Page4> {
                         ),
                       ),
               ),
+              child: Text(_isScannerActive ? 'ايقاف المسح ' : 'امسح الرمز'),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
