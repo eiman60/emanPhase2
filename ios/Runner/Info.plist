@@ -35,6 +35,8 @@
 	<string>This app uses your location to detect your current zone and attach accurate coordinates to emergency reports.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app uses your location to detect your current zone and attach accurate coordinates to emergency reports.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app uses the camera to scan barcodes and display the scanned information.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
