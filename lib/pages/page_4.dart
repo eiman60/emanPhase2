@@ -1,4 +1,4 @@
-import 'package:barcode_widget/barcode_widget.dart';
+import 'package:barcode_widget/barcode_widget.dart' as bw;
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -86,8 +86,8 @@ class _Page4State extends State<Page4> {
                     ),
                     const SizedBox(height: 10),
                     Center(
-                      child: BarcodeWidget(
-                        barcode: Barcode.code128(),
+                      child: bw.BarcodeWidget(
+                        barcode: bw.Barcode.code128(),
                         data: _generatedValue,
                         width: double.infinity,
                         height: 90,
