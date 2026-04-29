@@ -82,9 +82,14 @@ class _NusukHomePageState extends State<NusukHomePage> {
                 ),
                 BottomNavigationBarItem(
                   label: "home3",
-                  icon: Image.asset(
-                    "assets/icons/image_9.png",
-                    height: 20,
+                  icon: const Icon(
+                    Icons.qr_code_scanner_outlined,
+                    size: 20,
+                  ),
+                  activeIcon: const Icon(
+                    Icons.qr_code_scanner,
+                    size: 20,
+                    color: Color(0xFFF3B33B),
                   ),
                 ),
                 BottomNavigationBarItem(
