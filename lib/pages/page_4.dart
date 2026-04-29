@@ -25,13 +25,31 @@ class _Page4State extends State<Page4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Barcode Scanner'),
-        backgroundColor: const Color(0xFFEACB6A),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 14),
+          child: Icon(Icons.more_vert, size: 25, color: Color(0xFF1F1F1F)),
+        ),
+        actions: const [
+          Icon(Icons.wallet_outlined, size: 25, color: Color(0xFF1F1F1F)),
+          SizedBox(width: 8),
+          Icon(Icons.notifications_outlined, size: 25, color: Color(0xFF1F1F1F)),
+          SizedBox(width: 8),
+          CircleAvatar(
+            radius: 20,
+            backgroundColor: Color(0xFFF3B33B),
+            child: Icon(Icons.person_outline, size: 25, color: Color(0xFF1F1F1F)),
+          ),
+          SizedBox(width: 15),
+        ],
+        centerTitle: true,
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.fromLTRB(16, kToolbarHeight + 24, 16, 16),
           children: [
             const Text(
               'Scan an existing barcode from paper, card, or another phone screen.',
@@ -90,7 +108,7 @@ class _ScannedInfoCard extends StatelessWidget {
                     alignment: Alignment.center,
                     child: const Text(
                       'م ع',
-                      style: TextStyle(fontSize: 34, color: Color(0xFF403B92)),
+                      style: TextStyle(fontSize: 12, color: Color(0xFF403B92)),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -98,9 +116,9 @@ class _ScannedInfoCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('محمد عبدالله العتيبي', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600)),
+                        Text('محمد عبدالله العتيبي', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                         SizedBox(height: 8),
-                        Text('جواز: SA-4821930 | سعودي', style: TextStyle(fontSize: 20, color: Colors.black87)),
+                        Text('جواز: SA-4821930 | سعودي', style: TextStyle(fontSize: 11, color: Colors.black87)),
                       ],
                     ),
                   ),
@@ -115,7 +133,7 @@ class _ScannedInfoCard extends StatelessWidget {
                 ),
               ],
               const Divider(height: 34),
-              const Text('البيانات الشخصية', style: TextStyle(fontSize: 22)),
+              const Text('البيانات الشخصية', style: TextStyle(fontSize: 11)),
               const SizedBox(height: 12),
               const _InfoGrid(),
               const SizedBox(height: 14),
@@ -129,16 +147,16 @@ class _ScannedInfoCard extends StatelessWidget {
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text('بيانات الطوارئ', style: TextStyle(fontSize: 24, color: Color(0xFF7A323B))),
+                    Text('بيانات الطوارئ', style: TextStyle(fontSize: 12, color: Color(0xFF7A323B))),
                     SizedBox(height: 10),
-                    Text('فصيلة الدم', style: TextStyle(fontSize: 18, color: Color(0xFF7A323B))),
-                    Text('+A', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                    Text('فصيلة الدم', style: TextStyle(fontSize: 11, color: Color(0xFF7A323B))),
+                    Text('+A', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
                     SizedBox(height: 10),
-                    Text('هاتف الطوارئ', style: TextStyle(fontSize: 18, color: Color(0xFF7A323B))),
-                    Text('0559876543', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
+                    Text('هاتف الطوارئ', style: TextStyle(fontSize: 11, color: Color(0xFF7A323B))),
+                    Text('0559876543', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                     SizedBox(height: 10),
-                    Text('أمراض / حساسية', style: TextStyle(fontSize: 18, color: Color(0xFF7A323B))),
-                    Text('ضغط الدم — يتناول دواء يوميًا', style: TextStyle(fontSize: 22)),
+                    Text('أمراض / حساسية', style: TextStyle(fontSize: 11, color: Color(0xFF7A323B))),
+                    Text('ضغط الدم — يتناول دواء يوميًا', style: TextStyle(fontSize: 11)),
                   ],
                 ),
               ),
@@ -167,9 +185,9 @@ class _InfoGrid extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(title, style: const TextStyle(fontSize: 16, color: Colors.black54)),
+            Text(title, style: const TextStyle(fontSize: 10, color: Colors.black54)),
             const SizedBox(height: 8),
-            Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+            Text(value, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
           ],
         ),
       );
