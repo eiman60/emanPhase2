@@ -204,9 +204,118 @@ class _ScannedInfoCard extends StatelessWidget {
                 ],
               ),
             ),
-          ],
+            if (scannedAt != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                'وقت المسح: ${scannedAt!.toLocal()}',
+                textAlign: TextAlign.left,
+                style: const TextStyle(fontSize: 10, color: Colors.black54),
+              ),
+            ],
+            const Divider(height: 34),
+            const Text('البيانات الشخصية', style: TextStyle(fontSize: 12)),
+            const SizedBox(height: 12),
+            const _InfoGrid(),
+            const SizedBox(height: 14),
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8E5E9),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFE8C8CF)),
+              ),
+              padding: const EdgeInsets.all(16),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'بيانات الطوارئ',
+                    style: TextStyle(fontSize: 12, color: Color(0xFF7A323B)),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'فصيلة الدم',
+                    style: TextStyle(fontSize: 10, color: Color(0xFF7A323B)),
+                  ),
+                  Text('+A',
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700)),
+                  SizedBox(height: 10),
+                  Text(
+                    'هاتف الطوارئ',
+                    style: TextStyle(fontSize: 10, color: Color(0xFF7A323B)),
+                  ),
+                  Text('0559876543',
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                  SizedBox(height: 10),
+                  Text(
+                    'أمراض / حساسية',
+                    style: TextStyle(fontSize: 10, color: Color(0xFF7A323B)),
+                  ),
+                  Text('ضغط الدم — يتناول دواء يوميًا',
+                      style: TextStyle(fontSize: 12)),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _InfoGrid extends StatelessWidget {
+  const _InfoGrid();
+
+  @override
+  Widget build(BuildContext context) {
+    final itemStyle = BoxDecoration(
+      color: const Color(0xFFF1F0EA),
+      borderRadius: BorderRadius.circular(16),
+    );
+
+    Widget item(String title, String value) {
+      return Container(
+        decoration: itemStyle,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(title,
+                style: const TextStyle(fontSize: 10, color: Colors.black54)),
+            const SizedBox(height: 8),
+            Text(value,
+                style:
+                    const TextStyle(fontSize: 10, fontWeight: FontWeight.w600)),
+          ],
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(child: item('تاريخ الميلاد', '15/03/1965')),
+            const SizedBox(width: 10),
+            Expanded(child: item('الجنس', 'ذكر')),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(child: item('رقم تصريح الحج', 'HJ-2025-00471')),
+            const SizedBox(width: 10),
+            Expanded(child: item('مقر الإقامة', 'فندق أجياد - مكة')),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(child: item('قائد البعثة', 'أحمد الشمري')),
+            const SizedBox(width: 10),
+            Expanded(child: item('هاتف المشرف', '0501234567')),
+          ],
+        ),
+      ],
     );
   }
 }
