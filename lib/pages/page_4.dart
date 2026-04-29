@@ -11,6 +11,7 @@ class Page4 extends StatefulWidget {
 class _Page4State extends State<Page4> {
   String? _lastScannedValue;
   DateTime? _lastScannedAt;
+  bool _isScannerActive = false;
 
   void _onBarcodeDetected(BarcodeCapture capture) {
     final value = capture.barcodes.firstOrNull?.rawValue;
@@ -50,14 +51,37 @@ class _Page4State extends State<Page4> {
       ),
       body: SafeArea(
         child: ListView(
-          padding: EdgeInsets.fromLTRB(16, kToolbarHeight + 24, 16, 16),
+          padding: EdgeInsets.fromLTRB(16, kToolbarHeight, 16, 16),
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: SizedBox(
-                height: 280,
-                child: MobileScanner(onDetect: _onBarcodeDetected),
+                height: 380,
+                child: _isScannerActive
+                    ? MobileScanner(onDetect: _onBarcodeDetected)
+                    : Container(
+                        color: Colors.black12,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'اضغط زر بدء الكاميرا',
+                          style: TextStyle(fontSize: 12, color: Colors.black54),
+                        ),
+                      ),
               ),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _isScannerActive = !_isScannerActive;
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFF3B33B),
+                foregroundColor: Colors.black87,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+              child: Text(_isScannerActive ? 'إيقاف الكاميرا' : 'بدء الكاميرا'),
             ),
             const SizedBox(height: 14),
             if (_lastScannedValue == null)
