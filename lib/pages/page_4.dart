@@ -10,16 +10,11 @@ class Page4 extends StatefulWidget {
 
 class _Page4State extends State<Page4> {
   String? _lastScannedValue;
-  DateTime? _lastScannedAt;
 
   void _onBarcodeDetected(BarcodeCapture capture) {
     final value = capture.barcodes.firstOrNull?.rawValue;
     if (value == null || value.isEmpty || value == _lastScannedValue) return;
-
-    setState(() {
-      _lastScannedValue = value;
-      _lastScannedAt = DateTime.now();
-    });
+    setState(() => _lastScannedValue = value);
   }
 
   @override
@@ -48,7 +43,6 @@ class _Page4State extends State<Page4> {
             Icon(Icons.more_vert, size: 22, color: Color(0xFFEDEDED)),
             SizedBox(width: 15),
           ],
-          centerTitle: true,
         ),
         body: Container(
           decoration: const BoxDecoration(
@@ -65,7 +59,7 @@ class _Page4State extends State<Page4> {
                 const SizedBox(height: kToolbarHeight),
                 const Text(
                   'امسح باركود خارجي من ورقة أو بطاقة أو هاتف آخر.',
-                  style: TextStyle(fontSize: 12, height: 1.4, color: Colors.white),
+                  style: TextStyle(fontSize: 12, color: Colors.white),
                 ),
                 const SizedBox(height: 16),
                 ClipRRect(
@@ -76,18 +70,15 @@ class _Page4State extends State<Page4> {
                   ),
                 ),
                 const SizedBox(height: 14),
-                if (_lastScannedValue == null)
-                  const Card(
-                    child: Padding(
-                      padding: EdgeInsets.all(14),
-                      child: Text(
-                        'لم يتم مسح باركود بعد.',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  )
-                else
-                  _ScannedInfoCard(scannedAt: _lastScannedAt),
+                _lastScannedValue == null
+                    ? const Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(14),
+                          child: Text('لم يتم مسح باركود بعد.',
+                              style: TextStyle(fontSize: 12)),
+                        ),
+                      )
+                    : const _ScannedInfoCard(),
               ],
             ),
           ),
@@ -98,10 +89,28 @@ class _Page4State extends State<Page4> {
 }
 
 class _ScannedInfoCard extends StatelessWidget {
-  static const _label10 = TextStyle(fontSize: 10, color: Color(0xFF7A323B));
-  const _ScannedInfoCard({required this.scannedAt});
+  const _ScannedInfoCard();
 
-  final DateTime? scannedAt;
+  static const _label = TextStyle(fontSize: 10, color: Color(0xFF7A323B));
+
+  Widget _item(String title, String value) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFF1F0EA),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(title, style: const TextStyle(fontSize: 10, color: Colors.black54)),
+          const SizedBox(height: 8),
+          Text(value,
+              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600)),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,42 +131,51 @@ class _ScannedInfoCard extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   alignment: Alignment.center,
-                  child: const Text(
-                    'م ع',
-                    style: TextStyle(fontSize: 12, color: Color(0xFF403B92)),
-                  ),
+                  child: const Text('م ع',
+                      style: TextStyle(fontSize: 12, color: Color(0xFF403B92))),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'محمد عبدالله العتيبي',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                      ),
+                      Text('محمد عبدالله العتيبي',
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.w600)),
                       SizedBox(height: 8),
-                      Text(
-                        'جواز: SA-4821930 | سعودي',
-                        style: TextStyle(fontSize: 10, color: Colors.black87),
-                      ),
+                      Text('جواز: SA-4821930 | سعودي',
+                          style: TextStyle(fontSize: 10, color: Colors.black87)),
                     ],
                   ),
                 ),
               ],
             ),
-            if (scannedAt != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                'وقت المسح: ${scannedAt!.toLocal()}',
-                textAlign: TextAlign.left,
-                style: const TextStyle(fontSize: 10, color: Colors.black54),
-              ),
-            ],
             const Divider(height: 34),
             const Text('البيانات الشخصية', style: TextStyle(fontSize: 12)),
             const SizedBox(height: 12),
-            const _InfoGrid(),
+            Row(
+              children: [
+                Expanded(child: _item('تاريخ الميلاد', '15/03/1965')),
+                const SizedBox(width: 10),
+                Expanded(child: _item('الجنس', 'ذكر')),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(child: _item('رقم تصريح الحج', 'HJ-2025-00471')),
+                const SizedBox(width: 10),
+                Expanded(child: _item('مقر الإقامة', 'فندق أجياد - مكة')),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(child: _item('قائد البعثة', 'أحمد الشمري')),
+                const SizedBox(width: 10),
+                Expanded(child: _item('هاتف المشرف', '0501234567')),
+              ],
+            ),
             const SizedBox(height: 14),
             Container(
               decoration: BoxDecoration(
@@ -169,29 +187,18 @@ class _ScannedInfoCard extends StatelessWidget {
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    'بيانات الطوارئ',
-                    style: TextStyle(fontSize: 12, color: Color(0xFF7A323B)),
-                  ),
+                  Text('بيانات الطوارئ',
+                      style: TextStyle(fontSize: 12, color: Color(0xFF7A323B))),
                   SizedBox(height: 10),
-                  Text(
-                    'فصيلة الدم',
-                    style: _label10,
-                  ),
+                  Text('فصيلة الدم', style: _label),
                   Text('+A',
                       style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700)),
                   SizedBox(height: 10),
-                  Text(
-                    'هاتف الطوارئ',
-                    style: _label10,
-                  ),
+                  Text('هاتف الطوارئ', style: _label),
                   Text('0559876543',
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                   SizedBox(height: 10),
-                  Text(
-                    'أمراض / حساسية',
-                    style: _label10,
-                  ),
+                  Text('أمراض / حساسية', style: _label),
                   Text('ضغط الدم — يتناول دواء يوميًا',
                       style: TextStyle(fontSize: 12)),
                 ],
