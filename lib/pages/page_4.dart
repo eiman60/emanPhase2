@@ -109,6 +109,20 @@ class _Page4State extends State<Page4> {
               ),
               child: Text(_isScannerActive ? 'ايقاف المسح ' : 'امسح الرمز'),
             ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _isScannerActive = !_isScannerActive;
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFF3B33B),
+                foregroundColor: Colors.black87,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+              child: Text(_isScannerActive ? 'ايقاف المسح' : 'امسح الرمز'),
+            ),
             const SizedBox(height: 14),
             const Card(
               child: Padding(
