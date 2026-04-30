@@ -78,36 +78,9 @@ class _Page4State extends State<Page4> {
         child: ListView(
           padding: EdgeInsets.fromLTRB(16, kToolbarHeight, 16, 16),
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: SizedBox(
-                height: 380,
-                child: _isScannerActive
-                    ? MobileScanner(onDetect: _onBarcodeDetected)
-                    : Container(
-                        color: Colors.black12,
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'اضغط زر بدء الكاميرا',
-                          style: TextStyle(fontSize: 12, color: Colors.black54),
-                        ),
-                      ),
-              ),
-              child: Text(_isScannerActive ? 'ايقاف المسح ' : 'امسح الرمز'),
-            ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _isScannerActive = !_isScannerActive;
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFF3B33B),
-                foregroundColor: Colors.black87,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-              ),
-              child: Text(_isScannerActive ? 'ايقاف المسح ' : 'امسح الرمز'),
+            _ScannerViewport(
+              isScannerActive: _isScannerActive,
+              onDetect: _onBarcodeDetected,
             ),
             const SizedBox(height: 12),
             ElevatedButton(
@@ -235,6 +208,33 @@ class _ScannedInfoCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ScannerViewport extends StatelessWidget {
+  const _ScannerViewport({required this.isScannerActive, required this.onDetect});
+
+  final bool isScannerActive;
+  final void Function(BarcodeCapture) onDetect;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: SizedBox(
+        height: 380,
+        child: isScannerActive
+            ? MobileScanner(onDetect: onDetect)
+            : Container(
+                color: Colors.black12,
+                alignment: Alignment.center,
+                child: const Text(
+                  'اضغط زر بدء الكاميرا',
+                  style: TextStyle(fontSize: 12, color: Colors.black54),
+                ),
+              ),
       ),
     );
   }
