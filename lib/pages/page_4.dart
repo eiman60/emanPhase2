@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import '../Personal-Hajj-E-guide/map_screen.dart';
+import '../Personal-Hajj-E-guide/location_service.dart';
 
 class Page4 extends StatefulWidget {
   const Page4({super.key});
@@ -96,6 +98,8 @@ class _Page4State extends State<Page4> {
         child: ListView(
           padding: EdgeInsets.fromLTRB(16, kToolbarHeight, 16, 16),
           children: [
+            const _TripTimelineCard(),
+            const SizedBox(height: 14),
             _ScannerViewport(
               isScannerActive: _isScannerActive,
               onDetect: _onBarcodeDetected,
@@ -291,6 +295,220 @@ class _InfoGrid extends StatelessWidget {
         Row(children: [Expanded(child: item('رقم تصريح الحج', 'HJ-2025-00471')), const SizedBox(width: 10), Expanded(child: item('مقر الإقامة', 'فندق أجياد - مكة'))]),
         const SizedBox(height: 10),
         Row(children: [Expanded(child: item('قائد البعثة', 'أحمد الشمري')), const SizedBox(width: 10), Expanded(child: item('هاتف المشرف', '0501234567'))]),
+      ],
+    );
+  }
+}
+
+class _TripTimelineCard extends StatefulWidget {
+  const _TripTimelineCard();
+
+  @override
+  State<_TripTimelineCard> createState() => _TripTimelineCardState();
+}
+
+class _TripTimelineCardState extends State<_TripTimelineCard> {
+  final LocationService _locationService = LocationService();
+  String _currentZone = 'جاري تحديد الموقع...';
+  bool _isLoading = true;
+
+  static const List<String> _hajjOrder = [
+    'منى',
+    'عرفات',
+    'مزدلفة',
+    'الحرم المكي',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentZone();
+  }
+
+  Future<void> _loadCurrentZone() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final zone = await _locationService.checkUserZone();
+    if (!mounted) return;
+
+    setState(() {
+      _currentZone = zone;
+      _isLoading = false;
+    });
+  }
+
+  Color _dotColorForStep(int stepIndex) {
+    final currentIndex = _hajjOrder.indexOf(_currentZone);
+    if (currentIndex == -1) return const Color(0xFFCACACA);
+    if (stepIndex < currentIndex) return const Color(0xFF3BAF5D);
+    if (stepIndex == currentIndex) return const Color(0xFFF2BE2E);
+    return const Color(0xFFCACACA);
+  }
+
+  Future<void> _chooseLocationFromMap() async {
+    final selectedZone = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (_) => const MapScreen()),
+    );
+
+    if (!mounted || selectedZone == null) return;
+    await _loadCurrentZone();
+  }
+
+  Future<void> _clearManualSelection() async {
+    LocationService.clearManualZoneOverride();
+    await _loadCurrentZone();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final currentIndex = _hajjOrder.indexOf(_currentZone);
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'مناسك الحج بالترتيب',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF191919),
+            ),
+          ),
+          const SizedBox(height: 18),
+          _HorizontalTimeline(
+            steps: [
+              for (var i = 0; i < _hajjOrder.length; i++)
+                _TimelineStep(
+                  label: _hajjOrder[i],
+                  color: _dotColorForStep(i),
+                  isCurrent: i == currentIndex,
+                ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  _isLoading
+                      ? 'جاري تحديث حالتك...'
+                      : 'موقعك الحالي: $_currentZone',
+                  style: const TextStyle(
+                    color: Color(0xFF666666),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: _loadCurrentZone,
+                icon: const Icon(Icons.refresh,
+                    size: 20, color: Color(0xFF545454)),
+                tooltip: 'تحديث الموقع',
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: TextButton.icon(
+                  onPressed: _chooseLocationFromMap,
+                  icon: const Icon(Icons.map_outlined, size: 18),
+                  label: const Text('اختيار الموقع من الخريطة'),
+                ),
+              ),
+              if (LocationService.manualZoneOverride != null)
+                TextButton.icon(
+                  onPressed: _clearManualSelection,
+                  icon: const Icon(Icons.gps_fixed, size: 18),
+                  label: const Text('العودة للموقع الحقيقي'),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TimelineStep {
+  const _TimelineStep({
+    required this.label,
+    required this.color,
+    required this.isCurrent,
+  });
+
+  final String label;
+  final Color color;
+  final bool isCurrent;
+}
+
+class _HorizontalTimeline extends StatelessWidget {
+  const _HorizontalTimeline({required this.steps});
+
+  final List<_TimelineStep> steps;
+
+  static const double _dotSize = 14;
+  static const double _lineHeight = 2;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (var i = 0; i < steps.length; i++) ...[
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: _dotSize,
+                height: _dotSize,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: steps[i].color,
+                  border: steps[i].isCurrent
+                      ? Border.all(
+                          color: const Color(0xFFF2BE2E).withAlpha(80),
+                          width: 3,
+                        )
+                      : null,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                steps[i].label,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: steps[i].isCurrent
+                      ? const Color(0xFF1D1D1D)
+                      : const Color(0xFF7A7A7A),
+                  fontWeight: steps[i].isCurrent
+                      ? FontWeight.w700
+                      : FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          if (i != steps.length - 1)
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6)
+                    .copyWith(top: _dotSize / 2 - _lineHeight / 2),
+                child: Container(
+                  height: _lineHeight,
+                  color: const Color(0xFFD8D6D1),
+                ),
+              ),
+            ),
+        ],
       ],
     );
   }
