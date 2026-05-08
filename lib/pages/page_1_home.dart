@@ -363,6 +363,112 @@ class _AlertCircle extends StatelessWidget {
   }
 }
 
+class _PrayerTimesCard extends StatelessWidget {
+  const _PrayerTimesCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(_homeSectionCornerRadius),
+        boxShadow: const [
+          BoxShadow(
+              color: Color(0x12000000), blurRadius: 8, offset: Offset(0, 2)),
+        ],
+      ),
+      child: const Directionality(
+        textDirection: TextDirection.rtl,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _PrayerTimeColumn(
+              icon: Icons.wb_twilight,
+              label: 'الفجر',
+              time: '04:15',
+            ),
+            _PrayerTimeColumn(
+              icon: Icons.wb_sunny_outlined,
+              label: 'الظهر',
+              time: '12:20',
+            ),
+            _PrayerTimeColumn(
+              icon: Icons.wb_sunny_outlined,
+              label: 'العصر',
+              time: '15:35',
+            ),
+            _PrayerTimeColumn(
+              icon: Icons.wb_twilight,
+              label: 'المغرب',
+              time: '18:50',
+              flipIconVertically: true,
+            ),
+            _PrayerTimeColumn(
+              icon: Icons.nightlight_outlined,
+              label: 'العشاء',
+              time: '20:20',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PrayerTimeColumn extends StatelessWidget {
+  const _PrayerTimeColumn({
+    required this.icon,
+    required this.label,
+    required this.time,
+    this.flipIconVertically = false,
+  });
+
+  final IconData icon;
+  final String label;
+  final String time;
+  final bool flipIconVertically;
+
+  @override
+  Widget build(BuildContext context) {
+    const accent = Color(0xFF8A6A4E);
+    Widget iconWidget = Icon(icon, size: 28, color: accent);
+    if (flipIconVertically) {
+      iconWidget = Transform(
+        alignment: Alignment.center,
+        transform: Matrix4.identity()..scale(1.0, -1.0),
+        child: iconWidget,
+      );
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        iconWidget,
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: const TextStyle(
+            color: accent,
+            fontSize: 13,
+            fontFamily: 'Almarai',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          time,
+          style: const TextStyle(
+            color: Color(0xFF3E2723),
+            fontSize: 14,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _QuranCard extends StatelessWidget {
   const _QuranCard();
 
@@ -566,6 +672,8 @@ class _DhikrSectionsContainer extends StatelessWidget {
       ),
       child: const Column(
         children: [
+          _PrayerTimesCard(),
+          SizedBox(height: 12),
           _QuranCard(),
           SizedBox(height: 16),
           _DhikrSection(),
