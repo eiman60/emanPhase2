@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import '../Personal-Hajj-E-guide/map_screen.dart';
 import '../Personal-Hajj-E-guide/location_service.dart';
+import 'qr_scanner_page.dart';
 
 class Page4 extends StatefulWidget {
   const Page4({super.key});
@@ -11,19 +11,14 @@ class Page4 extends StatefulWidget {
 }
 
 class _Page4State extends State<Page4> {
-  String? _lastScannedValue;
   DateTime? _lastScannedAt;
-  bool _isScannerActive = false;
 
-  void _onBarcodeDetected(BarcodeCapture capture) {
-    final value = capture.barcodes.firstOrNull?.rawValue;
-    if (value == null || value.isEmpty || value == _lastScannedValue) return;
-
-    setState(() {
-      _lastScannedValue = value;
-      _lastScannedAt = DateTime.now();
-    });
-
+  Future<void> _openScanner() async {
+    final value = await Navigator.of(context).push<String>(
+      MaterialPageRoute(builder: (_) => const QrScannerPage()),
+    );
+    if (!mounted || value == null || value.isEmpty) return;
+    setState(() => _lastScannedAt = DateTime.now());
     _showScannedInfoBottomSheet();
   }
 
@@ -100,15 +95,7 @@ class _Page4State extends State<Page4> {
           children: [
             const _TripTimelineCard(),
             const SizedBox(height: 14),
-            _ScanPromptCard(
-              isActive: _isScannerActive,
-              onToggle: () {
-                setState(() {
-                  _isScannerActive = !_isScannerActive;
-                });
-              },
-              onDetect: _onBarcodeDetected,
-            ),
+            _ScanPromptCard(onScan: _openScanner),
             const SizedBox(height: 14),
             const _DayInfoPills(),
             const SizedBox(height: 14),
@@ -243,15 +230,9 @@ class _ScannedInfoCard extends StatelessWidget {
 }
 
 class _ScanPromptCard extends StatelessWidget {
-  const _ScanPromptCard({
-    required this.isActive,
-    required this.onToggle,
-    required this.onDetect,
-  });
+  const _ScanPromptCard({required this.onScan});
 
-  final bool isActive;
-  final VoidCallback onToggle;
-  final void Function(BarcodeCapture) onDetect;
+  final VoidCallback onScan;
 
   @override
   Widget build(BuildContext context) {
@@ -265,103 +246,67 @@ class _ScanPromptCard extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: isActive
-            ? Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(14),
-                    child: SizedBox(
-                      height: 240,
-                      child: MobileScanner(onDetect: onDetect),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: onToggle,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF3E2723),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      icon: const Icon(Icons.stop_circle_outlined, size: 18),
-                      label: const Text(
-                        'ايقاف المسح',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Almarai',
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            : Column(
-                children: [
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
-                      Icons.qr_code_2,
-                      size: 30,
-                      color: Color(0xFF1F1F1F),
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  const Text(
-                    'امسح بطاقة حملتك',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF1F1F1F),
-                      fontFamily: 'Almarai',
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  const Text(
-                    'للحصول على جدولك الشخصي ومواعيد تفويجك',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Color(0xFF7A7A7A),
-                      fontFamily: 'Almarai',
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: onToggle,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF3E2723),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      icon: const Icon(Icons.camera_alt_outlined, size: 18),
-                      label: const Text(
-                        'مسح الآن',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Almarai',
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+        child: Column(
+          children: [
+            Container(
+              width: 60,
+              height: 60,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
               ),
+              child: const Icon(
+                Icons.qr_code_2,
+                size: 30,
+                color: Color(0xFF1F1F1F),
+              ),
+            ),
+            const SizedBox(height: 14),
+            const Text(
+              'امسح بطاقة حملتك',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF1F1F1F),
+                fontFamily: 'Almarai',
+              ),
+            ),
+            const SizedBox(height: 6),
+            const Text(
+              'للحصول على جدولك الشخصي ومواعيد تفويجك',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                color: Color(0xFF7A7A7A),
+                fontFamily: 'Almarai',
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: onScan,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF3E2723),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                icon: const Icon(Icons.camera_alt_outlined, size: 18),
+                label: const Text(
+                  'مسح الآن',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Almarai',
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
