@@ -17,26 +17,8 @@
 
 ## التثبيت
 
-> ملاحظة: اسم المجلد في هذا المشروع هو `ai` (حروف صغيرة)، وليس `Ai`.
-
-### من داخل مجلد `lib/Personal-Hajj-E-guide/ai`
-
 ```bash
-python -m venv .venv
-```
-
-**Windows (PowerShell):**
-```powershell
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-**macOS / Linux:**
-```bash
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+pip install -r Ai/requirements.txt
 ```
 
 ---
@@ -44,7 +26,7 @@ python -m pip install -r requirements.txt
 ## هيكل المجلدات
 
 ```
-ai/
+Ai/
 ├── api.py                          # FastAPI server — نقطة الدخول للباك اند
 ├── run_ai.py                       # CLI للتشغيل اليدوي والتقييم
 ├── requirements.txt                # المكتبات المطلوبة
@@ -77,22 +59,9 @@ ai/
 
 ## تشغيل الـ API
 
-### الطريقة الموصى بها (تعمل حتى لو `uvicorn` غير موجود في PATH)
-
-من داخل مجلد `lib/Personal-Hajj-E-guide/ai`:
-
 ```bash
-python -m uvicorn api:app --reload --host 0.0.0.0 --port 8000
+uvicorn Ai.api:app --reload --host 0.0.0.0 --port 8000
 ```
-
-من جذر المشروع:
-
-```bash
-python -m uvicorn api:app --app-dir lib/Personal-Hajj-E-guide/ai --reload --host 0.0.0.0 --port 8000
-```
-
-> إذا ظهر لك الخطأ: `uvicorn is not recognized` فهذا يعني أن الأداة غير مثبتة أو ليست في PATH.
-> استخدم دائمًا `python -m uvicorn ...` بعد تثبيت `requirements.txt`.
 
 ### Endpoints
 
@@ -107,22 +76,6 @@ python -m uvicorn api:app --app-dir lib/Personal-Hajj-E-guide/ai --reload --host
 curl -X POST http://localhost:8000/ask \
   -H "Content-Type: application/json" \
   -d '{"question": "ايش خطوات الحج؟"}'
-```
-
-### فحص الخدمة قبل تجربة التطبيق
-
-```bash
-curl http://localhost:8000/health
-```
-
-يجب أن ترى استجابة مشابهة:
-
-```json
-{
-  "status": "ok",
-  "chunks_loaded": 123,
-  "model": "silma-kashif:2b"
-}
 ```
 
 ```json
@@ -140,10 +93,10 @@ curl http://localhost:8000/health
 
 ```bash
 # وضع المحادثة التفاعلية
-python ai/run_ai.py rag
+python Ai/run_ai.py rag
 
 # سؤال مباشر
-python ai/rag/ollama_pipeline.py -q "ايش فرائض الحج؟"
+python Ai/rag/ollama_pipeline.py -q "ايش فرائض الحج؟"
 ```
 
 ---
@@ -152,13 +105,13 @@ python ai/rag/ollama_pipeline.py -q "ايش فرائض الحج؟"
 
 ```bash
 # تقييم المودل على أسئلة الحج الشائعة
-python ai/tests/scripts/eval_faq_dataset.py
+python Ai/tests/scripts/eval_faq_dataset.py
 
 # أول 10 أسئلة فقط (للاختبار السريع)
-python ai/tests/scripts/eval_faq_dataset.py --max-questions 10
+python Ai/tests/scripts/eval_faq_dataset.py --max-questions 10
 
 # إعادة حساب كل الإجابات من الصفر
-python ai/tests/scripts/eval_faq_dataset.py --overwrite
+python Ai/tests/scripts/eval_faq_dataset.py --overwrite
 ```
 
 ---
@@ -168,7 +121,7 @@ python ai/tests/scripts/eval_faq_dataset.py --overwrite
 إذا عدّلت ملف `Hajj_Ar_v3.txt`:
 
 ```bash
-python ai/Knowledge_base/build_index.py
+python Ai/Knowledge_base/build_index.py
 ```
 
 ---
@@ -179,7 +132,7 @@ python ai/Knowledge_base/build_index.py
 |---------|-------------------|-------|
 | `OLLAMA_MODEL` | `silma-kashif:2b` | اسم المودل في Ollama |
 | `OLLAMA_URL` | `http://localhost:11434/api/generate` | عنوان Ollama |
-| `EMBEDDING_MODEL_PATH` | `ai/models/multilingual-e5-small` | مسار نموذج الـ embedding |
+| `EMBEDDING_MODEL_PATH` | `Ai/models/multilingual-e5-small` | مسار نموذج الـ embedding |
 | `ALLOWED_ORIGINS` | `*` | الـ domains المسموح لها بالاتصال بالـ API |
 
 ---

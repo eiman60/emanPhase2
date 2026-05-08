@@ -1,0 +1,8 @@
+# One-time setup deps for converting NLLB to CTranslate2 format.
+# Note: `transformers` and `torch` are also needed by the converter, but they
+# are already pulled in as transitive deps of `sentence-transformers` (which is
+# in Ai/requirements.txt and is required at runtime by api.py). So you only
+# need this file for `huggingface_hub`.
+#
+# Install with: pip install -r Ai/requirements-setup.txt
+huggingface_hub>=0.23
