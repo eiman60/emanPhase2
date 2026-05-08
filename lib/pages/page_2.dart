@@ -151,7 +151,7 @@ class _LocationServicesCardState extends State<_LocationServicesCard> {
                       Text(
                         _currentZone,
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF6F4E37),
                           fontFamily: 'Almarai',
