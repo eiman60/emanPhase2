@@ -387,28 +387,28 @@ class _PrayerTimesCard extends StatelessWidget {
             _PrayerTimeColumn(
               icon: Icons.wb_twilight,
               label: 'الفجر',
-              time: '04:15',
+              time: '05:18',
             ),
             _PrayerTimeColumn(
               icon: Icons.wb_sunny_outlined,
               label: 'الظهر',
-              time: '12:20',
+              time: '12:25',
             ),
             _PrayerTimeColumn(
               icon: Icons.wb_sunny_outlined,
               label: 'العصر',
-              time: '15:35',
+              time: '15:48',
             ),
             _PrayerTimeColumn(
               icon: Icons.wb_twilight,
               label: 'المغرب',
-              time: '18:50',
+              time: '18:32',
               flipIconVertically: true,
             ),
             _PrayerTimeColumn(
               icon: Icons.nightlight_outlined,
               label: 'العشاء',
-              time: '20:20',
+              time: '19:55',
             ),
           ],
         ),
@@ -450,7 +450,7 @@ class _PrayerTimeColumn extends StatelessWidget {
           label,
           style: const TextStyle(
             color: accent,
-            fontSize: 13,
+            fontSize: 10,
             fontFamily: 'Almarai',
             fontWeight: FontWeight.w600,
           ),
@@ -460,7 +460,7 @@ class _PrayerTimeColumn extends StatelessWidget {
           time,
           style: const TextStyle(
             color: Color(0xFF3E2723),
-            fontSize: 14,
+            fontSize: 10,
             fontWeight: FontWeight.w800,
           ),
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../Personal-Hajj-E-guide/map_screen.dart';
 import '../Personal-Hajj-E-guide/location_service.dart';
 import 'qr_scanner_page.dart';
 
@@ -96,8 +95,6 @@ class _Page4State extends State<Page4> {
             const _TripTimelineCard(),
             const SizedBox(height: 14),
             _ScanPromptCard(onScan: _openScanner),
-            const SizedBox(height: 14),
-            const _DayInfoPills(),
             const SizedBox(height: 14),
             const _DispatchCountdownCard(),
             const SizedBox(height: 18),
@@ -360,69 +357,6 @@ class _DashedBorderPainter extends CustomPainter {
       oldDelegate.dashGap != dashGap;
 }
 
-class _DayInfoPills extends StatelessWidget {
-  const _DayInfoPills();
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      reverse: true,
-      child: Row(
-        children: const [
-          _InfoPill(
-            icon: Icons.calendar_today_outlined,
-            text: 'اليوم التاسع - يوم عرفة',
-          ),
-          SizedBox(width: 8),
-          _InfoPill(
-            icon: Icons.location_on_outlined,
-            text: 'أنت الآن في: عرفات',
-          ),
-          SizedBox(width: 8),
-          _InfoPill(
-            icon: Icons.access_time,
-            text: 'الوقت الحالي',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _InfoPill extends StatelessWidget {
-  const _InfoPill({required this.icon, required this.text});
-
-  final IconData icon;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Color(0xFF1F1F1F),
-              fontFamily: 'Almarai',
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(width: 8),
-          Icon(icon, size: 14, color: const Color(0xFF8A6A4E)),
-        ],
-      ),
-    );
-  }
-}
 
 class _DispatchCountdownCard extends StatelessWidget {
   const _DispatchCountdownCard();
@@ -680,21 +614,6 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
     return const Color(0xFFCACACA);
   }
 
-  Future<void> _chooseLocationFromMap() async {
-    final selectedZone = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(builder: (_) => const MapScreen()),
-    );
-
-    if (!mounted || selectedZone == null) return;
-    await _loadCurrentZone();
-  }
-
-  Future<void> _clearManualSelection() async {
-    LocationService.clearManualZoneOverride();
-    await _loadCurrentZone();
-  }
-
   @override
   Widget build(BuildContext context) {
     final currentIndex = _hajjOrder.indexOf(_currentZone);
@@ -747,23 +666,6 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
                     size: 20, color: Color(0xFF545454)),
                 tooltip: 'تحديث الموقع',
               ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextButton.icon(
-                  onPressed: _chooseLocationFromMap,
-                  icon: const Icon(Icons.map_outlined, size: 18),
-                  label: const Text('اختيار الموقع من الخريطة'),
-                ),
-              ),
-              if (LocationService.manualZoneOverride != null)
-                TextButton.icon(
-                  onPressed: _clearManualSelection,
-                  icon: const Icon(Icons.gps_fixed, size: 18),
-                  label: const Text('العودة للموقع الحقيقي'),
-                ),
             ],
           ),
         ],

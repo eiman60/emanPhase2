@@ -131,87 +131,70 @@ class _LocationServicesCardState extends State<_LocationServicesCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'موقعك الحالي',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF7A7A7A),
+                        fontFamily: 'Almarai',
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      _currentZone,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF6F4E37),
+                        fontFamily: 'Almarai',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: _loadZone,
+                icon: const Icon(Icons.refresh,
+                    color: Color(0xFFB99268), size: 22),
+                tooltip: 'تحديث الموقع',
+              ),
+              InkWell(
+                onTap: _openMap,
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 18, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEDE4DC),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        'موقعك الحالي',
+                      Text(
+                        'فتح الخريطة',
                         style: TextStyle(
                           fontSize: 12,
-                          color: Color(0xFF7A7A7A),
-                          fontFamily: 'Almarai',
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        _currentZone,
-                        style: const TextStyle(
-                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF6F4E37),
                           fontFamily: 'Almarai',
                         ),
                       ),
-                      const SizedBox(height: 14),
-                      InkWell(
-                        onTap: _openMap,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 18, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEDE4DC),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'فتح الخريطة',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF6F4E37),
-                                  fontFamily: 'Almarai',
-                                ),
-                              ),
-                              SizedBox(width: 8),
-                              Icon(Icons.arrow_back,
-                                  size: 16, color: Color(0xFF6F4E37)),
-                            ],
-                          ),
-                        ),
-                      ),
+                      SizedBox(width: 8),
+                      Icon(Icons.arrow_back,
+                          size: 16, color: Color(0xFF6F4E37)),
                     ],
                   ),
                 ),
-                IconButton(
-                  onPressed: _loadZone,
-                  icon: const Icon(Icons.refresh,
-                      color: Color(0xFFB99268), size: 22),
-                  tooltip: 'تحديث الموقع',
-                ),
-                const SizedBox(width: 4),
-                GestureDetector(
-                  onTap: _openMap,
-                  child: Container(
-                    width: 92,
-                    height: 92,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF1ECE3),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: const Icon(Icons.map_outlined,
-                        size: 38, color: Color(0xFF8A6A4E)),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           const Divider(height: 1, color: Color(0xFFEDEDED)),
