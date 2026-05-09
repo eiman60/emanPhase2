@@ -147,7 +147,7 @@ class _CategoriesRow extends StatefulWidget {
 }
 
 class _CategoriesRowState extends State<_CategoriesRow> {
-  int _selectedIndex = 0;
+  int? _selectedIndex;
 
   static const List<_ExploreCategoryItem> _categories = [
     _ExploreCategoryItem(
@@ -254,7 +254,8 @@ class _CategoriesRowState extends State<_CategoriesRow> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedCategory = _categories[_selectedIndex];
+    final selectedCategory =
+        _selectedIndex == null ? null : _categories[_selectedIndex!];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,8 +317,10 @@ class _CategoriesRowState extends State<_CategoriesRow> {
             },
           ),
         ),
-        const SizedBox(height: 12),
-        _CategoryMiniMap(categoryLabel: selectedCategory.label),
+        if (selectedCategory != null) ...[
+          const SizedBox(height: 12),
+          _CategoryMiniMap(categoryLabel: selectedCategory.label),
+        ],
       ],
     );
   }
@@ -455,6 +458,13 @@ class _CategoryMiniMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const zoneServices = [
+      ('منى', 'مستشفى · صيدلية · طعام وماء · نقل'),
+      ('عرفات', 'مستشفى · ماء زمزم · طعام · دورات المياه'),
+      ('مزدلفة', 'مستشفى · ماء · نقل · دورات المياه'),
+      ('الحرم المكي', 'مستشفى · مطاعم · أنشطة · تسوق'),
+    ];
+
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -464,7 +474,7 @@ class _CategoryMiniMap extends StatelessWidget {
       borderRadius: BorderRadius.circular(14),
       child: Container(
         width: double.infinity,
-        height: 190,
+        height: 220,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
           gradient: const LinearGradient(
@@ -475,10 +485,12 @@ class _CategoryMiniMap extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            const Center(
+            const Positioned(
+              top: 16,
+              left: 16,
               child: Icon(
                 Icons.map_outlined,
-                size: 72,
+                size: 28,
                 color: Color(0xFF455A64),
               ),
             ),
@@ -504,22 +516,37 @@ class _CategoryMiniMap extends StatelessWidget {
                 ),
               ),
             ),
-            const Positioned(
-              left: 10,
-              bottom: 10,
-              child: Row(
-                children: [
-                  Icon(Icons.location_on_outlined, size: 16),
-                  SizedBox(width: 4),
-                  Text(
-                    'عرض الخريطة المصغرة',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Color(0xFF2F3B4C),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
+            Positioned.fill(
+              top: 56,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: zoneServices
+                      .map(
+                        (zone) => Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(bottom: 7),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withAlpha(195),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '${zone.$1} → ${zone.$2}',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Color(0xFF2F3B4C),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
               ),
             ),
           ],
