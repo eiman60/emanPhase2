@@ -147,7 +147,7 @@ class _CategoriesRow extends StatefulWidget {
 }
 
 class _CategoriesRowState extends State<_CategoriesRow> {
-  int _selectedIndex = 0;
+  int? _selectedIndex;
 
   static const List<_ExploreCategoryItem> _categories = [
     _ExploreCategoryItem(
@@ -439,6 +439,111 @@ class _CategoryImageCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CategoryMiniMap extends StatelessWidget {
+  const _CategoryMiniMap({required this.categoryLabel});
+
+  final String categoryLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    const zoneServices = [
+      ('منى', 'مستشفى · صيدلية · طعام وماء · نقل'),
+      ('عرفات', 'مستشفى · ماء زمزم · طعام · دورات المياه'),
+      ('مزدلفة', 'مستشفى · ماء · نقل · دورات المياه'),
+      ('الحرم المكي', 'مستشفى · مطاعم · أنشطة · تسوق'),
+    ];
+
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const MapScreen()),
+        );
+      },
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        width: double.infinity,
+        height: 220,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          gradient: const LinearGradient(
+            colors: [Color(0xFFE8EDF6), Color(0xFFD8E2F1)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Stack(
+          children: [
+            const Positioned(
+              top: 16,
+              left: 16,
+              child: Icon(
+                Icons.map_outlined,
+                size: 28,
+                color: Color(0xFF455A64),
+              ),
+            ),
+            Positioned(
+              top: 10,
+              right: 10,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF3E2723),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  categoryLabel,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            Positioned.fill(
+              top: 56,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: zoneServices
+                      .map(
+                        (zone) => Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(bottom: 7),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withAlpha(195),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '${zone.$1} → ${zone.$2}',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Color(0xFF2F3B4C),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
