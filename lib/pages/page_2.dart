@@ -92,12 +92,33 @@ class _LocationServicesCardState extends State<_LocationServicesCard> {
   String _currentZone = '...';
   int _selectedService = 0;
 
-  static const List<({String label, IconData icon})> _services = [
-    (label: 'أقرب مستشفى', icon: Icons.local_hospital_outlined),
-    (label: 'مطاعم', icon: Icons.restaurant_outlined),
-    (label: 'أنشطة', icon: Icons.gps_fixed),
-    (label: 'تسوق', icon: Icons.shopping_bag_outlined),
-  ];
+  static const Map<String, List<({String label, IconData icon})>>
+      _servicesByZone = {
+    'منى': [
+      (label: 'مستشفى', icon: Icons.local_hospital_outlined),
+      (label: 'صيدلية', icon: Icons.local_pharmacy_outlined),
+      (label: 'طعام وماء', icon: Icons.restaurant_outlined),
+      (label: 'نقل', icon: Icons.directions_bus_outlined),
+    ],
+    'عرفات': [
+      (label: 'مستشفى', icon: Icons.local_hospital_outlined),
+      (label: 'ماء زمزم', icon: Icons.water_drop_outlined),
+      (label: 'طعام', icon: Icons.restaurant_outlined),
+      (label: 'دورات المياه', icon: Icons.wc_outlined),
+    ],
+    'مزدلفة': [
+      (label: 'مستشفى', icon: Icons.local_hospital_outlined),
+      (label: 'ماء', icon: Icons.water_drop_outlined),
+      (label: 'نقل', icon: Icons.directions_bus_outlined),
+      (label: 'دورات المياه', icon: Icons.wc_outlined),
+    ],
+    'الحرم المكي': [
+      (label: 'مستشفى', icon: Icons.local_hospital_outlined),
+      (label: 'مطاعم', icon: Icons.restaurant_outlined),
+      (label: 'أنشطة', icon: Icons.local_activity_outlined),
+      (label: 'تسوق', icon: Icons.shopping_bag_outlined),
+    ],
+  };
 
   @override
   void initState() {
@@ -190,7 +211,7 @@ class _LocationServicesCardState extends State<_LocationServicesCard> {
               ),
             ],
           ),
-          if (_kKnownZones.contains(_currentZone)) ...[
+          if (_servicesByZone.containsKey(_currentZone)) ...[
             const SizedBox(height: 16),
             const Divider(height: 1, color: Color(0xFFEDEDED)),
             const SizedBox(height: 16),
@@ -207,54 +228,58 @@ class _LocationServicesCardState extends State<_LocationServicesCard> {
               ),
             ),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                for (var i = 0; i < _services.length; i++) ...[
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => setState(() => _selectedService = i),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 14, horizontal: 6),
-                        decoration: BoxDecoration(
-                          color: i == _selectedService
-                              ? const Color(0xFFFBF3E1)
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(
-                            color: i == _selectedService
-                                ? const Color(0xFFE0BD7A)
-                                : const Color(0xFFE6E5E0),
+            Builder(builder: (_) {
+              final services = _servicesByZone[_currentZone]!;
+              final selected = _selectedService.clamp(0, services.length - 1);
+              return Row(
+                children: [
+                  for (var i = 0; i < services.length; i++) ...[
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => setState(() => _selectedService = i),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 6),
+                          decoration: BoxDecoration(
+                            color: i == selected
+                                ? const Color(0xFFFBF3E1)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: i == selected
+                                  ? const Color(0xFFE0BD7A)
+                                  : const Color(0xFFE6E5E0),
+                            ),
                           ),
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(
-                              _services[i].icon,
-                              size: 26,
-                              color: const Color(0xFF8A6A4E),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              _services[i].label,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Color(0xFF6F4E37),
-                                fontFamily: 'Almarai',
-                                fontWeight: FontWeight.w600,
+                          child: Column(
+                            children: [
+                              Icon(
+                                services[i].icon,
+                                size: 26,
+                                color: const Color(0xFF8A6A4E),
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 8),
+                              Text(
+                                services[i].label,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Color(0xFF6F4E37),
+                                  fontFamily: 'Almarai',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  if (i != _services.length - 1) const SizedBox(width: 8),
+                    if (i != services.length - 1) const SizedBox(width: 8),
+                  ],
                 ],
-              ],
-            ),
+              );
+            }),
           ],
         ],
       ),
