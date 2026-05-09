@@ -32,21 +32,6 @@ class _Page4State extends State<Page4> {
     });
   }
 
-  String? get _dispatchDestination {
-    switch (_currentZone) {
-      case 'منى':
-        return 'عرفات';
-      case 'عرفات':
-        return 'مزدلفة';
-      case 'مزدلفة':
-        return 'منى';
-      case 'الحرم المكي':
-        return 'منى';
-      default:
-        return null;
-    }
-  }
-
   Future<void> _openScanner() async {
     final value = await Navigator.of(context).push<String>(
       MaterialPageRoute(builder: (_) => const QrScannerPage()),
@@ -137,11 +122,6 @@ class _Page4State extends State<Page4> {
             ),
             const SizedBox(height: 14),
             _ScanPromptCard(onScan: _openScanner),
-            const SizedBox(height: 14),
-            _DispatchCountdownCard(
-              destination: _dispatchDestination,
-              scanned: _scanned,
-            ),
             const SizedBox(height: 18),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 4),
@@ -403,117 +383,6 @@ class _DashedBorderPainter extends CustomPainter {
 }
 
 
-class _DispatchCountdownCard extends StatelessWidget {
-  const _DispatchCountdownCard({
-    required this.destination,
-    required this.scanned,
-  });
-
-  final String? destination;
-  final bool scanned;
-
-  @override
-  Widget build(BuildContext context) {
-    if (destination == null) {
-      return const _LocationRequiredCard(
-        message: 'لا يمكن عرض موعد التفويج قبل تحديد موقعك',
-      );
-    }
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: const Border(
-          top: BorderSide(color: Color(0xFFE0BD7A), width: 3),
-        ),
-      ),
-      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'موعد تفويج حملتك إلى $destination',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF1F1F1F),
-                  fontFamily: 'Almarai',
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Icon(
-                Icons.directions_bus,
-                size: 18,
-                color: Color(0xFF6F4E37),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF8F0EA),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: scanned
-                  ? const Text(
-                      '02 : 45 : 00',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF1F1F1F),
-                        letterSpacing: 3,
-                      ),
-                    )
-                  : const Text(
-                      'حسب الحملة',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF8A6A4E),
-                        fontFamily: 'Almarai',
-                      ),
-                    ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFEDE4DC),
-              borderRadius: BorderRadius.circular(22),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: Text(
-                    scanned
-                        ? 'يرجى التجمع في نقطة الانطلاق قبل الموعد بـ ٣٠ دقيقة'
-                        : 'امسح بطاقة حملتك لعرض موعد تفويجك الخاص',
-                    style: const TextStyle(
-                      fontSize: 11,
-                      color: Color(0xFF6F4E37),
-                      fontFamily: 'Almarai',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                const Icon(Icons.info_outline,
-                    size: 14, color: Color(0xFF6F4E37)),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 enum _ScheduleType { ritual, dispatch, prep, optional }
 
@@ -945,15 +814,19 @@ class _TripTimelineCard extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onRefresh;
 
-  static const List<String> _hajjOrder = [
-    'منى',
-    'عرفات',
-    'مزدلفة',
-    'الحرم المكي',
+  static const List<({String zone, String label})> _stops = [
+    (zone: 'منى', label: 'منى'),
+    (zone: 'عرفات', label: 'عرفة'),
+    (zone: 'مزدلفة', label: 'مزدلفة'),
+    (zone: 'منى', label: 'منى'),
+    (zone: 'الحرم المكي', label: 'مكة'),
   ];
 
+  int _currentStopIndex() =>
+      _stops.indexWhere((s) => s.zone == currentZone);
+
   Color _dotColorForStep(int stepIndex) {
-    final currentIndex = _hajjOrder.indexOf(currentZone);
+    final currentIndex = _currentStopIndex();
     if (currentIndex == -1) return const Color(0xFFCACACA);
     if (stepIndex < currentIndex) return const Color(0xFF3BAF5D);
     if (stepIndex == currentIndex) return const Color(0xFFF2BE2E);
@@ -962,7 +835,7 @@ class _TripTimelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = _hajjOrder.indexOf(currentZone);
+    final currentIndex = _currentStopIndex();
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -974,9 +847,9 @@ class _TripTimelineCard extends StatelessWidget {
         children: [
           _HorizontalTimeline(
             steps: [
-              for (var i = 0; i < _hajjOrder.length; i++)
+              for (var i = 0; i < _stops.length; i++)
                 _TimelineStep(
-                  label: _hajjOrder[i],
+                  label: _stops[i].label,
                   color: _dotColorForStep(i),
                   isCurrent: i == currentIndex,
                 ),
@@ -1058,7 +931,7 @@ class _HorizontalTimeline extends StatelessWidget {
               Text(
                 steps[i].label,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                   color: steps[i].isCurrent
                       ? const Color(0xFF1D1D1D)
                       : const Color(0xFF7A7A7A),
