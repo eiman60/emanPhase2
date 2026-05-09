@@ -32,7 +32,7 @@ class _Page4State extends State<Page4> {
     });
   }
 
-  String get _dispatchDestination {
+  String? get _dispatchDestination {
     switch (_currentZone) {
       case 'منى':
         return 'عرفات';
@@ -43,7 +43,7 @@ class _Page4State extends State<Page4> {
       case 'الحرم المكي':
         return 'منى';
       default:
-        return 'عرفات';
+        return null;
     }
   }
 
@@ -409,11 +409,16 @@ class _DispatchCountdownCard extends StatelessWidget {
     required this.scanned,
   });
 
-  final String destination;
+  final String? destination;
   final bool scanned;
 
   @override
   Widget build(BuildContext context) {
+    if (destination == null) {
+      return const _LocationRequiredCard(
+        message: 'لا يمكن عرض موعد التفويج قبل تحديد موقعك',
+      );
+    }
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -676,7 +681,12 @@ class _ScheduleList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = _kSchedulesByZone[zone] ?? _kSchedulesByZone['منى']!;
+    final items = _kSchedulesByZone[zone];
+    if (items == null) {
+      return const _LocationRequiredCard(
+        message: 'سيتم عرض جدولك حسب موقعك الحالي',
+      );
+    }
     return Column(
       children: [
         for (var i = 0; i < items.length; i++) ...[
@@ -684,6 +694,53 @@ class _ScheduleList extends StatelessWidget {
           if (i != items.length - 1) const SizedBox(height: 8),
         ],
       ],
+    );
+  }
+}
+
+class _LocationRequiredCard extends StatelessWidget {
+  const _LocationRequiredCard({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        children: [
+          const Icon(
+            Icons.location_off_outlined,
+            size: 32,
+            color: Color(0xFFB99268),
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            'يرجى تحديد موقعك أولًا',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF1F1F1F),
+              fontFamily: 'Almarai',
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 11,
+              color: Color(0xFF8A8A8A),
+              fontFamily: 'Almarai',
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
