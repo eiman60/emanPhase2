@@ -254,9 +254,6 @@ class _CategoriesRowState extends State<_CategoriesRow> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedCategory =
-        _selectedIndex == null ? null : _categories[_selectedIndex!];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -317,10 +314,6 @@ class _CategoriesRowState extends State<_CategoriesRow> {
             },
           ),
         ),
-        if (selectedCategory != null) ...[
-          const SizedBox(height: 12),
-          _CategoryMiniMap(categoryLabel: selectedCategory.label),
-        ],
       ],
     );
   }
