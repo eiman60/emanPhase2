@@ -398,7 +398,7 @@ class _ScanSuccessSheet extends StatelessWidget {
                   _DashedDivider(),
                   _InfoRow(label: 'الاسم', value: 'أحمد عبدالله'),
                   _DashedDivider(),
-                  _InfoRow(label: 'الخدمة', value: 'تصريح دخول الروضة'),
+                  _InfoRow(label: 'نوع التصريح', value: 'تصريح حج'),
                 ],
               ),
             ),
