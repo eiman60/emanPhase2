@@ -317,20 +317,7 @@ class _CategoriesRowState extends State<_CategoriesRow> {
           ),
         ),
         const SizedBox(height: 12),
-        SizedBox(
-          height: 240,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: selectedCategory.cards?.length ??
-                _CategoryCardData.fallback.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (_, index) => _CategoryImageCard(
-              categoryLabel: selectedCategory.label,
-              cardData: selectedCategory.cards?[index] ??
-                  _CategoryCardData.fallback[index],
-            ),
-          ),
-        ),
+        _CategoryMiniMap(categoryLabel: selectedCategory.label),
       ],
     );
   }
@@ -456,6 +443,87 @@ class _CategoryImageCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CategoryMiniMap extends StatelessWidget {
+  const _CategoryMiniMap({required this.categoryLabel});
+
+  final String categoryLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const MapScreen()),
+        );
+      },
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        width: double.infinity,
+        height: 190,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          gradient: const LinearGradient(
+            colors: [Color(0xFFE8EDF6), Color(0xFFD8E2F1)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Stack(
+          children: [
+            const Center(
+              child: Icon(
+                Icons.map_outlined,
+                size: 72,
+                color: Color(0xFF455A64),
+              ),
+            ),
+            Positioned(
+              top: 10,
+              right: 10,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF3E2723),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  categoryLabel,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            const Positioned(
+              left: 10,
+              bottom: 10,
+              child: Row(
+                children: [
+                  Icon(Icons.location_on_outlined, size: 16),
+                  SizedBox(width: 4),
+                  Text(
+                    'عرض الخريطة المصغرة',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF2F3B4C),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
