@@ -159,12 +159,6 @@ class _LocationServicesCardState extends State<_LocationServicesCard> {
                   ],
                 ),
               ),
-              IconButton(
-                onPressed: _loadZone,
-                icon: const Icon(Icons.refresh,
-                    color: Color(0xFFB99268), size: 22),
-                tooltip: 'تحديث الموقع',
-              ),
               InkWell(
                 onTap: _openMap,
                 borderRadius: BorderRadius.circular(20),
@@ -196,75 +190,84 @@ class _LocationServicesCardState extends State<_LocationServicesCard> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          const Divider(height: 1, color: Color(0xFFEDEDED)),
-          const SizedBox(height: 16),
-          const Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'الخدمات القريبة منك',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF252525),
-                fontFamily: 'Almarai',
+          if (_kKnownZones.contains(_currentZone)) ...[
+            const SizedBox(height: 16),
+            const Divider(height: 1, color: Color(0xFFEDEDED)),
+            const SizedBox(height: 16),
+            const Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'الخدمات القريبة منك',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF252525),
+                  fontFamily: 'Almarai',
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              for (var i = 0; i < _services.length; i++) ...[
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => setState(() => _selectedService = i),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 14, horizontal: 6),
-                      decoration: BoxDecoration(
-                        color: i == _selectedService
-                            ? const Color(0xFFFBF3E1)
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                for (var i = 0; i < _services.length; i++) ...[
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => setState(() => _selectedService = i),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 14, horizontal: 6),
+                        decoration: BoxDecoration(
                           color: i == _selectedService
-                              ? const Color(0xFFE0BD7A)
-                              : const Color(0xFFE6E5E0),
+                              ? const Color(0xFFFBF3E1)
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                            color: i == _selectedService
+                                ? const Color(0xFFE0BD7A)
+                                : const Color(0xFFE6E5E0),
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(
-                            _services[i].icon,
-                            size: 26,
-                            color: const Color(0xFF8A6A4E),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            _services[i].label,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: Color(0xFF6F4E37),
-                              fontFamily: 'Almarai',
-                              fontWeight: FontWeight.w600,
+                        child: Column(
+                          children: [
+                            Icon(
+                              _services[i].icon,
+                              size: 26,
+                              color: const Color(0xFF8A6A4E),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 8),
+                            Text(
+                              _services[i].label,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: Color(0xFF6F4E37),
+                                fontFamily: 'Almarai',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                if (i != _services.length - 1) const SizedBox(width: 8),
+                  if (i != _services.length - 1) const SizedBox(width: 8),
+                ],
               ],
-            ],
-          ),
+            ),
+          ],
         ],
       ),
     );
   }
 }
+
+const Set<String> _kKnownZones = {
+  'منى',
+  'عرفات',
+  'مزدلفة',
+  'الحرم المكي',
+};
 
 class _SectionTitle extends StatelessWidget {
   const _SectionTitle({required this.title, this.actionText});
