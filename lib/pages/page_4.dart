@@ -10,14 +10,52 @@ class Page4 extends StatefulWidget {
 }
 
 class _Page4State extends State<Page4> {
+  final LocationService _locationService = LocationService();
+  String _currentZone = 'جاري تحديد الموقع...';
+  bool _isLoadingZone = true;
+  bool _scanned = false;
   DateTime? _lastScannedAt;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadZone();
+  }
+
+  Future<void> _loadZone() async {
+    setState(() => _isLoadingZone = true);
+    final zone = await _locationService.checkUserZone();
+    if (!mounted) return;
+    setState(() {
+      _currentZone = zone;
+      _isLoadingZone = false;
+    });
+  }
+
+  String get _dispatchDestination {
+    switch (_currentZone) {
+      case 'منى':
+        return 'عرفات';
+      case 'عرفات':
+        return 'مزدلفة';
+      case 'مزدلفة':
+        return 'منى';
+      case 'الحرم المكي':
+        return 'منى';
+      default:
+        return 'عرفات';
+    }
+  }
 
   Future<void> _openScanner() async {
     final value = await Navigator.of(context).push<String>(
       MaterialPageRoute(builder: (_) => const QrScannerPage()),
     );
     if (!mounted || value == null || value.isEmpty) return;
-    setState(() => _lastScannedAt = DateTime.now());
+    setState(() {
+      _scanned = true;
+      _lastScannedAt = DateTime.now();
+    });
     _showScannedInfoBottomSheet();
   }
 
@@ -50,13 +88,12 @@ class _Page4State extends State<Page4> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: const Color(0xFFF4F5F7),
-        extendBodyBehindAppBar: true,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: AppBar(
-              backgroundColor: Colors.transparent,
+              backgroundColor: const Color(0xFFF4F5F7),
               elevation: 0,
               surfaceTintColor: Colors.transparent,
               scrolledUnderElevation: 0,
@@ -89,14 +126,22 @@ class _Page4State extends State<Page4> {
           ),
         ),
         body: SafeArea(
+        top: false,
         child: ListView(
-          padding: EdgeInsets.fromLTRB(16, kToolbarHeight, 16, 16),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           children: [
-            const _TripTimelineCard(),
+            _TripTimelineCard(
+              currentZone: _currentZone,
+              isLoading: _isLoadingZone,
+              onRefresh: _loadZone,
+            ),
             const SizedBox(height: 14),
             _ScanPromptCard(onScan: _openScanner),
             const SizedBox(height: 14),
-            const _DispatchCountdownCard(),
+            _DispatchCountdownCard(
+              destination: _dispatchDestination,
+              scanned: _scanned,
+            ),
             const SizedBox(height: 18),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 4),
@@ -114,7 +159,7 @@ class _Page4State extends State<Page4> {
               ),
             ),
             const SizedBox(height: 10),
-            const _ScheduleList(),
+            _ScheduleList(zone: _currentZone, scanned: _scanned),
           ],
         ),
         ),
@@ -359,7 +404,13 @@ class _DashedBorderPainter extends CustomPainter {
 
 
 class _DispatchCountdownCard extends StatelessWidget {
-  const _DispatchCountdownCard();
+  const _DispatchCountdownCard({
+    required this.destination,
+    required this.scanned,
+  });
+
+  final String destination;
+  final bool scanned;
 
   @override
   Widget build(BuildContext context) {
@@ -374,20 +425,20 @@ class _DispatchCountdownCard extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'موعد تفويج حملتك إلى مزدلفة',
-                style: TextStyle(
+                'موعد تفويج حملتك إلى $destination',
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF1F1F1F),
                   fontFamily: 'Almarai',
                 ),
               ),
-              SizedBox(width: 8),
-              Icon(
+              const SizedBox(width: 8),
+              const Icon(
                 Icons.directions_bus,
                 size: 18,
                 color: Color(0xFF6F4E37),
@@ -402,16 +453,26 @@ class _DispatchCountdownCard extends StatelessWidget {
               color: const Color(0xFFF8F0EA),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Center(
-              child: Text(
-                '02 : 45 : 00',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF1F1F1F),
-                  letterSpacing: 3,
-                ),
-              ),
+            child: Center(
+              child: scanned
+                  ? const Text(
+                      '02 : 45 : 00',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFF1F1F1F),
+                        letterSpacing: 3,
+                      ),
+                    )
+                  : const Text(
+                      'حسب الحملة',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF8A6A4E),
+                        fontFamily: 'Almarai',
+                      ),
+                    ),
             ),
           ),
           const SizedBox(height: 12),
@@ -421,13 +482,15 @@ class _DispatchCountdownCard extends StatelessWidget {
               color: const Color(0xFFEDE4DC),
               borderRadius: BorderRadius.circular(22),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Flexible(
                   child: Text(
-                    'يرجى التجمع في نقطة الانطلاق قبل الموعد بـ ٣٠ دقيقة',
-                    style: TextStyle(
+                    scanned
+                        ? 'يرجى التجمع في نقطة الانطلاق قبل الموعد بـ ٣٠ دقيقة'
+                        : 'امسح بطاقة حملتك لعرض موعد تفويجك الخاص',
+                    style: const TextStyle(
                       fontSize: 11,
                       color: Color(0xFF6F4E37),
                       fontFamily: 'Almarai',
@@ -435,8 +498,9 @@ class _DispatchCountdownCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
-                Icon(Icons.info_outline, size: 14, color: Color(0xFF6F4E37)),
+                const SizedBox(width: 8),
+                const Icon(Icons.info_outline,
+                    size: 14, color: Color(0xFF6F4E37)),
               ],
             ),
           ),
@@ -446,34 +510,215 @@ class _DispatchCountdownCard extends StatelessWidget {
   }
 }
 
-class _ScheduleList extends StatelessWidget {
-  const _ScheduleList();
+enum _ScheduleType { ritual, dispatch, prep, optional }
 
-  static const List<({String time, String period, String title, String subtitle})> _items = [
-    (time: '05:30', period: 'ص', title: 'صلاة الفجر', subtitle: 'في مخيم الحملة'),
-    (time: '09:00', period: 'ص', title: 'الاستماع لخطبة عرفة', subtitle: 'مسجد نمرة أو المخيم'),
-    (time: '12:30', period: 'ظ', title: 'صلاة الظهر والعصر', subtitle: 'جمع تقديم'),
-  ];
+class _ScheduleItem {
+  const _ScheduleItem({
+    required this.time,
+    required this.title,
+    required this.subtitle,
+    this.period = '',
+    this.type = _ScheduleType.ritual,
+    this.dependsOnCampaign = false,
+    this.campaignTime = '',
+    this.campaignPeriod = '',
+  });
+
+  final String time;
+  final String period;
+  final String title;
+  final String subtitle;
+  final _ScheduleType type;
+  final bool dependsOnCampaign;
+  final String campaignTime;
+  final String campaignPeriod;
+}
+
+const Map<String, List<_ScheduleItem>> _kSchedulesByZone = {
+  'منى': [
+    _ScheduleItem(
+      time: 'حسب الحملة',
+      title: 'التفويج إلى منى',
+      subtitle: 'يوم التروية - من مكة',
+      type: _ScheduleType.dispatch,
+      dependsOnCampaign: true,
+      campaignTime: '14:30',
+      campaignPeriod: 'م',
+    ),
+    _ScheduleItem(
+      time: 'الليل',
+      title: 'المبيت في منى',
+      subtitle: 'ليلة التاسع من ذي الحجة',
+    ),
+    _ScheduleItem(
+      time: 'بعد الشروق',
+      title: 'رمي جمرة العقبة الكبرى',
+      subtitle: 'يوم النحر — سبع حصيات',
+    ),
+    _ScheduleItem(
+      time: 'بعد الرمي',
+      title: 'الهدي',
+      subtitle: 'الذبح',
+    ),
+    _ScheduleItem(
+      time: 'بعد الذبح',
+      title: 'الحلق أو التقصير',
+      subtitle: 'التحلل الأصغر',
+    ),
+    _ScheduleItem(
+      time: 'بعد الزوال',
+      title: 'رمي الجمرات الثلاث',
+      subtitle: 'أيام التشريق — 21 حصاة',
+    ),
+  ],
+  'عرفات': [
+    _ScheduleItem(
+      time: 'حسب الحملة',
+      title: 'التفويج إلى عرفات',
+      subtitle: 'اليوم التاسع — من منى',
+      type: _ScheduleType.dispatch,
+      dependsOnCampaign: true,
+      campaignTime: '08:00',
+      campaignPeriod: 'ص',
+    ),
+    _ScheduleItem(
+      time: '12:00',
+      period: 'ظ',
+      title: 'بداية الوقوف بعرفة',
+      subtitle: 'بعد زوال الشمس',
+    ),
+    _ScheduleItem(
+      time: 'طوال اليوم',
+      title: 'الوقوف والدعاء والذكر',
+      subtitle: 'أعظم أوقات الإجابة',
+    ),
+    _ScheduleItem(
+      time: '18:45',
+      period: 'م',
+      title: 'غروب الشمس',
+      subtitle: 'نهاية الوقوف',
+    ),
+    _ScheduleItem(
+      time: 'حسب الحملة',
+      title: 'التفويج إلى مزدلفة',
+      subtitle: 'بعد غروب الشمس',
+      type: _ScheduleType.dispatch,
+      dependsOnCampaign: true,
+      campaignTime: '19:30',
+      campaignPeriod: 'م',
+    ),
+  ],
+  'مزدلفة': [
+    _ScheduleItem(
+      time: 'الليل',
+      title: 'المبيت في مزدلفة',
+      subtitle: 'بعد جمع المغرب والعشاء',
+    ),
+    _ScheduleItem(
+      time: 'قبل الفجر',
+      title: 'جمع الحصى',
+      subtitle: 'تسع وأربعون حصاة',
+      type: _ScheduleType.prep,
+    ),
+    _ScheduleItem(
+      time: 'حسب الحملة',
+      title: 'التفويج إلى منى',
+      subtitle: 'يوم النحر',
+      type: _ScheduleType.dispatch,
+      dependsOnCampaign: true,
+      campaignTime: '05:30',
+      campaignPeriod: 'ص',
+    ),
+  ],
+  'الحرم المكي': [
+    _ScheduleItem(
+      time: 'عند الوصول',
+      title: 'الإحرام من الميقات',
+      subtitle: 'قبل دخول الحرم',
+    ),
+    _ScheduleItem(
+      time: 'عند الوصول',
+      title: 'طواف القدوم',
+      subtitle: 'حول الكعبة المشرفة',
+    ),
+    _ScheduleItem(
+      time: 'عند الوصول',
+      title: 'السعي بين الصفا والمروة',
+      subtitle: 'بعد الطواف',
+    ),
+    _ScheduleItem(
+      time: 'يوم النحر',
+      title: 'طواف الإفاضة',
+      subtitle: 'ركن الحج الأكبر',
+    ),
+    _ScheduleItem(
+      time: 'قبل المغادرة',
+      title: 'طواف الوداع',
+      subtitle: 'آخر العهد بالبيت',
+    ),
+    _ScheduleItem(
+      time: 'حسب الحملة',
+      title: 'التفويج إلى المطار',
+      subtitle: 'يوم الوداع',
+      type: _ScheduleType.dispatch,
+      dependsOnCampaign: true,
+      campaignTime: '11:00',
+      campaignPeriod: 'ص',
+    ),
+  ],
+};
+
+class _ScheduleList extends StatelessWidget {
+  const _ScheduleList({required this.zone, required this.scanned});
+
+  final String zone;
+  final bool scanned;
 
   @override
   Widget build(BuildContext context) {
+    final items = _kSchedulesByZone[zone] ?? _kSchedulesByZone['منى']!;
     return Column(
       children: [
-        for (var i = 0; i < _items.length; i++) ...[
-          Container(
-            padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Row(
+        for (var i = 0; i < items.length; i++) ...[
+          _ScheduleCard(item: items[i], scanned: scanned),
+          if (i != items.length - 1) const SizedBox(height: 8),
+        ],
+      ],
+    );
+  }
+}
+
+class _ScheduleCard extends StatelessWidget {
+  const _ScheduleCard({required this.item, required this.scanned});
+
+  final _ScheduleItem item;
+  final bool scanned;
+
+  @override
+  Widget build(BuildContext context) {
+    final useCampaign = item.dependsOnCampaign && scanned;
+    final isPlaceholder = item.dependsOnCampaign && !scanned;
+    final displayTime = useCampaign ? item.campaignTime : item.time;
+    final displayPeriod = useCampaign ? item.campaignPeriod : item.period;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _items[i].title,
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        item.title,
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -481,51 +726,116 @@ class _ScheduleList extends StatelessWidget {
                           fontFamily: 'Almarai',
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        _items[i].subtitle,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: Color(0xFF8A8A8A),
-                          fontFamily: 'Almarai',
-                        ),
-                      ),
+                    ),
+                    if (item.type != _ScheduleType.ritual) ...[
+                      const SizedBox(width: 6),
+                      _TypeBadge(type: item.type),
                     ],
-                  ),
-                ),
-                Container(
-                  width: 1,
-                  height: 32,
-                  color: const Color(0xFFEDEDED),
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _items[i].time,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF8A6A4E),
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      _items[i].period,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        color: Color(0xFF8A6A4E),
-                      ),
-                    ),
                   ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  item.subtitle,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF8A8A8A),
+                    fontFamily: 'Almarai',
+                  ),
                 ),
               ],
             ),
           ),
-          if (i != _items.length - 1) const SizedBox(height: 8),
+          Container(
+            width: 1,
+            height: 36,
+            color: const Color(0xFFEDEDED),
+          ),
+          const SizedBox(width: 12),
+          SizedBox(
+            width: 70,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  displayTime,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: isPlaceholder ? 10 : 13,
+                    fontWeight:
+                        isPlaceholder ? FontWeight.w600 : FontWeight.w800,
+                    color: isPlaceholder
+                        ? const Color(0xFFB99268)
+                        : const Color(0xFF8A6A4E),
+                    fontFamily: isPlaceholder ? 'Almarai' : null,
+                  ),
+                ),
+                if (displayPeriod.isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    displayPeriod,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Color(0xFF8A6A4E),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
         ],
-      ],
+      ),
+    );
+  }
+}
+
+class _TypeBadge extends StatelessWidget {
+  const _TypeBadge({required this.type});
+
+  final _ScheduleType type;
+
+  @override
+  Widget build(BuildContext context) {
+    late final String label;
+    late final Color bg;
+    late final Color fg;
+    switch (type) {
+      case _ScheduleType.dispatch:
+        label = 'تفويج';
+        bg = const Color(0xFFFBF1DD);
+        fg = const Color(0xFF8A6A4E);
+        break;
+      case _ScheduleType.prep:
+        label = 'تحضير';
+        bg = const Color(0xFFE6F0F2);
+        fg = const Color(0xFF3F6B72);
+        break;
+      case _ScheduleType.optional:
+        label = 'اختياري';
+        bg = const Color(0xFFEDEDED);
+        fg = const Color(0xFF6B6B6B);
+        break;
+      case _ScheduleType.ritual:
+        label = 'منسك';
+        bg = const Color(0xFFE9F6EE);
+        fg = const Color(0xFF3F7A52);
+        break;
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 9,
+          fontWeight: FontWeight.w700,
+          color: fg,
+          fontFamily: 'Almarai',
+        ),
+      ),
     );
   }
 }
@@ -567,17 +877,16 @@ class _InfoGrid extends StatelessWidget {
   }
 }
 
-class _TripTimelineCard extends StatefulWidget {
-  const _TripTimelineCard();
+class _TripTimelineCard extends StatelessWidget {
+  const _TripTimelineCard({
+    required this.currentZone,
+    required this.isLoading,
+    required this.onRefresh,
+  });
 
-  @override
-  State<_TripTimelineCard> createState() => _TripTimelineCardState();
-}
-
-class _TripTimelineCardState extends State<_TripTimelineCard> {
-  final LocationService _locationService = LocationService();
-  String _currentZone = 'جاري تحديد الموقع...';
-  bool _isLoading = true;
+  final String currentZone;
+  final bool isLoading;
+  final VoidCallback onRefresh;
 
   static const List<String> _hajjOrder = [
     'منى',
@@ -586,28 +895,8 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
     'الحرم المكي',
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    _loadCurrentZone();
-  }
-
-  Future<void> _loadCurrentZone() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    final zone = await _locationService.checkUserZone();
-    if (!mounted) return;
-
-    setState(() {
-      _currentZone = zone;
-      _isLoading = false;
-    });
-  }
-
   Color _dotColorForStep(int stepIndex) {
-    final currentIndex = _hajjOrder.indexOf(_currentZone);
+    final currentIndex = _hajjOrder.indexOf(currentZone);
     if (currentIndex == -1) return const Color(0xFFCACACA);
     if (stepIndex < currentIndex) return const Color(0xFF3BAF5D);
     if (stepIndex == currentIndex) return const Color(0xFFF2BE2E);
@@ -616,25 +905,16 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = _hajjOrder.indexOf(_currentZone);
+    final currentIndex = _hajjOrder.indexOf(currentZone);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'مناسك الحج بالترتيب',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF191919),
-            ),
-          ),
-          const SizedBox(height: 18),
           _HorizontalTimeline(
             steps: [
               for (var i = 0; i < _hajjOrder.length; i++)
@@ -645,14 +925,14 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
                 ),
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
           Row(
             children: [
               Expanded(
                 child: Text(
-                  _isLoading
+                  isLoading
                       ? 'جاري تحديث حالتك...'
-                      : 'موقعك الحالي: $_currentZone',
+                      : 'موقعك الحالي: $currentZone',
                   style: const TextStyle(
                     color: Color(0xFF666666),
                     fontSize: 12,
@@ -661,7 +941,7 @@ class _TripTimelineCardState extends State<_TripTimelineCard> {
                 ),
               ),
               IconButton(
-                onPressed: _loadCurrentZone,
+                onPressed: onRefresh,
                 icon: const Icon(Icons.refresh,
                     size: 20, color: Color(0xFF545454)),
                 tooltip: 'تحديث الموقع',
