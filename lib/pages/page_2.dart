@@ -231,52 +231,64 @@ class _LocationServicesCardState extends State<_LocationServicesCard> {
             Builder(builder: (_) {
               final services = _servicesByZone[_currentZone]!;
               final selected = _selectedService.clamp(0, services.length - 1);
-              return Row(
+              return Column(
                 children: [
-                  for (var i = 0; i < services.length; i++) ...[
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => setState(() => _selectedService = i),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 14, horizontal: 6),
-                          decoration: BoxDecoration(
-                            color: i == selected
-                                ? const Color(0xFFFBF3E1)
-                                : Colors.white,
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(
-                              color: i == selected
-                                  ? const Color(0xFFE0BD7A)
-                                  : const Color(0xFFE6E5E0),
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Icon(
-                                services[i].icon,
-                                size: 26,
-                                color: const Color(0xFF8A6A4E),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                services[i].label,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  color: Color(0xFF6F4E37),
-                                  fontFamily: 'Almarai',
-                                  fontWeight: FontWeight.w600,
+                  Row(
+                    children: [
+                      for (var i = 0; i < services.length; i++) ...[
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () =>
+                                setState(() => _selectedService = i),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 6),
+                              decoration: BoxDecoration(
+                                color: i == selected
+                                    ? const Color(0xFFFBF3E1)
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: i == selected
+                                      ? const Color(0xFFE0BD7A)
+                                      : const Color(0xFFE6E5E0),
                                 ),
                               ),
-                            ],
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    services[i].icon,
+                                    size: 26,
+                                    color: const Color(0xFF8A6A4E),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    services[i].label,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: Color(0xFF6F4E37),
+                                      fontFamily: 'Almarai',
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    if (i != services.length - 1) const SizedBox(width: 8),
-                  ],
+                        if (i != services.length - 1)
+                          const SizedBox(width: 8),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  _ServiceMiniMap(
+                    label: services[selected].label,
+                    icon: services[selected].icon,
+                    onOpenMap: _openMap,
+                  ),
                 ],
               );
             }),
@@ -932,3 +944,177 @@ class _TrendingCardData {
   final String subtitle;
   final String tag;
 }
+
+
+class _ServiceMiniMap extends StatelessWidget {
+  const _ServiceMiniMap({
+    required this.label,
+    required this.icon,
+    required this.onOpenMap,
+  });
+
+  final String label;
+  final IconData icon;
+  final VoidCallback onOpenMap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onOpenMap,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 220),
+        switchInCurve: Curves.easeOut,
+        child: Container(
+          key: ValueKey<String>(label),
+          height: 180,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1ECE3),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: const Color(0xFFE6E0D5)),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(13),
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: CustomPaint(painter: _MapGridPainter()),
+                ),
+                const Align(
+                  alignment: Alignment.center,
+                  child: _UserLocationDot(),
+                ),
+                const Positioned(top: 28, right: 56, child: _MapPin()),
+                const Positioned(top: 70, left: 40, child: _MapPin()),
+                const Positioned(bottom: 36, right: 90, child: _MapPin()),
+                const Positioned(bottom: 22, left: 70, child: _MapPin()),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Color(0x14000000),
+                            blurRadius: 4,
+                            offset: Offset(0, 1)),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'أقرب $label',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF6F4E37),
+                            fontFamily: 'Almarai',
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Icon(icon, size: 14, color: const Color(0xFF8A6A4E)),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 10,
+                  left: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'فتح الخريطة',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF6F4E37),
+                            fontFamily: 'Almarai',
+                          ),
+                        ),
+                        SizedBox(width: 6),
+                        Icon(Icons.arrow_back,
+                            size: 14, color: Color(0xFF6F4E37)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MapPin extends StatelessWidget {
+  const _MapPin();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 22,
+      height: 22,
+      decoration: const BoxDecoration(
+        color: Color(0xFFE74C3C),
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(color: Color(0x33000000), blurRadius: 4, offset: Offset(0, 2)),
+        ],
+      ),
+      child: const Icon(Icons.location_on, size: 12, color: Colors.white),
+    );
+  }
+}
+
+class _UserLocationDot extends StatelessWidget {
+  const _UserLocationDot();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 16,
+      height: 16,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: const Color(0xFF1B73E8),
+        border: Border.all(color: Colors.white, width: 3),
+        boxShadow: const [
+          BoxShadow(color: Color(0x331B73E8), blurRadius: 8, spreadRadius: 4),
+        ],
+      ),
+    );
+  }
+}
+
+class _MapGridPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = const Color(0xFFE0DAC9)
+      ..strokeWidth = 0.6;
+    const spacing = 24.0;
+    for (var x = 0.0; x < size.width; x += spacing) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    }
+    for (var y = 0.0; y < size.height; y += spacing) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
