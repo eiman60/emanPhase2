@@ -254,8 +254,6 @@ class _CategoriesRowState extends State<_CategoriesRow> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedCategory = _categories[_selectedIndex];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -314,21 +312,6 @@ class _CategoriesRowState extends State<_CategoriesRow> {
                 ),
               );
             },
-          ),
-        ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 240,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: selectedCategory.cards?.length ??
-                _CategoryCardData.fallback.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (_, index) => _CategoryImageCard(
-              categoryLabel: selectedCategory.label,
-              cardData: selectedCategory.cards?[index] ??
-                  _CategoryCardData.fallback[index],
-            ),
           ),
         ),
       ],
